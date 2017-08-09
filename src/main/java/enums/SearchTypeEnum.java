@@ -1,0 +1,11 @@
+package enums;
+
+public enum SearchTypeEnum {
+	FOTO,
+	EXCLUIR,
+	SOVI_ZERADO_TODOS,
+	PRECO_ZERADO_TODOS,
+	SOVI_ZERADO_VERT,
+	PRECO_ZERADO_VERT,
+	CONSOLIDADO_VS_SOVI
+}

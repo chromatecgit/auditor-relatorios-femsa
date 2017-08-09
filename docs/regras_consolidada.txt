@@ -1,0 +1,250 @@
+SOVIAGUAFEMSA
+	Tipo de Consolidado: SOVI
+	Categoria:  AGUA
+	POC: Todas 
+	Produto: Todos 
+	Companhia: FEMSA 
+	
+SOVIAGUALOJA
+	Tipo de Consolidado: SOVI
+	Categoria:  AGUA
+	POC: Todas 
+	Produto: Todos 
+	Companhia: Todas 
+	
+SOVICHAFEMSA
+	Tipo de Consolidado: SOVI
+	Categoria:  CHA
+	POC: Todas 
+	Produto: Todos 
+	Companhia: FEMSA 
+
+SOVICHALOJA
+	Tipo de Consolidado: SOVI
+	Categoria:  CHA
+	POC: Todas 
+	Produto: Todos 
+	Companhia: Todas 
+
+SOVICOLASFEMSA
+	Tipo de Consolidado: SOVI
+	Categoria:  CSD
+	POC: Todas 
+	Produto: Coca-Colas 
+	Companhia: FEMSA 
+
+SOVICSDCIFEMSA
+	Tipo de Consolidado: SOVI
+	Categoria:  CSD
+	POC: Todas 
+	Produto: Coca-Colas 
+	Companhia: FEMSA 
+	Esp.: Consumo Imediato 
+		
+SOVICSDFEMSA
+	Tipo de Consolidado: SOVI
+	Categoria:  CSD
+	POC: Todas 
+	Produto: Todos 
+	Companhia: FEMSA 
+
+SOVICSDLOJA
+	Tipo de Consolidado: SOVI
+	Categoria:  CSD
+	POC: Todas 
+	Produto: Todos 
+	Companhia: Todas 
+	
+SOVIENERGETICOFEMSA
+	Tipo de Consolidado: SOVI
+	Categoria:  ENERGETICO
+	POC: Todas 
+	Produto: Todos 
+	Companhia: FEMSA 
+	
+SOVIENERGETICOLOJA
+	Tipo de Consolidado: SOVI
+	Categoria:  ENERGETICO
+	POC: Todas 
+	Produto: Todos 
+	Companhia: Todas 
+	
+SOVIFAMRETFEMSA
+	Tipo de Consolidado: SOVI
+	Categoria:  ENERGETICO
+	POC: Todas 
+	Produto: Familia Retornável 
+	Companhia: FEMSA 
+	
+SOVIGDMCSDCIFEMSA
+	Tipo de Consolidado: SOVI
+	Categoria:  CSD
+	POC: Geladeira 
+	Produto: Todos 
+	Companhia: FEMSA 
+	Esp.: Consumo Imediato 
+
+SOVIGDMCSDFEMSA
+	Tipo de Consolidado: SOVI
+	Categoria:  CSD
+	POC: Geladeira 
+	Produto: Todos 
+	Companhia: FEMSA 
+	
+SOVIGDMCSDLOJA
+	Tipo de Consolidado: SOVI
+	Categoria:  CSD
+	POC: Geladeira 
+	Produto: Todos 
+	Companhia: Todas 
+	
+SOVIGDMNCBCIFEMSA
+	Tipo de Consolidado: SOVI
+	Não Carbonatados
+	POC: Geladeira 
+	Produto: Todos 
+	Companhia: FEMSA 
+	
+SOVIGDMNCBFEMSA
+	Tipo de Consolidado: SOVI
+	Não Carbonatados
+	POC: Geladeira 
+	Produto: Todos 
+	Companhia: FEMSA 
+	
+SOVIGDMNCBLOJA
+	Tipo de Consolidado: SOVI
+	Não Carbonatados
+	POC: Geladeira 
+	Produto: Todos 
+	Companhia: Todas 
+	
+SOVIGDMPPCOCSDFEMSA
+	Tipo de Consolidado: SOVI
+	Categoria:  CSD
+	POC: Geladeira 
+	Produto: Todos 
+	Companhia: FEMSA 
+	Esp.: Propria
+	Esp.: Concorrente
+	
+SOVIGDMPPCOCSDLOJA
+	Tipo de Consolidado: SOVI
+	Categoria:  CSD
+	POC: Geladeira 
+	Produto: Todos 
+	Companhia: Todas 
+	Esp.: Propria
+	Esp.: Concorrente
+	
+SOVIGDMPPCONCBFEMSA
+	Tipo de Consolidado: SOVI
+	Não Carbonatados
+	POC: Geladeira 
+	Produto: Todos 
+	Companhia: FEMSA 
+	Esp.: Propria
+	Esp.: Concorrente
+	
+SOVIGDMPPCONCBLOJA
+	Tipo de Consolidado: SOVI
+	Não Carbonatados
+	POC: Geladeira 
+	Produto: Todos 
+	Companhia: Todas 
+	Esp.: Propria
+	Esp.: Concorrente
+	
+SOVIISOFEMSA
+	Tipo de Consolidado: SOVI
+	Categoria:  ISOTONICO
+	POC: Todas 
+	Produto: Todos 
+	Companhia: FEMSA 
+	
+SOVIISOLOJA
+	Tipo de Consolidado: SOVI
+	Categoria:  ISOTONICO
+	POC: Todas 
+	Produto: Todos 
+	Companhia: Todas 
+	
+SOVINCBCIFEMSA
+	Tipo de Consolidado: SOVI
+	Não Carbonatados
+	POC: Todas 
+	Produto: Todos 
+	Companhia: FEMSA 
+	Esp.: Consumo Imediato 
+	
+SOVINCBFEMSA
+	Tipo de Consolidado: SOVI
+	Não Carbonatados
+	POC: Todas 
+	Produto: Todos 
+	Companhia: FEMSA 
+	
+SOVINCBLOJA
+	Tipo de Consolidado: SOVI
+	Não Carbonatados
+	POC: Todas 
+	Produto: Todos 
+	Companhia: Todas 
+
+SOVISBCSDCIFEMSA
+	Tipo de Consolidado: SOVI
+	Categoria:  CSD
+	POC: Setor de Bebidas 
+	Produto: Todos 
+	Companhia: FEMSA 
+	Esp.: Consumo Imediato 
+	
+SOVISBCSDFEMSA
+	Tipo de Consolidado: SOVI
+	Categoria:  CSD
+	POC: Setor de Bebidas 
+	Produto: Todos 
+	Companhia: FEMSA 
+	
+SOVISBCSDLOJA
+	Tipo de Consolidado: SOVI
+	Categoria:  CSD
+	POC: Setor de Bebidas 
+	Produto: Todos 
+	Companhia: Todas 
+	
+SOVISUCOFEMSA
+	Tipo de Consolidado: SOVI
+	Categoria:  SUCO
+	POC: Todas 
+	Produto: Todos 
+	Companhia: FEMSA 
+	
+SOVISUCOLOJA
+	Tipo de Consolidado: SOVI
+	Categoria:  SUCO
+	POC: Setor de Bebidas 
+	Produto: Todos 
+	Companhia: Todas 
+	
+SOVISUCOSBCIFEMSA
+	Tipo de Consolidado: SOVI
+	Categoria:  SUCO
+	POC: Setor de Bebidas 
+	Produto: Todos 
+	Companhia: FEMSA 
+	Esp.: Consumo Imediato 
+	
+SOVISUCOSBFEMSA
+	Tipo de Consolidado: SOVI
+	Categoria:  SUCO
+	POC: Setor de Bebidas 
+	Produto: Todos 
+	Companhia: FEMSA 
+	
+SOVISUCOSBLOJA
+	Tipo de Consolidado: SOVI
+	Categoria:  SUCO
+	POC: Setor de Bebidas 
+	Produto: Todos 
+	Companhia: Todas 
