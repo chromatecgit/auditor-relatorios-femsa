@@ -1,7 +1,4 @@
-/CONSOLIDADA_030817.xlsx
-/CONSOLIDADA_SOVI_030817.xlsx
-/PRECO_030817.xlsx
-/PRECO_VERT_030817.xlsx
-/PRODUTIVIDADE_030817.xlsx
-/SOVI_030817.xlsx
-/SOVI_VERT_030817.xlsx
+# Ignore everything in this directory
+*
+# Except this file
+!.gitignore

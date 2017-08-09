@@ -1,1 +1,4 @@
-/PRECO_VERT_030817.xlsx
+# Ignore everything in this directory
+*
+# Except this file
+!.gitignore
