@@ -1,6 +1,6 @@
 package enums;
 
-public enum TabsEnum {
+public enum TabEnum {
 	AGUA("SV_Agua"),
 	CERVEJA("SV_Cerv"),
 	CHA("SV_Cha"),
@@ -15,7 +15,7 @@ public enum TabsEnum {
 	
 	private String tabName;
 	
-	TabsEnum(final String tabName) {
+	TabEnum(final String tabName) {
 		this.tabName = tabName;
 	}
 

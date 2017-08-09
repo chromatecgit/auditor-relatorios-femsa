@@ -16,21 +16,39 @@ public class SheetHandler extends DefaultHandler {
 	private SharedStringsTable sst;
 	private String lastContents;
 	private boolean nextIsString;
-	private List<String> cellValueAddressList;
-	private String cellValueAddress;
 	
 	public SheetHandler(SharedStringsTable sst) {
 		this.sst = sst;
-		this.cellValueAddressList = new ArrayList<>();
+	}
+	
+	@Override
+	public void startDocument() throws SAXException {
+		//TODO: instanciar o objeto Spreadsheet
+		System.out.println("Inicio do parse");
+	}
+	
+	@Override
+	public void endDocument() throws SAXException {
+		//TODO: Chamar uma função de callback, passando o objeto resultante do parse
+		System.out.println("Fim do parse");
 	}
 	
 	public void startElement(String uri, String localName, String name,
 			Attributes attributes) throws SAXException {
+		if (name.equals("col")) {
+			// MIN e MAX compreendem quais endereços de coluna uma coluna pode ocupar
+			System.out.println("MIN: " + attributes.getValue("min"));
+			// Na ultima celula vazia a compreensao sera o MAX indice da ultima coluna preenchida + 1 ate o final da planilha, uns 16384
+			// Para pegar apenas as colunas preenchidas, usar MIN = MAX
+			System.out.println("MAX: " + attributes.getValue("max"));
+		}
+		if(name.equals("row")) {
+			System.out.println(attributes.getValue("r"));
+		}
 		// c => cell
 		if(name.equals("c")) {
 			// Print the cell reference
 			//System.out.print(attributes.getValue("r") + " - ");
-			this.cellValueAddress = attributes.getValue("r");
 			// Figure out if the value is an index in the SST
 			String cellType = attributes.getValue("t");
 			if(cellType != null && cellType.equals("s")) {
@@ -56,9 +74,7 @@ public class SheetHandler extends DefaultHandler {
 		// v => contents of a cell
 		// Output after we've seen the string contents
 		if(name.equals("v")) {
-			this.cellValueAddress += lastContents;
-			cellValueAddressList.add(cellValueAddress);
-			cellValueAddress = "";
+			//System.out.println(lastContents);
 		}
 	}
 
@@ -66,10 +82,6 @@ public class SheetHandler extends DefaultHandler {
 			throws SAXException {
 		lastContents += new String(ch, start, length);
 	}
-
-	public List<String> getCellValueAddressList() {
-		return cellValueAddressList;
-	}
-	
-	
 }
+	
+	

@@ -7,7 +7,7 @@ public enum ConsolidadoSoviFiltersEnum {
 	SOVIAGUAFEMSA(
 			new ConsolidadosFilter(
 					ConsolidadoTypeEnum.SOVI,
-					TabsEnum.AGUA,
+					TabEnum.AGUA,
 					POCTypeEnum.ALL, 
 					ProductEnum.ALL, 
 					CompanyEnum.FEMSA, 
@@ -17,7 +17,7 @@ public enum ConsolidadoSoviFiltersEnum {
 	SOVIAGUALOJA(
 			new ConsolidadosFilter(
 					ConsolidadoTypeEnum.SOVI,
-					TabsEnum.AGUA,
+					TabEnum.AGUA,
 					POCTypeEnum.ALL, 
 					ProductEnum.ALL, 
 					CompanyEnum.ALL, 
@@ -27,7 +27,7 @@ public enum ConsolidadoSoviFiltersEnum {
 	SOVICHAFEMSA(
 			new ConsolidadosFilter(
 					ConsolidadoTypeEnum.SOVI,
-					TabsEnum.CHA,
+					TabEnum.CHA,
 					POCTypeEnum.ALL, 
 					ProductEnum.ALL, 
 					CompanyEnum.FEMSA, 
@@ -37,7 +37,7 @@ public enum ConsolidadoSoviFiltersEnum {
 	SOVICHALOJA(
 			new ConsolidadosFilter(
 					ConsolidadoTypeEnum.SOVI,
-					TabsEnum.CHA,
+					TabEnum.CHA,
 					POCTypeEnum.ALL, 
 					ProductEnum.ALL, 
 					CompanyEnum.ALL, 
@@ -47,7 +47,7 @@ public enum ConsolidadoSoviFiltersEnum {
 	SOVICOLASFEMSA(
 			new ConsolidadosFilter(
 					ConsolidadoTypeEnum.SOVI,
-					TabsEnum.CSD,
+					TabEnum.CSD,
 					POCTypeEnum.ALL, 
 					ProductEnum.COLAS, 
 					CompanyEnum.FEMSA, 
@@ -57,7 +57,7 @@ public enum ConsolidadoSoviFiltersEnum {
 	SOVICSDCIFEMSA(
 			new ConsolidadosFilter(
 					ConsolidadoTypeEnum.SOVI,
-					TabsEnum.CSD,
+					TabEnum.CSD,
 					POCTypeEnum.ALL, 
 					ProductEnum.COLAS, 
 					CompanyEnum.FEMSA, 
@@ -67,7 +67,7 @@ public enum ConsolidadoSoviFiltersEnum {
 	SOVICSDFEMSA(
 			new ConsolidadosFilter(
 					ConsolidadoTypeEnum.SOVI,
-					TabsEnum.CSD,
+					TabEnum.CSD,
 					POCTypeEnum.ALL, 
 					ProductEnum.ALL, 
 					CompanyEnum.FEMSA, 
@@ -77,7 +77,7 @@ public enum ConsolidadoSoviFiltersEnum {
 	SOVICSDLOJA(
 			new ConsolidadosFilter(
 					ConsolidadoTypeEnum.SOVI,
-					TabsEnum.CSD,
+					TabEnum.CSD,
 					POCTypeEnum.ALL, 
 					ProductEnum.ALL, 
 					CompanyEnum.ALL, 
@@ -87,7 +87,7 @@ public enum ConsolidadoSoviFiltersEnum {
 	SOVIENERGETICOFEMSA(
 			new ConsolidadosFilter(
 					ConsolidadoTypeEnum.SOVI,
-					TabsEnum.ENERGETICO,
+					TabEnum.ENERGETICO,
 					POCTypeEnum.ALL, 
 					ProductEnum.ALL, 
 					CompanyEnum.FEMSA, 
@@ -97,7 +97,7 @@ public enum ConsolidadoSoviFiltersEnum {
 	SOVIENERGETICOLOJA(
 			new ConsolidadosFilter(
 					ConsolidadoTypeEnum.SOVI,
-					TabsEnum.ENERGETICO,
+					TabEnum.ENERGETICO,
 					POCTypeEnum.ALL, 
 					ProductEnum.ALL, 
 					CompanyEnum.ALL, 
@@ -117,7 +117,7 @@ public enum ConsolidadoSoviFiltersEnum {
 	SOVIGDMCSDCIFEMSA(
 			new ConsolidadosFilter(
 					ConsolidadoTypeEnum.SOVI,
-					TabsEnum.CSD,
+					TabEnum.CSD,
 					POCTypeEnum.GDM, 
 					ProductEnum.ALL, 
 					CompanyEnum.FEMSA, 
@@ -127,7 +127,7 @@ public enum ConsolidadoSoviFiltersEnum {
 	SOVIGDMCSDFEMSA(
 			new ConsolidadosFilter(
 					ConsolidadoTypeEnum.SOVI,
-					TabsEnum.CSD,
+					TabEnum.CSD,
 					POCTypeEnum.GDM, 
 					ProductEnum.ALL, 
 					CompanyEnum.FEMSA, 
@@ -137,7 +137,7 @@ public enum ConsolidadoSoviFiltersEnum {
 	SOVIGDMCSDLOJA(
 			new ConsolidadosFilter(
 					ConsolidadoTypeEnum.SOVI,
-					TabsEnum.CSD,
+					TabEnum.CSD,
 					POCTypeEnum.GDM, 
 					ProductEnum.ALL, 
 					CompanyEnum.ALL, 
@@ -177,7 +177,7 @@ public enum ConsolidadoSoviFiltersEnum {
 	SOVIGDMPPCOCSDFEMSA(
 			new ConsolidadosFilter(
 					ConsolidadoTypeEnum.SOVI,
-					TabsEnum.CSD,
+					TabEnum.CSD,
 					POCTypeEnum.GDM, 
 					ProductEnum.ALL, 
 					CompanyEnum.FEMSA, 
@@ -187,7 +187,7 @@ public enum ConsolidadoSoviFiltersEnum {
 	SOVIGDMPPCOCSDLOJA(
 			new ConsolidadosFilter(
 					ConsolidadoTypeEnum.SOVI,
-					TabsEnum.CSD,
+					TabEnum.CSD,
 					POCTypeEnum.GDM, 
 					ProductEnum.ALL, 
 					CompanyEnum.ALL, 
@@ -217,7 +217,7 @@ public enum ConsolidadoSoviFiltersEnum {
 	SOVIISOFEMSA(
 			new ConsolidadosFilter(
 					ConsolidadoTypeEnum.SOVI,
-					TabsEnum.ISOTONICO,
+					TabEnum.ISOTONICO,
 					POCTypeEnum.ALL, 
 					ProductEnum.ALL, 
 					CompanyEnum.FEMSA, 
@@ -227,7 +227,7 @@ public enum ConsolidadoSoviFiltersEnum {
 	SOVIISOLOJA(
 			new ConsolidadosFilter(
 					ConsolidadoTypeEnum.SOVI,
-					TabsEnum.ISOTONICO,
+					TabEnum.ISOTONICO,
 					POCTypeEnum.ALL, 
 					ProductEnum.ALL, 
 					CompanyEnum.ALL, 
@@ -267,7 +267,7 @@ public enum ConsolidadoSoviFiltersEnum {
 	SOVISBCSDCIFEMSA(
 			new ConsolidadosFilter(
 					ConsolidadoTypeEnum.SOVI,
-					TabsEnum.CSD,
+					TabEnum.CSD,
 					POCTypeEnum.SB, 
 					ProductEnum.ALL, 
 					CompanyEnum.FEMSA, 
@@ -277,7 +277,7 @@ public enum ConsolidadoSoviFiltersEnum {
 	SOVISBCSDFEMSA(
 			new ConsolidadosFilter(
 					ConsolidadoTypeEnum.SOVI,
-					TabsEnum.CSD,
+					TabEnum.CSD,
 					POCTypeEnum.SB, 
 					ProductEnum.ALL, 
 					CompanyEnum.FEMSA, 
@@ -287,7 +287,7 @@ public enum ConsolidadoSoviFiltersEnum {
 	SOVISBCSDLOJA(
 			new ConsolidadosFilter(
 					ConsolidadoTypeEnum.SOVI,
-					TabsEnum.CSD,
+					TabEnum.CSD,
 					POCTypeEnum.SB, 
 					ProductEnum.ALL, 
 					CompanyEnum.ALL, 

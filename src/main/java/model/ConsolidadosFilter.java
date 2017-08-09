@@ -9,13 +9,13 @@ import enums.ConsumoImediatoEnum;
 import enums.POCTypeEnum;
 import enums.ProductEnum;
 import enums.PropriaEnum;
-import enums.TabsEnum;
+import enums.TabEnum;
 
 public class ConsolidadosFilter {
 	// SOVI
 	private ConsolidadoTypeEnum consolidadoType;
 	// Agua
-	private TabsEnum[] sheets;
+	private TabEnum[] sheets;
 	// Geladeira
 	private POCTypeEnum poc;
 	// SOVI AGUA FEMSA CRYSTAL CG 500ML PET
@@ -33,12 +33,12 @@ public class ConsolidadosFilter {
 		super();
 	}
 
-	public ConsolidadosFilter(ConsolidadoTypeEnum consolidadoType, TabsEnum sheet, POCTypeEnum poc, ProductEnum product,
+	public ConsolidadosFilter(ConsolidadoTypeEnum consolidadoType, TabEnum sheet, POCTypeEnum poc, ProductEnum product,
 			CompanyEnum company, ConsumoImediatoEnum isConsumoImediato, PropriaEnum isPropria,
 			ConcorrenciaEnum isConcorrencia) {
 		super();
 		this.consolidadoType = consolidadoType;
-		this.sheets = new TabsEnum[] { sheet };
+		this.sheets = new TabEnum[] { sheet };
 		this.poc = poc;
 		this.product = product;
 		this.company = company;
@@ -47,7 +47,7 @@ public class ConsolidadosFilter {
 		this.concorrencia = isConcorrencia;
 	}
 
-	public ConsolidadosFilter(ConsolidadoTypeEnum consolidadoType, TabsEnum[] sheets, POCTypeEnum poc,
+	public ConsolidadosFilter(ConsolidadoTypeEnum consolidadoType, TabEnum[] sheets, POCTypeEnum poc,
 			ProductEnum product, CompanyEnum company, ConsumoImediatoEnum isConsumoImediato, PropriaEnum isPropria,
 			ConcorrenciaEnum isConcorrencia) {
 		super();
@@ -69,11 +69,11 @@ public class ConsolidadosFilter {
 		this.consolidadoType = consolidadoType;
 	}
 
-	public TabsEnum[] getSheets() {
+	public TabEnum[] getSheets() {
 		return sheets;
 	}
 
-	public void setSheets(TabsEnum[] sheets) {
+	public void setSheets(TabEnum[] sheets) {
 		this.sheets = sheets;
 	}
 

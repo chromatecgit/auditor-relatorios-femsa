@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import enums.CompanyEnum;
 import enums.POCTypeEnum;
 import enums.ProductEnum;
-import enums.TabsEnum;
+import enums.TabEnum;
 
 public class HVMap implements Comparable<HVMap> {
 	protected String id;
@@ -112,7 +112,7 @@ public class HVMap implements Comparable<HVMap> {
 		//System.out.println("FILTRO: " + consolidadosFilter);
 		List<HVMapInfos> selected = new ArrayList<>();
 		//FILTRO DE ABA
-		for (TabsEnum tabEnum : consolidadosFilter.getSheets()) {
+		for (TabEnum tabEnum : consolidadosFilter.getSheets()) {
 			selected.addAll(this.findHVMapInfosByTabName(tabEnum.getTabName()));
 		}
 		//FILTRO DE POC

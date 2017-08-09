@@ -1,50 +1,50 @@
 package enums;
 
 public enum TabGroupEnum {
-	ALL(new TabsEnum[] {
-			TabsEnum.AGUA,
-			TabsEnum.CERVEJA,
-			TabsEnum.CHA,
-			TabsEnum.CSD,
-			TabsEnum.ENERGETICO,
-			TabsEnum.ISOTONICO,
-			TabsEnum.LACTEO,
-			TabsEnum.OTHER,
-			TabsEnum.REFRESCO,
-			TabsEnum.SOJA,
-			TabsEnum.SUCO}),
-	NCB(new TabsEnum[] {
-				TabsEnum.AGUA, 
-				TabsEnum.CHA, 
-				TabsEnum.ISOTONICO, 
-				TabsEnum.REFRESCO, 
-				TabsEnum.SUCO}),
-	SUCOS(new TabsEnum[] {
-				TabsEnum.REFRESCO,
-				TabsEnum.SUCO
+	ALL(new TabEnum[] {
+			TabEnum.AGUA,
+			TabEnum.CERVEJA,
+			TabEnum.CHA,
+			TabEnum.CSD,
+			TabEnum.ENERGETICO,
+			TabEnum.ISOTONICO,
+			TabEnum.LACTEO,
+			TabEnum.OTHER,
+			TabEnum.REFRESCO,
+			TabEnum.SOJA,
+			TabEnum.SUCO}),
+	NCB(new TabEnum[] {
+				TabEnum.AGUA, 
+				TabEnum.CHA, 
+				TabEnum.ISOTONICO, 
+				TabEnum.REFRESCO, 
+				TabEnum.SUCO}),
+	SUCOS(new TabEnum[] {
+				TabEnum.REFRESCO,
+				TabEnum.SUCO
 	});
 	
-	private TabsEnum[] tabs;
+	private TabEnum[] tabs;
 	
-	TabGroupEnum(TabsEnum[] tabs) {
+	TabGroupEnum(TabEnum[] tabs) {
 		this.tabs = tabs;
 	}
 
-	public TabsEnum[] getTabs() {
+	public TabEnum[] getTabs() {
 		return tabs;
 	}
 	
 	public boolean containsTab(final String tabName, TabGroupEnum group) {
 		switch(group) {
 			case NCB:
-				for (TabsEnum tName : group.getTabs()) {
+				for (TabEnum tName : group.getTabs()) {
 					if (tName.getTabName().equals(tabName)) {
 						return true;
 					}
 				}
 				break;
 			case SUCOS: {
-				for (TabsEnum tName : group.getTabs()) {
+				for (TabEnum tName : group.getTabs()) {
 					if (tName.getTabName().equals(tabName)) {
 						return true;
 					}
