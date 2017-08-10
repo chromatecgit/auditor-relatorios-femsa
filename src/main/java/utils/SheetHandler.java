@@ -9,6 +9,9 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import listener.ReportDocumentReadyListener;
+import model.ReportDocument;
+
 /** 
  * See org.xml.sax.helpers.DefaultHandler javadocs 
  */
@@ -16,20 +19,25 @@ public class SheetHandler extends DefaultHandler {
 	private SharedStringsTable sst;
 	private String lastContents;
 	private boolean nextIsString;
+	private ReportDocument reportDocument;
+	private ReportDocumentReadyListener listener;
 	
-	public SheetHandler(SharedStringsTable sst) {
+	public SheetHandler(SharedStringsTable sst, ReportDocumentReadyListener listener) {
 		this.sst = sst;
+		this.listener = listener;
 	}
 	
 	@Override
 	public void startDocument() throws SAXException {
 		//TODO: instanciar o objeto Spreadsheet
+		reportDocument = new ReportDocument();
 		System.out.println("Inicio do parse");
 	}
 	
 	@Override
 	public void endDocument() throws SAXException {
 		//TODO: Chamar uma função de callback, passando o objeto resultante do parse
+		this.sendDocument(reportDocument);
 		System.out.println("Fim do parse");
 	}
 	
@@ -81,6 +89,10 @@ public class SheetHandler extends DefaultHandler {
 	public void characters(char[] ch, int start, int length)
 			throws SAXException {
 		lastContents += new String(ch, start, length);
+	}
+	
+	private void sendDocument(ReportDocument document) {
+		this.listener.onArrivalOf(document);
 	}
 }
 	
