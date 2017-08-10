@@ -4,7 +4,6 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import extractors.ConsolidadoPrecoExtractor;
 import extractors.ValoresIguaisExtractor;
 import utils.MyFileVisitor;
 
@@ -20,7 +19,6 @@ public class AuditorValoresIguais {
 			
 			extractor.getResults(fv1.getPaths());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -32,9 +30,8 @@ public class AuditorValoresIguais {
 				.append(File.separator)
 				.append("src")
 				.append(File.separator)
-				.append("consolidado-preco")
-				.append(File.separator)
-				.append("ref");
+				.append("valores-iguais");
+
 		return Paths.get(sb.toString());
 	}
 }

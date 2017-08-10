@@ -2,30 +2,20 @@ package extractors;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigDecimal;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.eventusermodel.XSSFReader;
-import org.apache.poi.xssf.model.SharedStringsTable;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.xml.sax.ContentHandler;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.XMLReaderFactory;
 
 import enums.ConsolidadoKeyColumns;
 import enums.ConsolidadoSoviFiltersEnum;
@@ -48,7 +38,6 @@ import model.VerticalSoviID;
 import model.VerticalSoviRow;
 import model.VerticalSoviTab;
 import utils.MyLogPrinter;
-import utils.SheetHandler;
 
 public class ConsolidadoSOVIExtractor {
 
@@ -70,7 +59,6 @@ public class ConsolidadoSOVIExtractor {
 		try {
 			for (Path path : refPaths) {
 				String fileName = path.getName(path.getNameCount() - 1).toString();
-				this.processOneSheet(path.toFile());
 				// System.out.println("Processando: " + fileName);
 				if (fileName.contains("VERT")) {
 					// System.out.println("Workbook Vertical");
@@ -363,41 +351,30 @@ public class ConsolidadoSOVIExtractor {
 	private XSSFWorkbook filterKeys(File file, String fileName, ConsolidadoKeyColumns keyColumns) {
 		try {
 			OPCPackage pkg = OPCPackage.open(file);
-			XSSFReader r = new XSSFReader(pkg);
-			SharedStringsTable sst = r.getSharedStringsTable();
 
-		    XMLReader parser = fetchSheetParser(sst);
+			XSSFWorkbook wb = new XSSFWorkbook(pkg);
 
-		    Iterator<InputStream> sheets = r.getSheetsData();
-		    while (sheets.hasNext()) {
-		        InputStream sheet = sheets.next();
-		        InputSource sheetSource = new InputSource(sheet);
-		        parser.parse(sheetSource);
-		        sheet.close();
-		    }
-			//XSSFWorkbook wb = new XSSFWorkbook(pkg);
+			Sheet sheet = wb.getSheetAt(wb.getFirstVisibleTab());
+			System.out.println("Processando: " + sheet.getSheetName());
 
-//			Sheet sheet = wb.getSheetAt(wb.getFirstVisibleTab());
-//			// //System.out.println("Processando: " + sheet.getSheetName());
-//
-//			Row row = sheet.getRow(sheet.getFirstRowNum());
-//			for (Cell cell : row) {
-//				for (String columnName : keyColumns.getColumnNames()) {
-//					String cellName = cell.getStringCellValue().toLowerCase();
-//					if (cellName.toLowerCase().equals(columnName) && keyColumns.equals(ConsolidadoKeyColumns.SOVI_V)) {
-//						this.verticalKeys.put(cellName, cell.getColumnIndex());
-//					} else if (cellName.toLowerCase().startsWith(columnName)
-//							&& keyColumns.equals(ConsolidadoKeyColumns.SOVI_H)) {
-//						this.horizontalKeys.put(cellName, cell.getColumnIndex());
-//					} else if (cellName.toLowerCase().startsWith(columnName)
-//							&& keyColumns.equals(ConsolidadoKeyColumns.CONSOLIDADA)) {
-//						this.consolidadaKeys.put(cellName, cell.getColumnIndex());
-//					}
-//				}
-//			}
-//			// //System.out.println("Chaves extraidas com sucesso de " +
-//			// sheet.getSheetName());
-//			return wb;
+			Row row = sheet.getRow(sheet.getFirstRowNum());
+			for (Cell cell : row) {
+				for (String columnName : keyColumns.getColumnNames()) {
+					String cellName = cell.getStringCellValue().toLowerCase();
+					if (cellName.toLowerCase().equals(columnName) && keyColumns.equals(ConsolidadoKeyColumns.SOVI_V)) {
+						this.verticalKeys.put(cellName, cell.getColumnIndex());
+					} else if (cellName.toLowerCase().startsWith(columnName)
+							&& keyColumns.equals(ConsolidadoKeyColumns.SOVI_H)) {
+						this.horizontalKeys.put(cellName, cell.getColumnIndex());
+					} else if (cellName.toLowerCase().startsWith(columnName)
+							&& keyColumns.equals(ConsolidadoKeyColumns.CONSOLIDADA)) {
+						this.consolidadaKeys.put(cellName, cell.getColumnIndex());
+					}
+				}
+			}
+			System.out.println("Chaves extraidas com sucesso de " +
+			sheet.getSheetName());
+			return wb;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

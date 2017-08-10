@@ -1,5 +1,6 @@
 package config;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -10,15 +11,30 @@ import java.nio.file.Paths;
  */
 
 public class ProjectConfiguration {
+	/**
+	 * Diretório raiz padrão da aplicação. Daqui ramificam-se os outros.
+	 **/
+	private static final String root =
+			System.getProperty("user.dir")
+					.concat(File.separator)
+					.concat("src")
+					.concat(File.separator)
+					.concat("main")
+					.concat(File.separator);
 	
 	/** 
-	 * Constante contendo o endereco dos arquivos que enviar para publicacao/atualizacao.
-	 *	OBS.: E preciso alterar para o endereco da sua maquina
+	 * Constante contendo o endereco dos arquivos de log.
+	 *	OBS.: É feita uma concatenação a mais em cada Modulo do Auditor para separar os arquivos em pastas
 	 */
-	public static final Path root = Paths.get("D:\\Porto\\chamados_resources\\sustentacao\\PGP 1295084\\laudo\\LOGS_LAUDO\\23_01_2017\\li1507_23_01_2017\\laudosinistro_service.log.4");
+	public static final String logFolder = root.concat("logs").concat(File.separator);
+	
+	public static final Path oldFilesPath = Paths.get(
+			root.concat("spreadsheets").concat(File.separator).concat("old").concat(File.separator));
+	
+	public static final Path newFilesPath = Paths.get(
+			root.concat("spreadsheets").concat(File.separator).concat("new").concat(File.separator));
 	
 	
-	public static final Path destinationFile = Paths.get("D:\\Porto\\chamados_resources\\sustentacao\\PGP 1295084\\laudo\\LOGS_LAUDO\\23_01_2017\\li1507_23_01_2017\\laudosinistro_service.log.4_extracted.txt");
 	/**
 	 * Array com o nome das pastas de projetos permitidos.
 	 * - Com o array vazio, todas as pastas serao incluidas
@@ -27,15 +43,6 @@ public class ProjectConfiguration {
 	 * EX.: "127_PetshopClinicasVeterinarias","124_Consultorios"
 	 */
 	public static final String[] whitelistFolders = {
-	};
-	
-	/**
-	 * Array com o nome das pastas de endosso permitidos.
-	 * OBS.:Com o array vazio, todas as pastas serao incluidas
-	 * 
-	 * EX.: "cancelamento","generico"
-	 */
-	public static final String[] endossos = {
 	};
 	
 	/** 

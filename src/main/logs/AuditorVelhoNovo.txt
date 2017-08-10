@@ -1,0 +1,1531 @@
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K19 = 21
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K19= 20
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K37 = 5
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K37= 4
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K51 = 22
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K51= 21
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K54 = 97
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K54= 96
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K66 = 19
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K66= 18
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K69 = 9
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K69= 8
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K74 = 21
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K74= 20
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K76 = 138
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K76= 137
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K88 = 11
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K88= 9
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K90 = 19
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K90= 18
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K93 = 71
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K93= 70
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K97 = 20
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K97= 18
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K102 = 6
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K102= 5
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K107 = 5
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K107= 4
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K121 = 30
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K121= 29
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K125 = 43
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K125= 42
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K127 = 11
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K127= 9
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K128 = 10
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K128= 9
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K129 = 9
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K129= 8
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K136 = 17
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K136= 16
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K142 = 3
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K142= 2
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K147 = 16
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K147= 15
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K152 = 24
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K152= 22
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K154 = 50
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K154= 41
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K159 = 4
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K159= 3
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K160 = 56
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K160= 50
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K162 = 87
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K162= 76
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K169 = 14
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K169= 13
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K176 = 112
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K176= 110
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K181 = 4
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K181= 3
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K182 = 46
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K182= 42
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K196 = 125
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K196= 117
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K199 = 8
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K199= 7
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K203 = 25
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K203= 20
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K204 = 35
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K204= 32
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K211 = 13
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K211= 12
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K214 = 15
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K214= 11
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K215 = 9
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K215= 8
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K220 = 14
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K220= 11
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K222 = 20
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K222= 17
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K228 = 9
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K228= 8
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K235 = 10
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K235= 7
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K238 = 17
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K238= 16
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K240 = 8
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K240= 6
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K243 = 19
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K243= 16
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K251 = 31
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K251= 24
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K253 = 40
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K253= 38
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K256 = 37
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K256= 35
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K257 = 18
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K257= 17
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K262 = 11
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K262= 8
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K271 = 90
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K271= 89
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K273 = 31
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K273= 27
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K277 = 7
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K277= 5
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K281 = 2
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K281= 1
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K282 = 3
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K282= 2
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K288 = 9
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K288= 8
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K289 = 14
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K289= 11
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K294 = 9
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K294= 8
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K297 = 49
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K297= 43
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K298 = 17
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K298= 15
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K300 = 41
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K300= 28
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K301 = 15
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K301= 11
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K304 = 33
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K304= 32
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K305 = 24
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K305= 16
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K306 = 8
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K306= 7
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K309 = 6
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K309= 5
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K311 = 22
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K311= 14
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K313 = 11
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K313= 9
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K315 = 15
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K315= 11
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K317 = 12
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K317= 10
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K320 = 21
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K320= 17
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K322 = 6
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K322= 5
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K323 = 24
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K323= 17
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K324 = 21
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K324= 17
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K325 = 112
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K325= 101
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K328 = 12
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K328= 11
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K332 = 15
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K332= 12
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K333 = 17
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K333= 14
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K335 = 4
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K335= 3
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K341 = 8
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K341= 7
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K345 = 8
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K345= 7
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K346 = 55
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K346= 37
+SOVI:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga O346 = 1193
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova O346= 1240
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K347 = 5
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K347= 4
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K349 = 18
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K349= 17
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K350 = 6
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K350= 4
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K352 = 7
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K352= 5
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K353 = 5
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K353= 3
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K354 = 13
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K354= 10
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K355 = 12
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K355= 10
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K356 = 21
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K356= 14
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K358 = 15
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K358= 12
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K359 = 12
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K359= 10
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K362 = 18
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K362= 17
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K364 = 11
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K364= 8
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K366 = 11
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K366= 9
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K368 = 17
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K368= 13
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K370 = 13
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K370= 9
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K371 = 14
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K371= 11
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K372 = 22
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K372= 14
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K373 = 15
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K373= 10
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K374 = 40
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K374= 35
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K376 = 52
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K376= 41
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K377 = 4
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K377= 2
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K378 = 10
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K378= 8
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K380 = 136
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K380= 93
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K381 = 10
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K381= 5
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K387 = 7
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K387= 5
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K390 = 7
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K390= 5
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K391 = 10
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K391= 7
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K393 = 11
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K393= 9
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K394 = 57
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K394= 43
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K395 = 18
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K395= 16
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K396 = 57
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K396= 51
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K398 = 18
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K398= 13
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K399 = 11
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K399= 9
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K400 = 12
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K400= 11
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K404 = 22
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K404= 14
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K408 = 22
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K408= 15
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K409 = 9
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K409= 6
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K411 = 20
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K411= 15
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K412 = 19
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K412= 15
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K413 = 11
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K413= 9
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K416 = 69
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K416= 54
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K417 = 11
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K417= 9
+SOVI:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga O418 = 811
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova O418= 1080
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K419 = 7
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K419= 5
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K420 = 6
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K420= 5
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K422 = 4
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K422= 3
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K425 = 29
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K425= 23
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K427 = 17
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K427= 10
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K429 = 13
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K429= 12
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K431 = 53
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K431= 42
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K433 = 15
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K433= 14
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K434 = 25
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K434= 24
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K438 = 33
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K438= 25
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K439 = 21
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K439= 18
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K440 = 15
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K440= 13
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K441 = 8
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K441= 6
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K442 = 24
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K442= 15
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K443 = 8
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K443= 6
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K444 = 12
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K444= 8
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K445 = 18
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K445= 14
+SOVI:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga O445 = 199
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova O445= 209
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K446 = 10
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K446= 7
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K447 = 42
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K447= 23
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K451 = 15
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K451= 9
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K454 = 4
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K454= 3
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K456 = 18
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K456= 16
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K457 = 8
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K457= 7
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K458 = 6
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K458= 5
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K459 = 18
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K459= 11
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K460 = 15
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K460= 10
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K461 = 3
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K461= 2
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K462 = 7
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K462= 5
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K463 = 9
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K463= 6
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K464 = 24
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K464= 15
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K465 = 10
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K465= 8
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K466 = 18
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K466= 10
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K472 = 6
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K472= 5
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K473 = 10
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K473= 6
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K475 = 14
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K475= 13
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K476 = 12
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K476= 8
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K477 = 43
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K477= 40
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K481 = 73
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K481= 71
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K482 = 20
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K482= 18
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K485 = 39
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K485= 34
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K486 = 4
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K486= 3
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K487 = 20
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K487= 17
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K488 = 9
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K488= 8
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K489 = 13
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K489= 11
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K491 = 9
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K491= 7
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K494 = 32
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K494= 18
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K495 = 8
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K495= 5
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K497 = 8
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K497= 4
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K499 = 18
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K499= 14
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K505 = 8
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K505= 5
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K506 = 18
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K506= 12
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K509 = 7
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K509= 5
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K512 = 6
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K512= 4
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K513 = 6
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K513= 4
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K514 = 8
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K514= 7
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K516 = 12
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K516= 9
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K518 = 13
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K518= 8
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K519 = 5
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K519= 3
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K520 = 20
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K520= 13
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K521 = 6
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K521= 5
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K523 = 9
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K523= 5
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K524 = 9
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K524= 6
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K526 = 5
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K526= 4
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K530 = 5
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K530= 4
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K531 = 48
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K531= 35
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K532 = 7
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K532= 5
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K533 = 22
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K533= 21
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K534 = 14
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K534= 8
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K535 = 9
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K535= 6
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K536 = 10
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K536= 6
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K537 = 30
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K537= 26
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K538 = 27
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K538= 15
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K540 = 5
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K540= 4
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K541 = 16
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K541= 12
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K542 = 10
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K542= 8
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K546 = 6
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K546= 4
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K547 = 10
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K547= 7
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K548 = 67
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K548= 61
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K550 = 8
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K550= 7
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K561 = 54
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K561= 51
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K563 = 26
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K563= 19
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K568 = 38
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K568= 28
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K571 = 124
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K571= 118
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K577 = 25
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K577= 23
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K578 = 22
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K578= 13
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K579 = 4
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K579= 3
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K580 = 7
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K580= 5
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K581 = 9
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K581= 7
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K584 = 55
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K584= 51
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K588 = 63
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K588= 46
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K590 = 8
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K590= 7
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K591 = 24
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K591= 14
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K594 = 28
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K594= 18
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K597 = 13
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K597= 8
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K600 = 9
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K600= 8
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K601 = 17
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K601= 15
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K602 = 4
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K602= 3
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K604 = 9
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K604= 8
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K608 = 24
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K608= 16
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K611 = 28
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K611= 27
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K614 = 8
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K614= 6
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K615 = 5
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K615= 3
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K616 = 17
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K616= 15
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K621 = 31
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K621= 29
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K627 = 6
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K627= 5
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K630 = 5
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K630= 4
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K633 = 10
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K633= 9
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K634 = 20
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K634= 19
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K635 = 8
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K635= 7
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K638 = 12
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K638= 11
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K642 = 30
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K642= 26
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K644 = 6
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K644= 5
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K646 = 23
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K646= 13
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K647 = 16
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K647= 13
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K652 = 42
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K652= 32
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K658 = 39
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K658= 33
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K660 = 8
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K660= 5
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K661 = 12
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K661= 11
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K669 = 4
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K669= 3
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K670 = 8
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K670= 7
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K675 = 19
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K675= 12
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K676 = 29
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K676= 15
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K677 = 10
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K677= 7
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K680 = 23
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K680= 20
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K682 = 101
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K682= 97
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K684 = 7
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K684= 5
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K694 = 12
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K694= 8
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K695 = 23
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K695= 12
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K697 = 20
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K697= 16
+SOVI:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga O697 = 338
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova O697= 376
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K698 = 11
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K698= 10
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K699 = 27
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K699= 21
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K700 = 62
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K700= 45
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K703 = 26
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K703= 18
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K710 = 26
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K710= 14
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K714 = 22
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K714= 21
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K717 = 12
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K717= 11
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K718 = 11
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K718= 9
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K720 = 14
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K720= 10
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K721 = 10
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K721= 7
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K724 = 12
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K724= 11
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K728 = 20
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K728= 11
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K729 = 10
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K729= 7
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K730 = 6
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K730= 5
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K732 = 11
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K732= 10
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K736 = 13
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K736= 12
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K738 = 21
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K738= 16
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K745 = 8
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K745= 6
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K749 = 8
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K749= 6
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K752 = 8
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K752= 6
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K753 = 17
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K753= 16
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K760 = 48
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K760= 40
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K761 = 33
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K761= 27
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K762 = 32
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K762= 26
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K763 = 8
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K763= 6
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K764 = 20
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K764= 19
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K775 = 12
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K775= 9
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K776 = 14
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K776= 13
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K777 = 13
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K777= 12
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K779 = 12
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K779= 9
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K782 = 10
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K782= 9
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K787 = 21
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K787= 18
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K791 = 53
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K791= 40
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K792 = 6
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K792= 5
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K794 = 11
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K794= 9
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K799 = 4
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K799= 3
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K800 = 18
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K800= 16
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K803 = 7
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K803= 6
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K804 = 7
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K804= 5
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K806 = 10
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K806= 9
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K808 = 8
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K808= 7
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K810 = 10
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K810= 9
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K811 = 5
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K811= 4
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K812 = 11
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K812= 10
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K813 = 28
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K813= 21
+SOVI:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga O1342 = 1358
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova O1342= 1399
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K1371 = 3
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K1371= 2
+Num de Imagens tomadas:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga K1497 = 2
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova K1497= 1
+SOVI:
+		PRODUTIVIDADE_030817.xlsx
+			Célula antiga O1680 = 282
+		PRODUTIVIDADE_070817.xlsx
+			Célula nova O1680= 301
+
