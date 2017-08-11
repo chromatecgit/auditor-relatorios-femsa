@@ -1,16 +1,15 @@
 package extractors;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.apache.commons.collections4.map.HashedMap;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
@@ -19,10 +18,14 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import model.ValoresIguaisGroup;
+import model.ValoresIguaisResult;
+
 public class ValoresIguaisExtractor {
 
 	private String[] notKeys = { "matricula", "concat", "data", "saleschannel", "cod_unico", "usuario" };
-	private Map<Integer, String> docKeyMap = new HashedMap<>();
+	private Map<Integer, String> docKeyMap = new HashMap<>();
+	private ValoresIguaisResult result = new ValoresIguaisResult();
 
 	public void getResults(List<Path> paths) {
 		try {
@@ -33,17 +36,24 @@ public class ValoresIguaisExtractor {
 				filterKeys(wb);
 
 				String fileName = path.getName(path.getNameCount() - 1).toString();
-
+				String keyname = "";
+				
 				for (Sheet sheet : wb) {
-					List<String> results = new ArrayList<>();
+					long refNumber = sheet.getPhysicalNumberOfRows() - 1;
 					for (Integer columnIndex : docKeyMap.keySet()) {
+						List<String> results = new ArrayList<>();
 						for (Row row : sheet) {
 							if (row.getCell(columnIndex) != null) {
-								results.add(this.getCellValueAsString(row.getCell(columnIndex)));
+								if (row.getRowNum() == 0) {
+									keyname = this.getCellValueAsString(row.getCell(columnIndex));
+								} else {
+									results.add(this.getCellValueAsString(row.getCell(columnIndex)));
+								}
 							}
 						}
+						this.calculateResults(results, keyname, refNumber);
 					}
-					this.calculateResults(results);
+					System.out.println(result);
 				}
 
 			}
@@ -55,11 +65,11 @@ public class ValoresIguaisExtractor {
 
 	}
 
-	private void calculateResults(List<String> results) {
+	private void calculateResults(List<String> results, String keyname, long refNumber) {
 		Collections.sort(results);
-		results.stream()
-		  .collect(Collectors.groupingBy(e -> e, Collectors.counting()))
-		  .forEach((id,count)->System.out.println(id+"\t"+count));
+		Map<String, Long> collect = results.stream().collect(Collectors.groupingBy(e -> e, Collectors.counting()));
+		ValoresIguaisGroup valores = new ValoresIguaisGroup(keyname, collect, refNumber);
+		result.getGroups().add(valores);
 	}
 
 	private void filterKeys(XSSFWorkbook wb) {
@@ -79,7 +89,7 @@ public class ValoresIguaisExtractor {
 		case STRING:
 			return cell.getStringCellValue();
 		case NUMERIC:
-			return String.valueOf(BigDecimal.valueOf(cell.getNumericCellValue()).longValue());
+			return String.valueOf(cell.getNumericCellValue());
 		default:
 			if (HSSFDateUtil.isCellDateFormatted(cell)) {
 				result = String.valueOf(cell.getDateCellValue());
