@@ -1,21 +1,21 @@
 package enums;
 
 public enum FilesPerModuleEnum {
-	NUMERO_LINHAS(new ExcelFileNameEnum[] {
-			ExcelFileNameEnum.SOVI,
-			ExcelFileNameEnum.CONSOLIDADA_SOVI,
-			ExcelFileNameEnum.CONSOLIDADA,
-			ExcelFileNameEnum.PRODUTIVIDADE,
-			ExcelFileNameEnum.PRECO});
+	NUMERO_LINHAS(new String[] {
+			ExcelFileNameEnum.SOVI.toString(),
+			ExcelFileNameEnum.CONSOLIDADA_SOVI.toString(),
+			ExcelFileNameEnum.CONSOLIDADA.toString(),
+			ExcelFileNameEnum.PRODUTIVIDADE.toString(),
+			ExcelFileNameEnum.PRECO.toString()});
 	
-	private ExcelFileNameEnum[] excelFileNameEnums;
+	private String[] excelFileNames;
 	
-	FilesPerModuleEnum(final ExcelFileNameEnum[] excelFileNameEnums) {
-		this.excelFileNameEnums = excelFileNameEnums;
+	FilesPerModuleEnum(final String[] excelFileNames) {
+		this.excelFileNames = excelFileNames;
 	}
 
-	public ExcelFileNameEnum[] getExcelFileNameEnums() {
-		return excelFileNameEnums;
+	public String[] getExcelFileNames() {
+		return excelFileNames;
 	}
 	
 }

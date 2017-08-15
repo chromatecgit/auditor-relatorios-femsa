@@ -1,8 +1,9 @@
 package model;
 
 public class ReportCell {
-	protected int columnIndex;
-	protected String address;
+	private int columnIndex;
+	private String address;
+	private String value;
 
 	public int getColumnIndex() {
 		return columnIndex;
@@ -18,6 +19,19 @@ public class ReportCell {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+	@Override
+	public String toString() {
+		return "ReportCell [columnIndex=" + columnIndex + ", address=" + address + ", value=" + value + "]";
 	}
 
 }

@@ -34,6 +34,7 @@ public class ProjectConfiguration {
 	public static final Path newFilesPath = Paths.get(
 			root.concat("spreadsheets").concat(File.separator).concat("new").concat(File.separator));
 	
+	public static final String glob = "**.{xlsx}";
 	
 	/**
 	 * Array com o nome das pastas de projetos permitidos.
@@ -55,13 +56,9 @@ public class ProjectConfiguration {
 	public static final String[] blacklistFolders = {
 	};
 	
-	/**
-	 * Array com os nomes de arquivo a serem incluidos na busca.
-	 * - Com o array vazio, todos nomes de arquivo serao incluidos
-	 * 
-	 * EX.: "orcamento","proposta"
-	 */
-	public static final String[] fileNames = {
+	/** Array com as extensoes de arquivo a serem incluidas na busca. */
+	public static final String[] fileTypes = {
+			"xlsx"
 	};
 	
 }

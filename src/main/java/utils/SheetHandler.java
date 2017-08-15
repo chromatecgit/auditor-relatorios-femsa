@@ -1,65 +1,65 @@
 package utils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.poi.xssf.model.SharedStringsTable;
 import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import listener.ReportDocumentReadyListener;
-import model.ReportDocument;
+import listener.ReportTabReadyListener;
+import model.ReportCell;
 
-/** 
- * See org.xml.sax.helpers.DefaultHandler javadocs 
+/**
+ * See org.xml.sax.helpers.DefaultHandler javadocs
  */
 public class SheetHandler extends DefaultHandler {
+
 	private SharedStringsTable sst;
 	private String lastContents;
+	private int lastRowIndex;
 	private boolean nextIsString;
-	private ReportDocument reportDocument;
-	private ReportDocumentReadyListener listener;
-	
-	public SheetHandler(SharedStringsTable sst, ReportDocumentReadyListener listener) {
+	private ReportTabBuilder builder;
+	private ReportTabReadyListener listener;
+	private boolean isNewRow;
+	private ReportCell cell;
+
+	public SheetHandler(final SharedStringsTable sst, final ReportTabReadyListener listener) {
 		this.sst = sst;
 		this.listener = listener;
+		this.cell = new ReportCell();
 	}
-	
+
 	@Override
 	public void startDocument() throws SAXException {
-		//TODO: instanciar o objeto Spreadsheet
-		reportDocument = new ReportDocument();
+		builder = new ReportTabBuilder();
 		System.out.println("Inicio do parse");
 	}
-	
+
 	@Override
 	public void endDocument() throws SAXException {
-		//TODO: Chamar uma função de callback, passando o objeto resultante do parse
-		this.sendDocument(reportDocument);
+		listener.onArrivalOf(builder.build());
+		builder = null;
 		System.out.println("Fim do parse");
 	}
-	
-	public void startElement(String uri, String localName, String name,
-			Attributes attributes) throws SAXException {
-		if (name.equals("col")) {
-			// MIN e MAX compreendem quais endereços de coluna uma coluna pode ocupar
+	/* MIN e MAX compreendem quais endereços uma coluna esta ocupando
 			System.out.println("MIN: " + attributes.getValue("min"));
-			// Na ultima celula vazia a compreensao sera o MAX indice da ultima coluna preenchida + 1 ate o final da planilha, uns 16384
-			// Para pegar apenas as colunas preenchidas, usar MIN = MAX
-			System.out.println("MAX: " + attributes.getValue("max"));
+			Na ultima celula vazia a compreensao sera o MAX indice da ultima
+			coluna preenchida + 1 ate o final da planilha, uns 16384
+			Para pegar apenas as colunas preenchidas, usar MIN = MAX */
+	public void startElement(String uri, String localName, String name, Attributes attributes) throws SAXException {
+		if (name.equals("col")) {
+			if (attributes.getValue("min").equals(attributes.getValue("max"))) {
+				builder.addNumberOfColumns(Integer.parseInt(attributes.getValue("min")));
+			}
 		}
-		if(name.equals("row")) {
-			System.out.println(attributes.getValue("r"));
+		if (name.equals("row")) {
+			builder.addNumberOfRows(Integer.parseInt(attributes.getValue("r")));
 		}
-		// c => cell
-		if(name.equals("c")) {
-			// Print the cell reference
-			//System.out.print(attributes.getValue("r") + " - ");
-			// Figure out if the value is an index in the SST
+		if (name.equals("c")) {
+			this.getRowIndex(attributes.getValue("r"));
+			this.cell.setAddress(attributes.getValue("r"));
 			String cellType = attributes.getValue("t");
-			if(cellType != null && cellType.equals("s")) {
+			if (cellType != null && cellType.equals("s")) {
 				nextIsString = true;
 			} else {
 				nextIsString = false;
@@ -68,32 +68,35 @@ public class SheetHandler extends DefaultHandler {
 		// Clear contents cache
 		lastContents = "";
 	}
-	
-	public void endElement(String uri, String localName, String name)
-			throws SAXException {
-		// Process the last contents as required.
-		// Do now, as characters() may be called more than once
-		if(nextIsString) {
+
+	private void getRowIndex(String value) {
+		String rowNumber = value.replaceAll("\\D", "");
+		int rowIntValue = Integer.parseInt(rowNumber);
+		if (lastRowIndex != rowIntValue) {
+			this.isNewRow = true;
+			this.lastRowIndex = rowIntValue;
+		}
+	}
+
+	public void endElement(String uri, String localName, String name) throws SAXException {
+		if (nextIsString) {
 			int idx = Integer.parseInt(lastContents);
 			lastContents = new XSSFRichTextString(sst.getEntryAt(idx)).toString();
 			nextIsString = false;
 		}
 
-		// v => contents of a cell
-		// Output after we've seen the string contents
-		if(name.equals("v")) {
-			//System.out.println(lastContents);
+		if (name.equals("v")) {
+			this.cell.setValue(lastContents);
+			builder.addCell(this.cell);
+			this.cell = new ReportCell();
+			if (isNewRow) {
+				builder.jumpToNextRow(lastRowIndex);
+			}
 		}
 	}
 
-	public void characters(char[] ch, int start, int length)
-			throws SAXException {
+	public void characters(char[] ch, int start, int length) throws SAXException {
 		lastContents += new String(ch, start, length);
 	}
-	
-	private void sendDocument(ReportDocument document) {
-		this.listener.onArrivalOf(document);
-	}
+
 }
-	
-	

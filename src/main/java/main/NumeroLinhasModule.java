@@ -1,15 +1,27 @@
 package main;
 
-import model.Module;
+import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.Map;
 
-public class NumeroLinhasModule extends Module {
+import config.GlobBuilder;
+import config.PathBuilder;
+import config.ProjectConfiguration;
+import utils.FilesManager;
 
-	public static void execute(String[] excelFileNameEnums) {
+public class NumeroLinhasModule {
+	
+	public NumeroLinhasModule() {
 		
 	}
 	
-	private void start() {
+	public static void execute(String[] fileNames) {
+		PathBuilder pathBuilder = new PathBuilder();
+		pathBuilder.buildFilePaths(
+				GlobBuilder.buildGlobPatternWith(Arrays.asList(fileNames)), ProjectConfiguration.newFilesPath);
+		
+		Map<String, Path> pathMaps = pathBuilder.getPathMaps();
+		//FilesManager.fetchDocumentsBy(Arrays.asList(fileNames));
 	}
 	
-
 }

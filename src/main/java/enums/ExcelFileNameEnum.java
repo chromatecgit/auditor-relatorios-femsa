@@ -19,4 +19,8 @@ public enum ExcelFileNameEnum {
 		}
 		return stringVersion.toArray(new String[0]);
 	}
+	
+	public String getAsString(ExcelFileNameEnum e) {
+		return e.toString();
+	}
 }
