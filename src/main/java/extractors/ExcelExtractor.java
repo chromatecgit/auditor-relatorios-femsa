@@ -13,6 +13,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
+import enums.ProcessStageEnum;
 import listener.ReportTabReadyListener;
 import model.ReportDocument;
 import model.ReportTab;
@@ -25,17 +26,18 @@ public class ExcelExtractor implements ReportTabReadyListener {
 	private ReportDocumentBuilder builder;
 	private String tabName;
 
-	public ExcelExtractor() {
+	public ExcelExtractor(String fileName) {
 		this.builder = new ReportDocumentBuilder();
+		this.builder.addDocumentName(fileName);
 	}
 
-	public void process(Path path) {
+	public void process(Path path, ProcessStageEnum processStageEnum) {
 		try {
 			OPCPackage pkg = OPCPackage.open(path.toFile());
 			XSSFReader reader = new XSSFReader(pkg);
 			SharedStringsTable sst = reader.getSharedStringsTable();
 
-			XMLReader parser = fetchSheetParser(sst);
+			XMLReader parser = fetchSheetParser(sst, processStageEnum);
 
 			// To look up the Sheet Name / Sheet Order / rID,
 			// you need to process the core Workbook stream.
@@ -46,6 +48,7 @@ public class ExcelExtractor implements ReportTabReadyListener {
 				InputStream sheet = reader.getSheet(tabData.getId());
 				InputSource sheetSource = new InputSource(sheet);
 				tabName = tabData.getName();
+				System.out.println("\tTAB_NAME: " + tabName);
 				parser.parse(sheetSource);
 				sheet.close();
 			}
@@ -76,9 +79,9 @@ public class ExcelExtractor implements ReportTabReadyListener {
 //		}
 //	}
 
-	private XMLReader fetchSheetParser(final SharedStringsTable sst) throws SAXException {
+	private XMLReader fetchSheetParser(final SharedStringsTable sst, final ProcessStageEnum processStageEnum) throws SAXException {
 		XMLReader parser = XMLReaderFactory.createXMLReader("org.apache.xerces.parsers.SAXParser");
-		ContentHandler handler = new SheetHandler(sst, this);
+		ContentHandler handler = new SheetHandler(sst, this, processStageEnum);
 		parser.setContentHandler(handler);
 		return parser;
 	}

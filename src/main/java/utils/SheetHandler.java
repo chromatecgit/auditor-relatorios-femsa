@@ -6,6 +6,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import enums.ProcessStageEnum;
 import listener.ReportTabReadyListener;
 import model.ReportCell;
 
@@ -16,17 +17,17 @@ public class SheetHandler extends DefaultHandler {
 
 	private SharedStringsTable sst;
 	private String lastContents;
-	private int lastRowIndex;
 	private boolean nextIsString;
 	private ReportTabBuilder builder;
 	private ReportTabReadyListener listener;
-	private boolean isNewRow;
 	private ReportCell cell;
+	private ProcessStageEnum processStageEnum;
 
-	public SheetHandler(final SharedStringsTable sst, final ReportTabReadyListener listener) {
+	public SheetHandler(final SharedStringsTable sst, final ReportTabReadyListener listener, final ProcessStageEnum processStageEnum) {
 		this.sst = sst;
 		this.listener = listener;
 		this.cell = new ReportCell();
+		this.processStageEnum = processStageEnum;
 	}
 
 	@Override
@@ -55,27 +56,19 @@ public class SheetHandler extends DefaultHandler {
 		if (name.equals("row")) {
 			builder.addNumberOfRows(Integer.parseInt(attributes.getValue("r")));
 		}
-		if (name.equals("c")) {
-			this.getRowIndex(attributes.getValue("r"));
-			this.cell.setAddress(attributes.getValue("r"));
-			String cellType = attributes.getValue("t");
-			if (cellType != null && cellType.equals("s")) {
-				nextIsString = true;
-			} else {
-				nextIsString = false;
+		if (processStageEnum == ProcessStageEnum.FULL) {
+			if (name.equals("c")) {
+				this.cell.setAddress(attributes.getValue("r"));
+				String cellType = attributes.getValue("t");
+				if (cellType != null && cellType.equals("s")) {
+					nextIsString = true;
+				} else {
+					nextIsString = false;
+				}
 			}
 		}
 		// Clear contents cache
 		lastContents = "";
-	}
-
-	private void getRowIndex(String value) {
-		String rowNumber = value.replaceAll("\\D", "");
-		int rowIntValue = Integer.parseInt(rowNumber);
-		if (lastRowIndex != rowIntValue) {
-			this.isNewRow = true;
-			this.lastRowIndex = rowIntValue;
-		}
 	}
 
 	public void endElement(String uri, String localName, String name) throws SAXException {
@@ -85,13 +78,10 @@ public class SheetHandler extends DefaultHandler {
 			nextIsString = false;
 		}
 
-		if (name.equals("v")) {
+		if (name.equals("v") && processStageEnum == ProcessStageEnum.FULL) {
 			this.cell.setValue(lastContents);
 			builder.addCell(this.cell);
 			this.cell = new ReportCell();
-			if (isNewRow) {
-				builder.jumpToNextRow(lastRowIndex);
-			}
 		}
 	}
 

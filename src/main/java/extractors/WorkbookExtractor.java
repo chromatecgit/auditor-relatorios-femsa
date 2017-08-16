@@ -32,12 +32,10 @@ public class WorkbookExtractor {
 			for (int i = 0; i < elements.getLength(); i++) {
 				Node node = elements.item(i);
 				NamedNodeMap attributes = node.getAttributes();
-				for (int j = 0; j < attributes.getLength(); j++) {
-					TabNamesMap map = new TabNamesMap();
-					map.setId(attributes.getNamedItem("r:id").toString());
-					map.setName(attributes.getNamedItem("name").toString());
-					maps.add(map);
-				}
+				TabNamesMap map = new TabNamesMap();
+				map.setId(attributes.getNamedItem("r:id").toString().replace("r:id=", "").replace("\"", ""));
+				map.setName(attributes.getNamedItem("name").toString().replace("name=", "").replace("\"", ""));
+				maps.add(map);
 			}
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();

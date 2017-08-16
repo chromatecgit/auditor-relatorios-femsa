@@ -25,6 +25,7 @@ public class ReportDocumentBuilder {
 	}
 
 	public ReportDocument build() {
+		MyLogPrinter.printObject(document, document.getFileName());
 		return this.document;
 	}
 }

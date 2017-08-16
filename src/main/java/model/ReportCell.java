@@ -1,16 +1,17 @@
 package model;
 
 public class ReportCell {
-	private int columnIndex;
 	private String address;
 	private String value;
 
-	public int getColumnIndex() {
-		return columnIndex;
+	public String getColumnIndex() {
+		String s = address;
+		return s.replaceAll("\\d", "");
 	}
 
-	public void setColumnIndex(int columnIndex) {
-		this.columnIndex = columnIndex;
+	public int getLineIndex() {
+		String s = address;
+		return Integer.parseInt(s.replaceAll("\\D", ""));
 	}
 
 	public String getAddress() {
@@ -31,7 +32,7 @@ public class ReportCell {
 
 	@Override
 	public String toString() {
-		return "ReportCell [columnIndex=" + columnIndex + ", address=" + address + ", value=" + value + "]";
+		return "ReportCell [address=" + address + ", value=" + value + "]";
 	}
 
 }

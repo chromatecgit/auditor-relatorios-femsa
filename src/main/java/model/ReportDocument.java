@@ -1,6 +1,7 @@
 package model;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ReportDocument {
 	private String fileName;
@@ -26,5 +27,14 @@ public class ReportDocument {
 	public String toString() {
 		return "ReportDocument [fileName=" + fileName + ", tabs=" + tabs + "]";
 	}
-
+	
+	public List<NumeroLinhasResult> parseToNumeroLinhasResult() {
+		return this.tabs.stream().map(t -> {
+			NumeroLinhasResult result = new NumeroLinhasResult();
+			result.setRowQnty(t.getDimensions().getColumns());
+			result.setTabName(t.getName());
+			result.setFileName(this.getFileName());
+			return result;
+		}).collect(Collectors.toList());
+	}
 }

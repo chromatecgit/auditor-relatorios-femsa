@@ -74,5 +74,17 @@ public class MyLogPrinter {
 			e.printStackTrace();
 		}
 	}
+	
+	public static void printObject(final Object obj, final String fileName) {
+		try {
+			File file = new File(ProjectConfiguration.logFolder.concat(fileName + ".txt"));
+			PrintWriter pw = new PrintWriter(new FileOutputStream(file));
+			pw.write(obj.toString());
+			pw.close();
+			System.out.println("PRINTED " + fileName + "!");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
 
 }
