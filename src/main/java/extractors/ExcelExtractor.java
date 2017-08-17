@@ -15,10 +15,9 @@ import org.xml.sax.helpers.XMLReaderFactory;
 
 import enums.ProcessStageEnum;
 import listener.ReportTabReadyListener;
-import model.ReportDocument;
-import model.ReportTab;
 import model.TabNamesMap;
 import utils.ReportDocumentBuilder;
+import utils.ReportTabBuilder;
 import utils.SheetHandler;
 
 public class ExcelExtractor implements ReportTabReadyListener {
@@ -36,8 +35,10 @@ public class ExcelExtractor implements ReportTabReadyListener {
 			OPCPackage pkg = OPCPackage.open(path.toFile());
 			XSSFReader reader = new XSSFReader(pkg);
 			SharedStringsTable sst = reader.getSharedStringsTable();
-
-			XMLReader parser = fetchSheetParser(sst, processStageEnum);
+			XMLReader parser = 
+					processStageEnum.getLinesToBeRead() == 0 ? 
+							fetchSheetParser(sst, processStageEnum) :
+								fetchSheetParser(sst, processStageEnum, this.builder.getLastVisitedLine());
 
 			// To look up the Sheet Name / Sheet Order / rID,
 			// you need to process the core Workbook stream.
@@ -85,14 +86,22 @@ public class ExcelExtractor implements ReportTabReadyListener {
 		parser.setContentHandler(handler);
 		return parser;
 	}
+	
+	private XMLReader fetchSheetParser(final SharedStringsTable sst, final ProcessStageEnum processStageEnum, final int lastVisitedLine) throws SAXException {
+		XMLReader parser = XMLReaderFactory.createXMLReader("org.apache.xerces.parsers.SAXParser");
+		ContentHandler handler = new SheetHandler(sst, this, processStageEnum, lastVisitedLine);
+		parser.setContentHandler(handler);
+		return parser;
+	}
 
 	@Override
-	public void onArrivalOf(final ReportTab tab) {
-		this.builder.addReportTab(tab, tabName);
+	public void onArrivalOf(final ReportTabBuilder tabBuilder) {
+		this.builder.setLastVisitedLine(tabBuilder.getLastLineIndex());
+		this.builder.addReportTab(tabBuilder.build(), tabName);
 	}
 	
-	public ReportDocument getDocument() {
-		return this.builder.build();
+	public ReportDocumentBuilder getDocumentBuilder() {
+		return this.builder;
 	}
 
 }

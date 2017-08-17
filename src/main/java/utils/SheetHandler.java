@@ -22,32 +22,61 @@ public class SheetHandler extends DefaultHandler {
 	private ReportTabReadyListener listener;
 	private ReportCell cell;
 	private ProcessStageEnum processStageEnum;
+	private int pagingSize;
+	private int lastVisitedLine;
+	private boolean recordValue;
 
 	public SheetHandler(final SharedStringsTable sst, final ReportTabReadyListener listener, final ProcessStageEnum processStageEnum) {
 		this.sst = sst;
 		this.listener = listener;
 		this.cell = new ReportCell();
 		this.processStageEnum = processStageEnum;
+		this.recordValue = true;
+	}
+	
+	public SheetHandler(final SharedStringsTable sst, final ReportTabReadyListener listener, final ProcessStageEnum processStageEnum, final int lastVisitedLine) {
+		this.sst = sst;
+		this.listener = listener;
+		this.cell = new ReportCell();
+		this.processStageEnum = processStageEnum;
+		this.lastVisitedLine = lastVisitedLine;
+		this.recordValue = true;
 	}
 
 	@Override
 	public void startDocument() throws SAXException {
 		builder = new ReportTabBuilder();
+		this.pagingSize = processStageEnum.getLinesToBeRead();
 		System.out.println("Inicio do parse");
 	}
 
 	@Override
 	public void endDocument() throws SAXException {
-		listener.onArrivalOf(builder.build());
-		builder = null;
+		this.builder.setLastLineIndex(lastVisitedLine);
+		this.listener.onArrivalOf(this.builder);
+		this.builder = null;
 		System.out.println("Fim do parse");
 	}
-	/* MIN e MAX compreendem quais endereços uma coluna esta ocupando
-			System.out.println("MIN: " + attributes.getValue("min"));
-			Na ultima celula vazia a compreensao sera o MAX indice da ultima
-			coluna preenchida + 1 ate o final da planilha, uns 16384
-			Para pegar apenas as colunas preenchidas, usar MIN = MAX */
+
 	public void startElement(String uri, String localName, String name, Attributes attributes) throws SAXException {
+		switch (processStageEnum) {
+			case DIMENSIONS :
+				this.getDimensions(name, attributes);
+				break;
+			case PAGING_100 :
+				this.getDimensions(name, attributes);
+				this.getCellAddressWithLimit(name, attributes);
+				break;
+			default :
+				this.getDimensions(name, attributes);
+				this.getCellAddress(name, attributes);
+				break;
+		}
+	
+		lastContents = "";
+	}
+	
+	private void getDimensions(String name, Attributes attributes) {
 		if (name.equals("col")) {
 			if (attributes.getValue("min").equals(attributes.getValue("max"))) {
 				builder.addNumberOfColumns(Integer.parseInt(attributes.getValue("min")));
@@ -56,19 +85,45 @@ public class SheetHandler extends DefaultHandler {
 		if (name.equals("row")) {
 			builder.addNumberOfRows(Integer.parseInt(attributes.getValue("r")));
 		}
-		if (processStageEnum == ProcessStageEnum.FULL) {
-			if (name.equals("c")) {
-				this.cell.setAddress(attributes.getValue("r"));
-				String cellType = attributes.getValue("t");
-				if (cellType != null && cellType.equals("s")) {
-					nextIsString = true;
-				} else {
-					nextIsString = false;
-				}
+	}
+	
+	private void getCellAddress(String name, Attributes attributes) {
+		if (name.equals("c")) {
+			this.cell.setAddress(attributes.getValue("r"));
+			String cellType = attributes.getValue("t");
+			if (cellType != null && cellType.equals("s")) {
+				nextIsString = true;
+			} else {
+				nextIsString = false;
 			}
 		}
-		// Clear contents cache
-		lastContents = "";
+	}
+	
+	private void getCellAddressWithLimit(String name, Attributes attributes) {
+		if (name.equals("c")) {
+			if (this.builder.getLastLineIndex() <= this.pagingSize && this.checkAddress(attributes.getValue("r"))) {
+				this.recordValue = true;
+				this.cell.setAddress(attributes.getValue("r"));
+			} else {
+				this.recordValue = false;
+			}
+			String cellType = attributes.getValue("t");
+			if (cellType != null && cellType.equals("s")) {
+				nextIsString = true;
+			} else {
+				nextIsString = false;
+			}
+		}
+	}
+	
+	private boolean checkAddress(final String address) {
+		int addressLine = Integer.valueOf(address.replaceAll("\\D+", ""));
+		if (addressLine > lastVisitedLine) {
+			return true;
+		} else {
+			this.lastVisitedLine++;
+			return false;
+		}
 	}
 
 	public void endElement(String uri, String localName, String name) throws SAXException {
@@ -77,10 +132,15 @@ public class SheetHandler extends DefaultHandler {
 			lastContents = new XSSFRichTextString(sst.getEntryAt(idx)).toString();
 			nextIsString = false;
 		}
-
-		if (name.equals("v") && processStageEnum == ProcessStageEnum.FULL) {
+		if (this.recordValue) {
+			this.getCellValue(name);
+		}
+	}
+	
+	private void getCellValue(String name) {
+		if (name.equals("v")) {
 			this.cell.setValue(lastContents);
-			builder.addCell(this.cell);
+			this.builder.addCell(this.cell);
 			this.cell = new ReportCell();
 		}
 	}

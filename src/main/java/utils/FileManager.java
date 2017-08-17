@@ -12,6 +12,7 @@ import model.ReportDocument;
 public class FileManager {
 	
 	private static List<ReportDocument> files = new ArrayList<>();
+	public static int lastVisitedLine;
 	
 	public static void addFileToRepository(final ReportDocument file) {
 		if (!FileManager.has(file)) {
@@ -60,6 +61,7 @@ public class FileManager {
 	private static void processFile(final Path filePath, final String fileName, final ProcessStageEnum processStage) {
 		ExcelExtractor extractor = new ExcelExtractor(fileName);
 		extractor.process(filePath, processStage);
-		files.add(extractor.getDocument());
+		lastVisitedLine = extractor.getDocumentBuilder().getLastVisitedLine();
+		files.add(extractor.getDocumentBuilder().build());
 	}
 }

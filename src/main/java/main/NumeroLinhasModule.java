@@ -11,6 +11,7 @@ import config.GlobBuilder;
 import config.PathBuilder;
 import config.ProjectConfiguration;
 import enums.ProcessStageEnum;
+import exceptions.HaltException;
 import model.NumeroLinhasResult;
 import model.ReportDocument;
 import utils.FileManager;
@@ -29,12 +30,33 @@ public class NumeroLinhasModule {
 			documents.add(FileManager.fetchDocumentBy(fileName, pathMaps.get(fileName), ProcessStageEnum.DIMENSIONS));
 		}
 		
-		NumeroLinhasModule.applyBusinessRule(documents);
+		try {
+			NumeroLinhasModule.applyBusinessRule(documents);
+		} catch (HaltException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
 	}
 	
-	private static void applyBusinessRule(final List<ReportDocument> documents) {
+	private static void applyBusinessRule(final List<ReportDocument> documents) throws HaltException {
+		List<NumeroLinhasResult> results = new ArrayList<>();
 		for (ReportDocument document : documents) {
-			//document.getTabs().stream().map(t -> t.getDimensions().getRows()).reduce((x,y) -> x == y);
+			document.getTabs().stream().forEach(t -> {
+				NumeroLinhasResult result = new NumeroLinhasResult();
+				result.setFileName(document.getFileName());
+				result.setRowQnty(t.getDimensions().getRows());
+				result.setTabName(t.getName());
+				results.add(result);
+			});
+		}
+		
+	
+		Map<Integer, List<NumeroLinhasResult>> map = results.stream().collect(Collectors.groupingBy(NumeroLinhasResult::getRowQnty));
+		
+		if (map.keySet().size() > 1) {
+			throw new HaltException("O número de linhas está diferente: \n" + map);
+		} else {
+			System.out.println("NumeroLinhasModule::SUCCESS!");
 		}
 	}
 

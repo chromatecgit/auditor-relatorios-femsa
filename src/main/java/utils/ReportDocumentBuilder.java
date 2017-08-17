@@ -7,16 +7,17 @@ import model.ReportTab;
 
 public class ReportDocumentBuilder {
 	private ReportDocument document;
-	
+	private int lastVisitedLine;
+
 	public ReportDocumentBuilder() {
 		this.document = new ReportDocument();
 		this.document.setTabs(new ArrayList<ReportTab>());
 	}
-	
+
 	public void addDocumentName(final String name) {
 		this.document.setFileName(name);
 	}
-	
+
 	public void addReportTab(final ReportTab tab, final String tabName) {
 		ReportTab newTab = new ReportTab();
 		newTab = tab;
@@ -28,4 +29,13 @@ public class ReportDocumentBuilder {
 		MyLogPrinter.printObject(document, document.getFileName());
 		return this.document;
 	}
+
+	public int getLastVisitedLine() {
+		return lastVisitedLine;
+	}
+
+	public void setLastVisitedLine(int lastVisitedLine) {
+		this.lastVisitedLine = lastVisitedLine;
+	}
+
 }
