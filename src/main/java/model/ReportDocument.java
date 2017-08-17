@@ -3,7 +3,10 @@ package model;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ReportDocument {
+import enums.IndentationEnum;
+import interfaces.Indentable;
+
+public class ReportDocument implements Indentable {
 	private String fileName;
 	private List<ReportTab> tabs;
 
@@ -23,11 +26,16 @@ public class ReportDocument {
 		this.tabs = tabs;
 	}
 
+	public IndentationEnum getHierarchy() {
+		return IndentationEnum.LEVEL_1;
+	}
+
 	@Override
 	public String toString() {
-		return "ReportDocument [fileName=" + fileName + ", tabs=" + tabs + "]";
+		return this.getHierarchy().getIndentationEntity() + 
+				"ReportDocument [fileName=" + fileName + ", tabs=" + tabs + "]";
 	}
-	
+
 	public List<NumeroLinhasResult> parseToNumeroLinhasResult() {
 		return this.tabs.stream().map(t -> {
 			NumeroLinhasResult result = new NumeroLinhasResult();

@@ -15,11 +15,8 @@ import java.util.Objects;
 public class MyFileVisitor extends SimpleFileVisitor<Path> {
 
 	private final PathMatcher matcher;
-
 	private static int fileCounter = 0;
-
 	private final Path pathTarget;
-
 	private List<Path> filesList;
 
 	public MyFileVisitor(final Path pathTarget, final String glob) {

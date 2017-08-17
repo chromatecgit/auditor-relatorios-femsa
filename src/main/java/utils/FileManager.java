@@ -29,10 +29,10 @@ public class FileManager {
 	}
 	
 	public static ReportDocument fetchDocumentBy(final String fileName, final Path path, final ProcessStageEnum processStage) {
-		String nameForTest = fileName;
-		if (!FileManager.has(nameForTest.replace("_\\d+", ""))) {
+		//String nameForTest = fileName;
+		if (!FileManager.has(fileName)) {//nameForTest.replace("_\\d+", ""))) {
 			FileManager.processFile(path, fileName, processStage);
-			nameForTest = null;
+			//nameForTest = null;
 		}
 		ReportDocument fileToSend = (files.stream().filter(e -> e.getFileName().equals(fileName)).findFirst().orElse(null));
 		return fileToSend;
@@ -43,10 +43,10 @@ public class FileManager {
 		List<ReportDocument> filesToSend = new ArrayList<>();
 		
 		for (String fileName : pathMaps.keySet()) {
-			String nameForTest = fileName;
-			if (!FileManager.has(nameForTest.replace("_\\d+", ""))) {
+			//String nameForTest = fileName;
+			if (!FileManager.has(fileName)) {//nameForTest.replace("_\\d+", ""))) {
 				FileManager.processFile(pathMaps.get(fileName), fileName, processStage);
-				nameForTest = null;
+				//nameForTest = null;
 			}
 			filesToSend.add(files.stream().filter(e -> e.getFileName().equals(fileName)).findFirst().orElse(null));
 		}

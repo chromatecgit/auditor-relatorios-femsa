@@ -8,7 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 import config.ProjectConfiguration;
-import enums.MessageHierarchyEnum;
+import enums.IndentationEnum;
+import interfaces.Indentable;
 
 public class MyLogPrinter {
 	
@@ -35,7 +36,7 @@ public class MyLogPrinter {
 		System.out.println("PRINTED " + fileName + "!");
 	}
 	
-	public static void printCollection(String message, List<? extends Object> objs, String fileName) {
+	public static void printCollectionWithMessage(String message, List<? extends Object> objs, String fileName) {
 		PrintWriter pw = MyLogPrinter.getPrintWriter(fileName);
 		pw.write(message + "\n");
 		for (Object obj : objs) {
@@ -44,6 +45,18 @@ public class MyLogPrinter {
 		pw.close();
 		System.out.println("PRINTED " + fileName + "!");
 	}
+	
+//	public static void printCollectionWithIndentation(List<? extends Indentable> indentables, String fileName) {
+//		PrintWriter pw = MyLogPrinter.getPrintWriter(fileName);
+//		StringBuilder sb = new StringBuilder();
+//		for (Indentable identable : indentables) {
+//			sb.append(identable.toString());
+//			sb.append("\n");
+//			pw.write(sb.toString());
+//		}
+//		pw.close();
+//		System.out.println("PRINTED " + fileName + "!");
+//	}
 	
 	public synchronized static void addToBuiltMessage(String message) {
 		Optional<String> m = Optional.ofNullable(message);
@@ -63,8 +76,8 @@ public class MyLogPrinter {
 	public static void printBuiltMessage(String fileName) {
 		PrintWriter pw = MyLogPrinter.getPrintWriter(fileName);
 		pw.write(builtMessage.toString() + "\n");
-		builtMessage = new StringBuilder();
 		pw.close();
+		builtMessage = new StringBuilder();
 		System.out.println("PRINTED " + fileName + "!");
 	}
 	
@@ -79,13 +92,12 @@ public class MyLogPrinter {
 		System.out.println("PRINTED " + fileName + "!");
 	}
 	
-	public synchronized static void addToBuiltMessageWithLevel(MessageHierarchyEnum level, String message) {
+	public synchronized static void addToBuiltMessageWithLevel(IndentationEnum indentation, String message) {
 		Optional<String> m = Optional.ofNullable(message);
-		for (short i = 1; i <= level.getLevel(); i++) {
-			MyLogPrinter.builtMessage.append("\t");
-		}
 		
+		MyLogPrinter.builtMessage.append(indentation.getIndentationEntity());
 		MyLogPrinter.builtMessage.append(m.orElse(""));
+		
 		addLineBreak();
 	}
 	

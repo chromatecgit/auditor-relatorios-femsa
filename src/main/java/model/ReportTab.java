@@ -2,7 +2,10 @@ package model;
 
 import java.util.List;
 
-public class ReportTab {
+import enums.IndentationEnum;
+import interfaces.Indentable;
+
+public class ReportTab implements Indentable {
 	private String name;
 	private List<ReportRow> rows;
 	private ReportTableDimensions dimensions;
@@ -31,9 +34,14 @@ public class ReportTab {
 		this.dimensions = dimensions;
 	}
 
+	public IndentationEnum getHierarchy() {
+		return  IndentationEnum.LEVEL_2;
+	}
+
 	@Override
 	public String toString() {
-		return "ReportTab [name=" + name + ", rows=" + rows + ", dimensions=" + dimensions + "]";
+		return this.getHierarchy().getIndentationEntity() + 
+				"ReportTab [name=" + name + ", rows=" + rows + ", dimensions=" + dimensions + "]";
 	}
 
 }

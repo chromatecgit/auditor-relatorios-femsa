@@ -14,14 +14,18 @@ public class GlobBuilder {
 		
 		/*  File names 	*/
 		if (!fileNames.isEmpty()) {
-			sb.append("/{");
-			for (int i = 0; i < fileNames.size(); i++) {
-				sb.append(fileNames.get(i));
-				if (i != fileNames.size() - 1) {
-					sb.append(",");
+			if (!fileNames.contains("*")) {
+				sb.append("/{");
+				for (int i = 0; i < fileNames.size(); i++) {
+					sb.append(fileNames.get(i));
+					if (i != fileNames.size() - 1) {
+						sb.append(",");
+					}
 				}
+				sb.append("}_[0-9]*.");
+			} else {
+				sb.append("/*");
 			}
-			sb.append("}_[0-9]*.");
 		}
 		
 		if (ProjectConfiguration.fileTypes.length > 0) {

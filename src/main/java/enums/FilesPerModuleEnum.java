@@ -6,7 +6,8 @@ public enum FilesPerModuleEnum {
 			ExcelFileNameEnum.CONSOLIDADA_SOVI.toString(),
 			ExcelFileNameEnum.CONSOLIDADA.toString(),
 			ExcelFileNameEnum.PRODUTIVIDADE.toString(),
-			ExcelFileNameEnum.PRECO.toString()});
+			ExcelFileNameEnum.PRECO.toString()}),
+	ENTREGAS(new String[] {"*"});
 	
 	private String[] excelFileNames;
 	

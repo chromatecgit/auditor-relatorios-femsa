@@ -2,7 +2,10 @@ package model;
 
 import java.util.List;
 
-public class ReportRow {
+import enums.IndentationEnum;
+import interfaces.Indentable;
+
+public class ReportRow implements Indentable {
 	private int index;
 	private List<ReportCell> cells;
 
@@ -24,7 +27,12 @@ public class ReportRow {
 
 	@Override
 	public String toString() {
-		return "ReportRow [index=" + index + ", cells=" + cells + "]";
+		return this.getHierarchy().getIndentationEntity() + 
+				"ReportRow [index=" + index + ", cells=" + cells + "]";
+	}
+
+	public IndentationEnum getHierarchy() {
+		return  IndentationEnum.LEVEL_3;
 	}
 
 }

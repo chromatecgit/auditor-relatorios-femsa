@@ -49,7 +49,7 @@ public class ExcelExtractor implements ReportTabReadyListener {
 				InputStream sheet = reader.getSheet(tabData.getId());
 				InputSource sheetSource = new InputSource(sheet);
 				tabName = tabData.getName();
-				System.out.println("\tTAB_NAME: " + tabName);
+				System.out.println("TAB_NAME: " + tabName);
 				parser.parse(sheetSource);
 				sheet.close();
 			}
