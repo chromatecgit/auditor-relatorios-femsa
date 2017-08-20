@@ -50,6 +50,23 @@ public class ReportRow implements Indentable {
 		return null;
 	}
 	
+	public ReportRow findEquivalentRowByColumnIndex(final List<ReportRow> anotherRows, final String[] columns) throws WarningException {
+		ReportCell keyCell = this.cells.stream().filter(
+				c -> c.getColumnIndex().equals(columns[0])).findFirst().orElse(null);
+		ReportCell keyCell2 = this.cells.stream().filter(
+				c -> c.getColumnIndex().equals(columns[1])).findFirst().orElse(null);
+		
+		for (ReportRow row : anotherRows) {
+			ReportCell cell1 = row.findCellByColumn(keyCell.getColumnIndex());
+			ReportCell cell2 = row.findCellByColumn(keyCell2.getColumnIndex());
+			if (cell1.getValue().equals(keyCell.getValue()) && cell2.getValue().equals(keyCell2.getValue())) {
+				return row;
+			}
+		}
+		
+		return null;
+	}
+	
 	public ReportCell findCellByColumn(final String key) {
 		return this.cells.stream().filter(c -> c.getColumnIndex().equals(key)).findFirst().orElse(null);
 	}

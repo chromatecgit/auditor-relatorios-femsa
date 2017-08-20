@@ -45,26 +45,23 @@ public class EntregasModule {
 
 		for (String fileName : results.keySet()) {
 			Collections.sort(results.get(fileName));
-			if (!fileName.contains("_VERT")) {
-				results.get(fileName).stream().forEach(h -> {
-					documents.add(FileManager.fetchDocumentBy(h.getOriginalFileName(), h.getPathFromEntry(),
-							ProcessStageEnum.FULL));
-				});
-				try {
-					this.applyBusinessRule(documents);
-					documents.clear();
-				} catch (HaltException e) {
-					System.out.println(e.getMessage());
-					e.printStackTrace();
-				}
-			} else {
-				//TODO: Validar os Verticais por CONCAT E SKU
-				continue;
+			
+			results.get(fileName).stream().forEach(h -> {
+				documents.add(FileManager.fetchDocumentBy(h.getOriginalFileName(), h.getPathFromEntry(),
+						ProcessStageEnum.FULL));
+			});
+			try {
+				boolean isVertical = fileName.contains("_VERT") ? true : false;
+				this.applyBusinessRule(documents, isVertical);
+				documents.clear();
+			} catch (HaltException e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
 			}
 		}
 	}
 
-	private void applyBusinessRule(final List<ReportDocument> documents) throws HaltException {
+	private void applyBusinessRule(final List<ReportDocument> documents, boolean isVertical) throws HaltException {
 		ReportDocument oldDocument = documents.get(0);
 		ReportDocument newDocument = documents.get(1);
 
@@ -79,7 +76,7 @@ public class EntregasModule {
 				System.out.println("Comparando aba: " + equivalentTab.getName());
 				MyLogPrinter.addToBuiltMessage(oldTab.getName());
 				
-				this.tabComparator(oldTab, equivalentTab);
+				this.tabComparator(oldTab, equivalentTab, isVertical);
 			
 			} catch (WarningException we) {
 				System.out.println("Nenhuma aba encontrada para o nome: " + oldTab.getName());
@@ -89,10 +86,18 @@ public class EntregasModule {
 		MyLogPrinter.printBuiltMessage("Diff_" + oldDocument.getFileName());
 	}
 
-	private void tabComparator(ReportTab oldTab, ReportTab newTab) {
+	private void tabComparator(ReportTab oldTab, ReportTab newTab, boolean isVertical) {
 		for (ReportRow oldRow : oldTab.getRows()) {
 			try {
-				ReportRow row = oldRow.findEquivalentRowByColumnIndex(newTab.getRows(), "A");
+				ReportRow row = null;
+				if (!isVertical) {
+					String keyColumn = "A";
+					row = oldRow.findEquivalentRowByColumnIndex(newTab.getRows(), keyColumn);
+				} else {
+					String[] keyColumns = new String[] {"A", oldTab.getTableColumns().stream().filter(c -> c.getValue().equalsIgnoreCase("produto")).findFirst().orElse(null).getIndex()};
+					row = oldRow.findEquivalentRowByColumnIndex(newTab.getRows(), keyColumns);
+				}
+				
 //				System.out.println(
 //						"Comparando linha do velho [" + oldRow.getIndex() + "], com o novo [" + row.getIndex() + "]");
 				
