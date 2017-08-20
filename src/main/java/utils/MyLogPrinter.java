@@ -61,6 +61,7 @@ public class MyLogPrinter {
 	public synchronized static void addToBuiltMessage(String message) {
 		Optional<String> m = Optional.ofNullable(message);
 		MyLogPrinter.builtMessage.append(m.orElse(""));
+		addLineBreak();
 	}
 	
 	public synchronized static void addBuiltMessageTitle(String title, String subject) {

@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import enums.IndentationEnum;
+import exceptions.WarningException;
 import interfaces.Indentable;
 
 public class ReportDocument implements Indentable {
+	private boolean isNew;
 	private String fileName;
 	private List<ReportTab> tabs;
 
@@ -30,10 +32,18 @@ public class ReportDocument implements Indentable {
 		return IndentationEnum.LEVEL_1;
 	}
 
+	public boolean isNew() {
+		return isNew;
+	}
+
+	public void setNew(boolean isNew) {
+		this.isNew = isNew;
+	}
+
 	@Override
 	public String toString() {
-		return this.getHierarchy().getIndentationEntity() + 
-				"ReportDocument [fileName=" + fileName + ", tabs=" + tabs + "]";
+		return this.getHierarchy().getIndentationEntity() + "ReportDocument [fileName=" + fileName + ", tabs=" + tabs
+				+ "]";
 	}
 
 	public List<NumeroLinhasResult> parseToNumeroLinhasResult() {
@@ -44,5 +54,9 @@ public class ReportDocument implements Indentable {
 			result.setFileName(this.getFileName());
 			return result;
 		}).collect(Collectors.toList());
+	}
+	
+	public ReportTab findEquivalentTab(final String tabName) throws WarningException {
+		return this.tabs.stream().filter(t -> t.getName().equals(tabName)).findFirst().orElseThrow(WarningException::new);
 	}
 }

@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import enums.IndentationEnum;
@@ -7,6 +8,7 @@ import interfaces.Indentable;
 
 public class ReportTab implements Indentable {
 	private String name;
+	private List<ReportKeyColumns> tableColumns;
 	private List<ReportRow> rows;
 	private ReportTableDimensions dimensions;
 
@@ -34,14 +36,38 @@ public class ReportTab implements Indentable {
 		this.dimensions = dimensions;
 	}
 
+	public List<ReportKeyColumns> getTableColumns() {
+		return tableColumns;
+	}
+
+	public void setTableColumns(List<ReportKeyColumns> tableColumns) {
+		this.tableColumns = tableColumns;
+	}
+
 	public IndentationEnum getHierarchy() {
-		return  IndentationEnum.LEVEL_2;
+		return IndentationEnum.LEVEL_2;
 	}
 
 	@Override
 	public String toString() {
-		return this.getHierarchy().getIndentationEntity() + 
-				"ReportTab [name=" + name + ", rows=" + rows + ", dimensions=" + dimensions + "]";
+		return this.getHierarchy().getIndentationEntity() + "ReportTab [name=" + name + ", tableColumns=" + tableColumns
+				+ ", rows=" + rows + ", dimensions=" + dimensions + "]";
+	}
+
+	public ReportRow getFirstRow() {
+		return rows.stream().filter(e -> e.getIndex() == 1).findFirst().orElse(null);
+	}
+
+	public ReportColumn getFirstColumn() {
+		ReportColumn column = new ReportColumn();
+		List<ReportCell> columnCells = new ArrayList<>();
+		for (ReportRow row : this.rows) {
+			columnCells.add(
+					row.getCells().stream().filter(c -> c.getAddress().matches("A[0-9]+")).findFirst().orElse(null));
+		}
+
+		column.setColumnCells(columnCells);
+		return column;
 	}
 
 }

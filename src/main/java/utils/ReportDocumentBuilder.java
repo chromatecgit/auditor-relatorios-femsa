@@ -13,6 +13,10 @@ public class ReportDocumentBuilder {
 		this.document = new ReportDocument();
 		this.document.setTabs(new ArrayList<ReportTab>());
 	}
+	
+	public void setNewFlagTo(boolean isNew) {
+		this.document.setNew(isNew);
+	}
 
 	public void addDocumentName(final String name) {
 		this.document.setFileName(name);
@@ -26,7 +30,6 @@ public class ReportDocumentBuilder {
 	}
 
 	public ReportDocument build() {
-		MyLogPrinter.printObject(document, document.getFileName());
 		return this.document;
 	}
 

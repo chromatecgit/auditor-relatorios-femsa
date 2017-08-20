@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.ReportCell;
+import model.ReportColumn;
+import model.ReportKeyColumns;
 import model.ReportRow;
 import model.ReportTab;
 import model.ReportTableDimensions;
@@ -12,21 +14,23 @@ public class ReportTabBuilder {
 	private ReportTab tab;
 	private ReportTableDimensions dimensions;
 	private List<ReportRow> rows;
+	private List<ReportKeyColumns> tableColumns;
 	private List<ReportCell> cells;
 	private int lastLineIndex;
 
 	public ReportTabBuilder() {
 		this.tab = new ReportTab();
 		this.cells = new ArrayList<>();
+		this.tableColumns = new ArrayList<>();
 		this.rows = new ArrayList<>();
 		this.dimensions = new ReportTableDimensions();
 		this.lastLineIndex = 1;
 	}
 
 	public ReportTab build() {
+		this.tab.setTableColumns(tableColumns);
 		this.tab.setRows(this.rows);
 		this.tab.setDimensions(this.dimensions);
-		MyLogPrinter.printObject(rows, "Rows");
 		return this.tab;
 	}
 
@@ -39,20 +43,33 @@ public class ReportTabBuilder {
 	}
 
 	public void addCell(final ReportCell cell) {
-		if (this.lastLineIndex == cell.getLineIndex()) {
-			this.cells.add(cell);
+		if (cell.getLineIndex() == 1) {
+			ReportKeyColumns r = new ReportKeyColumns();
+			r.setIndex(cell.getColumnIndex());
+			r.setValue(cell.getValue());
+			this.tableColumns.add(r);
 		} else {
-			this.addAndReset(cell.getLineIndex());
+			if (this.lastLineIndex == cell.getLineIndex()) {
+				this.cells.add(cell);
+			} else {
+				this.addAndReset(cell);
+			}
 		}
 	}
 
-	private void addAndReset(int newIndex) {
-		ReportRow row = new ReportRow();
-		row.setCells(this.cells);
-		row.setIndex(lastLineIndex);
-		this.rows.add(row);
-		this.lastLineIndex = newIndex;
-		this.cells = new ArrayList<>();
+	private void addAndReset(ReportCell cell) {
+		if (this.lastLineIndex == 1) {
+			this.cells.add(cell);
+		} else {
+			ReportRow row = new ReportRow();
+			row.setCells(this.cells);
+			row.setIndex(lastLineIndex);
+			this.rows.add(row);
+			this.cells = new ArrayList<>();
+			this.cells.add(cell);
+			
+		}
+		this.lastLineIndex = cell.getLineIndex();
 	}
 
 	public int getLastLineIndex() {

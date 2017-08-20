@@ -8,16 +8,22 @@ import java.util.Map;
 import enums.ProcessStageEnum;
 import extractors.ExcelExtractor;
 import model.ReportDocument;
+import model.TabNamesMap;
 
 public class FileManager {
 	
 	private static List<ReportDocument> files = new ArrayList<>();
+	private static List<TabNamesMap> tabs = new ArrayList<>();
 	public static int lastVisitedLine;
 	
 	public static void addFileToRepository(final ReportDocument file) {
 		if (!FileManager.has(file)) {
 			files.add(file);
 		}
+	}
+	
+	public static void addTabToRepository(final TabNamesMap tab) {
+		tabs.add(tab);
 	}
 	
 	private static Boolean has(final ReportDocument file) {
@@ -29,10 +35,8 @@ public class FileManager {
 	}
 	
 	public static ReportDocument fetchDocumentBy(final String fileName, final Path path, final ProcessStageEnum processStage) {
-		//String nameForTest = fileName;
-		if (!FileManager.has(fileName)) {//nameForTest.replace("_\\d+", ""))) {
+		if (!FileManager.has(fileName)) {
 			FileManager.processFile(path, fileName, processStage);
-			//nameForTest = null;
 		}
 		ReportDocument fileToSend = (files.stream().filter(e -> e.getFileName().equals(fileName)).findFirst().orElse(null));
 		return fileToSend;
@@ -43,10 +47,8 @@ public class FileManager {
 		List<ReportDocument> filesToSend = new ArrayList<>();
 		
 		for (String fileName : pathMaps.keySet()) {
-			//String nameForTest = fileName;
-			if (!FileManager.has(fileName)) {//nameForTest.replace("_\\d+", ""))) {
+			if (!FileManager.has(fileName)) {
 				FileManager.processFile(pathMaps.get(fileName), fileName, processStage);
-				//nameForTest = null;
 			}
 			filesToSend.add(files.stream().filter(e -> e.getFileName().equals(fileName)).findFirst().orElse(null));
 		}

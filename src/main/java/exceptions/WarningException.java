@@ -1,6 +1,6 @@
 package exceptions;
 
-public class WarningException extends Exception {
+public class WarningException extends RuntimeException {
 
 	/** serialVersionUID */
 	private static final long serialVersionUID = 1L;
