@@ -1,6 +1,7 @@
 package model;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import enums.IndentationEnum;
 import exceptions.WarningException;
@@ -71,4 +72,16 @@ public class ReportRow implements Indentable {
 		return this.cells.stream().filter(c -> c.getColumnIndex().equals(key)).findFirst().orElse(null);
 	}
 	
+	public HVPrecoInfos parseReportRowPrecoInfos(List<ReportKeyColumn> keyColumns) {
+		
+		keyColumns.stream().map(c -> {
+			if (c.getValue().contains("PRECO")) {
+				HVPrecoInfos precoInfos = new HVPrecoInfos();
+				ReportCell cell = this.findCellByColumn(c.getIndex());
+				precoInfos.setPreco(cell.getValue());
+				precoInfos.setSku(c.getValue());
+				return precoInfos;
+			}
+		}).collect(Collectors.toList());
+	}
 }

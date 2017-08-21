@@ -1,14 +1,14 @@
 package model;
 
-public class ReportKeyColumnsSyncObj {
+public class ReportKeyColumnSyncObj {
 	private String oldKey;
 	private String newKey;
 
-	public ReportKeyColumnsSyncObj() {
+	public ReportKeyColumnSyncObj() {
 		super();
 	}
 
-	public ReportKeyColumnsSyncObj(String oldKey, String newKey) {
+	public ReportKeyColumnSyncObj(String oldKey, String newKey) {
 		super();
 		this.oldKey = oldKey;
 		this.newKey = newKey;

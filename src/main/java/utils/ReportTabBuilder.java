@@ -5,7 +5,7 @@ import java.util.List;
 
 import model.ReportCell;
 import model.ReportColumn;
-import model.ReportKeyColumns;
+import model.ReportKeyColumn;
 import model.ReportRow;
 import model.ReportTab;
 import model.ReportTableDimensions;
@@ -14,7 +14,7 @@ public class ReportTabBuilder {
 	private ReportTab tab;
 	private ReportTableDimensions dimensions;
 	private List<ReportRow> rows;
-	private List<ReportKeyColumns> tableColumns;
+	private List<ReportKeyColumn> tableColumns;
 	private List<ReportCell> cells;
 	private int lastLineIndex;
 
@@ -44,7 +44,7 @@ public class ReportTabBuilder {
 
 	public void addCell(final ReportCell cell) {
 		if (cell.getLineIndex() == 1) {
-			ReportKeyColumns r = new ReportKeyColumns();
+			ReportKeyColumn r = new ReportKeyColumn();
 			r.setIndex(cell.getColumnIndex());
 			r.setValue(cell.getValue());
 			this.tableColumns.add(r);

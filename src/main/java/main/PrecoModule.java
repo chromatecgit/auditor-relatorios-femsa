@@ -1,20 +1,22 @@
 package main;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import config.GlobBuilder;
 import config.PathBuilder;
 import config.ProjectConfiguration;
+import enums.DocumentOrientationEnum;
 import enums.ProcessStageEnum;
 import exceptions.HaltException;
 import exceptions.WarningException;
+import model.HVMap;
+import model.HVPrecoGroup;
+import model.HVPrecoInfos;
+import model.HVPrecoMap;
 import model.ReportCell;
 import model.ReportDocument;
 import model.ReportKeyColumn;
@@ -25,66 +27,73 @@ import utils.EntregasMapHelper;
 import utils.FileManager;
 import utils.MyLogPrinter;
 
-public class EntregasModule {
+public class PrecoModule {
 
-	private Pattern filePattern = Pattern.compile("_\\d+");
 	private String[] fileNames;
 
-	public EntregasModule(final String[] fileNames) {
+	public PrecoModule(final String[] fileNames) {
 		this.fileNames = fileNames;
 	}
 
 	public void execute() {
 		PathBuilder pathBuilder = new PathBuilder();
-		List<ReportDocument> documents = new ArrayList<>();
 
 		pathBuilder.buildFilePaths(GlobBuilder.buildGlobPatternWith(Arrays.asList(fileNames)),
-				new Path[] { ProjectConfiguration.newFilesPath, ProjectConfiguration.oldFilesPath });
+				new Path[] { ProjectConfiguration.newFilesPath });
 
-		Map<String, List<EntregasMapHelper>> results = this.organizePathMaps(pathBuilder.getPathMaps());
-
-		for (String fileName : results.keySet()) {
-			Collections.sort(results.get(fileName));
-			
-			results.get(fileName).stream().forEach(h -> {
-				documents.add(FileManager.fetchDocumentBy(h.getOriginalFileName(), h.getPathFromEntry(),
-						ProcessStageEnum.FULL));
-			});
-			try {
-				boolean isVertical = fileName.contains("_VERT") ? true : false;
-				this.applyBusinessRule(documents, isVertical);
-				documents.clear();
-			} catch (HaltException e) {
-				System.out.println(e.getMessage());
-				e.printStackTrace();
-			}
+		List<ReportDocument> documents = FileManager.fetchDocumentsBy(pathBuilder.getPathMaps(), ProcessStageEnum.FULL);
+		
+		try {
+			this.applyBusinessRule(documents, false);
+		} catch (HaltException e) {
+			e.printStackTrace();
 		}
 	}
 
 	private void applyBusinessRule(final List<ReportDocument> documents, boolean isVertical) throws HaltException {
-		ReportDocument oldDocument = documents.get(0);
-		ReportDocument newDocument = documents.get(1);
-
-		//System.out.println("OLD flag:" + oldDocument.isNew() + " e NEW flag:" + newDocument.isNew());
-
-		MyLogPrinter.addToBuiltMessage(oldDocument.getFileName());
-
-		for (ReportTab oldTab : oldDocument.getTabs()) {
-			try {
-				
-				ReportTab equivalentTab = newDocument.findEquivalentTab(oldTab.getName());
-				System.out.println("Comparando aba: " + equivalentTab.getName());
-				MyLogPrinter.addToBuiltMessage(oldTab.getName());
-				
-				this.tabComparator(oldTab, equivalentTab, isVertical);
-			
-			} catch (WarningException we) {
-				System.out.println("Nenhuma aba encontrada para o nome: " + oldTab.getName());
-				we.printStackTrace();
+		ReportDocument hDoc = null;
+		ReportDocument vDoc = null;
+		
+		for (ReportDocument d : documents) {
+			if (d.getOrientation().equals(DocumentOrientationEnum.HORIZONTAL.getOrientation())) {
+				hDoc = d;
+			} else {
+				vDoc = d;
 			}
 		}
-		MyLogPrinter.printBuiltMessage("Diff_" + oldDocument.getFileName());
+		
+		
+		//System.out.println("OLD flag:" + oldDocument.isNew() + " e NEW flag:" + newDocument.isNew());
+
+//		MyLogPrinter.addToBuiltMessage(oldDocument.getFileName());
+//
+//		for (ReportTab oldTab : oldDocument.getTabs()) {
+//			try {
+//				
+//				ReportTab equivalentTab = newDocument.findEquivalentTab(oldTab.getName());
+//				System.out.println("Comparando aba: " + equivalentTab.getName());
+//				MyLogPrinter.addToBuiltMessage(oldTab.getName());
+//				
+//				this.tabComparator(oldTab, equivalentTab, isVertical);
+//			
+//			} catch (WarningException we) {
+//				System.out.println("Nenhuma aba encontrada para o nome: " + oldTab.getName());
+//				we.printStackTrace();
+//			}
+//		}
+//		MyLogPrinter.printBuiltMessage("Diff_" + oldDocument.getFileName());
 	}
+	
+	private void parseHorizontalToHVMap(final List<ReportTab> hTabs) {
+		hTabs.stream().flatMap(t -> {
+			t.getRows().stream().flatMap(r -> {
+				r.
+			});
+		});
+		
+	}
+	
+	
 
 	private void tabComparator(ReportTab oldTab, ReportTab newTab, boolean isVertical) {
 		for (ReportRow oldRow : oldTab.getRows()) {
@@ -147,5 +156,4 @@ public class EntregasModule {
 		}).collect(Collectors.groupingBy(EntregasMapHelper::getKey));
 
 	}
-
 }

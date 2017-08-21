@@ -9,8 +9,17 @@ import interfaces.Indentable;
 
 public class ReportDocument implements Indentable {
 	private boolean isNew;
+	private String orientation;
 	private String fileName;
 	private List<ReportTab> tabs;
+
+	public String getOrientation() {
+		return orientation;
+	}
+
+	public void setOrientation(String orientation) {
+		this.orientation = orientation;
+	}
 
 	public String getFileName() {
 		return fileName;
@@ -40,10 +49,12 @@ public class ReportDocument implements Indentable {
 		this.isNew = isNew;
 	}
 
+	
+
 	@Override
 	public String toString() {
-		return this.getHierarchy().getIndentationEntity() + "ReportDocument [fileName=" + fileName + ", tabs=" + tabs
-				+ "]";
+		return this.getHierarchy().getIndentationEntity() + "ReportDocument [isNew=" + isNew + ", orientation=" + orientation + ", fileName=" + fileName + ", tabs="
+				+ tabs + "]";
 	}
 
 	public List<NumeroLinhasResult> parseToNumeroLinhasResult() {
@@ -55,8 +66,9 @@ public class ReportDocument implements Indentable {
 			return result;
 		}).collect(Collectors.toList());
 	}
-	
+
 	public ReportTab findEquivalentTab(final String tabName) throws WarningException {
-		return this.tabs.stream().filter(t -> t.getName().equals(tabName)).findFirst().orElseThrow(WarningException::new);
+		return this.tabs.stream().filter(t -> t.getName().equals(tabName)).findFirst()
+				.orElseThrow(WarningException::new);
 	}
 }

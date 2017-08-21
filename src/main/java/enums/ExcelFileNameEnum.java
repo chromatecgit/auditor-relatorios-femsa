@@ -5,9 +5,9 @@ import java.util.List;
 
 public enum ExcelFileNameEnum {
 	SOVI,
-	SOVI_VERTICAL,
+	SOVI_VERT,
 	PRECO,
-	PRECO_VERTICAL,
+	PRECO_VERT,
 	CONSOLIDADA,
 	CONSOLIDADA_SOVI,
 	PRODUTIVIDADE;

@@ -13,6 +13,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
+import enums.DocumentOrientationEnum;
 import enums.ProcessStageEnum;
 import listener.ReportTabReadyListener;
 import model.TabNamesMap;
@@ -43,7 +44,8 @@ public class ExcelExtractor implements ReportTabReadyListener {
 								fetchSheetParser(sst, processStageEnum, this.builder.getLastVisitedLine());
 							
 			this.builder.setNewFlagTo(path.toString().contains("new") ? true : false);
-			
+			this.builder.setOrientation(
+					fileName.contains("_VERT") ? DocumentOrientationEnum.HORIZONTAL.getOrientation() : DocumentOrientationEnum.VERTICAL.getOrientation());
 			WorkbookExtractor we = new WorkbookExtractor();
 			List<TabNamesMap> tabNamesMapList = we.extractSheetNamesFrom(reader.getWorkbookData());
 			for (TabNamesMap tabData : tabNamesMapList) {

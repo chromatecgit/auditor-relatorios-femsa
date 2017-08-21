@@ -2,12 +2,12 @@ package model;
 
 import enums.IndentationEnum;
 
-public class ReportKeyColumns {
+public class ReportKeyColumn {
 	private String index;
 	private String value;
 	private IndentationEnum hierarchy;
 
-	public ReportKeyColumns() {
+	public ReportKeyColumn() {
 		this.hierarchy = IndentationEnum.LEVEL_3;
 	}
 
