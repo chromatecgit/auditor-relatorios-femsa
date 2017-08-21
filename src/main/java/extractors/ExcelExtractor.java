@@ -25,27 +25,29 @@ public class ExcelExtractor implements ReportTabReadyListener {
 	private ReportDocumentBuilder builder;
 	private String tabName;
 	private String fileName;
+	private OPCPackage pkg;
+	private XSSFReader reader;
+	private SharedStringsTable sst;
+	private XMLReader parser;
 
-	public ExcelExtractor(String fileName) {
+	public ExcelExtractor(String fileName, Path path) {
 		this.builder = new ReportDocumentBuilder();
 		this.builder.addDocumentName(fileName);
 		this.fileName = fileName;
 	}
+	
+	
 
 	public void process(Path path, ProcessStageEnum processStageEnum) {
 		try {
-			OPCPackage pkg = OPCPackage.open(path.toFile());
-			XSSFReader reader = new XSSFReader(pkg);
 			SharedStringsTable sst = reader.getSharedStringsTable();
-			XMLReader parser = 
-					processStageEnum.getLinesToBeRead() == 0 ? 
-							fetchSheetParser(sst, processStageEnum) :
-								fetchSheetParser(sst, processStageEnum, this.builder.getLastVisitedLine());
+			XMLReader parser = this.fetchSheetParser(sst, processStageEnum);
 							
 			this.builder.setNewFlagTo(path.toString().contains("new") ? true : false);
 			
 			WorkbookExtractor we = new WorkbookExtractor();
 			List<TabNamesMap> tabNamesMapList = we.extractSheetNamesFrom(reader.getWorkbookData());
+			
 			for (TabNamesMap tabData : tabNamesMapList) {
 				InputStream sheet = reader.getSheet(tabData.getId());
 				InputSource sheetSource = new InputSource(sheet);
@@ -60,6 +62,10 @@ public class ExcelExtractor implements ReportTabReadyListener {
 		}
 	}
 	
+	public void processWorkbookData() {
+		
+	}
+	
 
 	private XMLReader fetchSheetParser(final SharedStringsTable sst, final ProcessStageEnum processStageEnum) throws SAXException {
 		XMLReader parser = XMLReaderFactory.createXMLReader("org.apache.xerces.parsers.SAXParser");
@@ -67,17 +73,9 @@ public class ExcelExtractor implements ReportTabReadyListener {
 		parser.setContentHandler(handler);
 		return parser;
 	}
-	
-	private XMLReader fetchSheetParser(final SharedStringsTable sst, final ProcessStageEnum processStageEnum, final int lastVisitedLine) throws SAXException {
-		XMLReader parser = XMLReaderFactory.createXMLReader("org.apache.xerces.parsers.SAXParser");
-		ContentHandler handler = new SheetHandler(sst, this, processStageEnum, lastVisitedLine);
-		parser.setContentHandler(handler);
-		return parser;
-	}
 
 	@Override
 	public void onArrivalOf(final ReportTabBuilder tabBuilder) {
-		this.builder.setLastVisitedLine(tabBuilder.getLastLineIndex());
 		this.builder.addReportTab(tabBuilder.build(), tabName);
 	}
 	
