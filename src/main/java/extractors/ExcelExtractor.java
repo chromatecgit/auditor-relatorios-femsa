@@ -39,9 +39,7 @@ public class ExcelExtractor implements ReportTabReadyListener {
 			XSSFReader reader = new XSSFReader(pkg);
 			SharedStringsTable sst = reader.getSharedStringsTable();
 			XMLReader parser = 
-					processStageEnum.getLinesToBeRead() == 0 ? 
-							fetchSheetParser(sst, processStageEnum) :
-								fetchSheetParser(sst, processStageEnum, this.builder.getLastVisitedLine());
+							this.fetchSheetParser(sst, processStageEnum);
 							
 			this.builder.setNewFlagTo(path.toString().contains("new") ? true : false);
 			this.builder.setOrientation(
@@ -66,13 +64,6 @@ public class ExcelExtractor implements ReportTabReadyListener {
 	private XMLReader fetchSheetParser(final SharedStringsTable sst, final ProcessStageEnum processStageEnum) throws SAXException {
 		XMLReader parser = XMLReaderFactory.createXMLReader("org.apache.xerces.parsers.SAXParser");
 		ContentHandler handler = new SheetHandler(sst, this, processStageEnum);
-		parser.setContentHandler(handler);
-		return parser;
-	}
-	
-	private XMLReader fetchSheetParser(final SharedStringsTable sst, final ProcessStageEnum processStageEnum, final int lastVisitedLine) throws SAXException {
-		XMLReader parser = XMLReaderFactory.createXMLReader("org.apache.xerces.parsers.SAXParser");
-		ContentHandler handler = new SheetHandler(sst, this, processStageEnum, lastVisitedLine);
 		parser.setContentHandler(handler);
 		return parser;
 	}
