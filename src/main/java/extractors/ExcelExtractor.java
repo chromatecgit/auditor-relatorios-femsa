@@ -45,7 +45,7 @@ public class ExcelExtractor implements ReportTabReadyListener {
 							
 			this.builder.setNewFlagTo(path.toString().contains("new") ? true : false);
 			this.builder.setOrientation(
-					fileName.contains("_VERT") ? DocumentOrientationEnum.HORIZONTAL.getOrientation() : DocumentOrientationEnum.VERTICAL.getOrientation());
+					fileName.contains("_VERT") ? DocumentOrientationEnum.VERTICAL.getOrientation() : DocumentOrientationEnum.HORIZONTAL.getOrientation());
 			WorkbookExtractor we = new WorkbookExtractor();
 			List<TabNamesMap> tabNamesMapList = we.extractSheetNamesFrom(reader.getWorkbookData());
 			for (TabNamesMap tabData : tabNamesMapList) {

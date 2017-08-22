@@ -1,8 +1,17 @@
 package model;
 
 public class HVPrecoInfos {
+	private String id;
 	private String sku;
 	private String preco;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public String getSku() {
 		return sku;

@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -72,16 +73,54 @@ public class ReportRow implements Indentable {
 		return this.cells.stream().filter(c -> c.getColumnIndex().equals(key)).findFirst().orElse(null);
 	}
 	
-	public HVPrecoInfos parseReportRowPrecoInfos(List<ReportKeyColumn> keyColumns) {
-		
-		keyColumns.stream().map(c -> {
+	public List<HVPrecoInfos> parseReportRowPrecoInfos(List<ReportKeyColumn> keyColumns, boolean excludeZero) {
+		List<HVPrecoInfos> collection = keyColumns.stream().map(c -> {
+			HVPrecoInfos precoInfos = new HVPrecoInfos();
 			if (c.getValue().contains("PRECO")) {
-				HVPrecoInfos precoInfos = new HVPrecoInfos();
 				ReportCell cell = this.findCellByColumn(c.getIndex());
-				precoInfos.setPreco(cell.getValue());
-				precoInfos.setSku(c.getValue());
-				return precoInfos;
+				if (!cell.getValue().equals("0")) {
+					precoInfos.setPreco(cell.getValue());
+					precoInfos.setSku(c.getValue());
+					precoInfos.setId(this.findCellByColumn("A").getValue());
+					return precoInfos;
+				}
+			} else {
+				return null;
 			}
+			return null;
 		}).collect(Collectors.toList());
+		while(collection.remove(null));
+		return collection;
+	}
+	
+	public List<HVPrecoInfos> parseReportRowPrecoInfosVertical(List<ReportKeyColumn> keyColumns, boolean excludeZero) {
+		List<ReportKeyColumn> collected = keyColumns.stream().map(c -> {
+			if (c.getValue().equals("PRODUTO") || c.getValue().equals("PRECO") || c.getValue().equals("CONCAT")) {
+				return c;
+			}
+			return null;
+		}).collect(Collectors.toList());
+		
+		while(collected.remove(null));
+
+		
+		List<HVPrecoInfos> list = new ArrayList<>();
+		HVPrecoInfos infos = new HVPrecoInfos();
+		for (ReportKeyColumn k : collected) {
+			ReportCell cell = this.findCellByColumn(k.getIndex());
+			if (k.getValue().contains("PRODUTO")) {
+				infos.setSku(cell.getValue());
+			}
+			
+			if (k.getValue().contains("PRECO")) {
+				infos.setPreco(cell.getValue());
+			}
+			
+			if (k.getValue().contains("CONCAT")) {
+				infos.setId(cell.getValue());
+			}
+		}
+		list.add(infos);
+		return list;
 	}
 }
