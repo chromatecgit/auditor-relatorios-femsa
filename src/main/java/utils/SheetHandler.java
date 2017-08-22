@@ -1,5 +1,9 @@
 package utils;
 
+import java.math.BigDecimal;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.poi.xssf.model.SharedStringsTable;
 import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 import org.xml.sax.Attributes;
@@ -22,9 +26,8 @@ public class SheetHandler extends DefaultHandler {
 	private ReportTabReadyListener listener;
 	private ReportCell cell;
 	private ProcessStageEnum processStageEnum;
-	private int pagingSize;
-	private int lastVisitedLine;
 	private boolean recordValue;
+	
 
 	public SheetHandler(final SharedStringsTable sst, final ReportTabReadyListener listener, final ProcessStageEnum processStageEnum) {
 		this.sst = sst;
@@ -34,25 +37,15 @@ public class SheetHandler extends DefaultHandler {
 		this.recordValue = true;
 	}
 	
-	public SheetHandler(final SharedStringsTable sst, final ReportTabReadyListener listener, final ProcessStageEnum processStageEnum, final int lastVisitedLine) {
-		this.sst = sst;
-		this.listener = listener;
-		this.cell = new ReportCell();
-		this.processStageEnum = processStageEnum;
-		this.lastVisitedLine = lastVisitedLine;
-		this.recordValue = true;
-	}
 
 	@Override
 	public void startDocument() throws SAXException {
 		builder = new ReportTabBuilder();
-		this.pagingSize = processStageEnum.getLinesToBeRead();
 		System.out.println("Inicio do parse");
 	}
 
 	@Override
 	public void endDocument() throws SAXException {
-		this.builder.setLastLineIndex(lastVisitedLine);
 		this.listener.onArrivalOf(this.builder);
 		this.builder = null;
 		System.out.println("Fim do parse");
@@ -62,10 +55,6 @@ public class SheetHandler extends DefaultHandler {
 		switch (processStageEnum) {
 			case DIMENSIONS :
 				this.getDimensions(name, attributes);
-				break;
-			case PAGING_100 :
-				this.getDimensions(name, attributes);
-				this.getCellAddressWithLimit(name, attributes);
 				break;
 			default :
 				this.getDimensions(name, attributes);
@@ -93,45 +82,17 @@ public class SheetHandler extends DefaultHandler {
 			String cellType = attributes.getValue("t");
 			if (cellType != null && cellType.equals("s")) {
 				nextIsString = true;
-			} else {
-				nextIsString = false;
 			}
 		}
 	}
 	
-	private void getCellAddressWithLimit(String name, Attributes attributes) {
-		if (name.equals("c")) {
-			if (this.builder.getLastLineIndex() <= this.pagingSize && this.checkAddress(attributes.getValue("r"))) {
-				this.recordValue = true;
-				this.cell.setAddress(attributes.getValue("r"));
-			} else {
-				this.recordValue = false;
-			}
-			String cellType = attributes.getValue("t");
-			if (cellType != null && cellType.equals("s")) {
-				nextIsString = true;
-			} else {
-				nextIsString = false;
-			}
-		}
-	}
-	
-	private boolean checkAddress(final String address) {
-		int addressLine = Integer.valueOf(address.replaceAll("\\D+", ""));
-		if (addressLine > lastVisitedLine) {
-			return true;
-		} else {
-			this.lastVisitedLine++;
-			return false;
-		}
-	}
-
 	public void endElement(String uri, String localName, String name) throws SAXException {
 		if (nextIsString) {
 			int idx = Integer.parseInt(lastContents);
 			lastContents = new XSSFRichTextString(sst.getEntryAt(idx)).toString();
 			nextIsString = false;
 		}
+		
 		if (this.recordValue) {
 			this.getCellValue(name);
 		}
@@ -139,6 +100,10 @@ public class SheetHandler extends DefaultHandler {
 	
 	private void getCellValue(String name) {
 		if (name.equals("v")) {
+			if (NumberUtils.isCreatable(lastContents) && lastContents.contains(".")) {
+				BigDecimal t = new BigDecimal(lastContents).setScale(2, BigDecimal.ROUND_HALF_UP);
+				lastContents = t.toString();
+			}
 			this.cell.setValue(lastContents);
 			this.builder.addCell(this.cell);
 			this.cell = new ReportCell();
