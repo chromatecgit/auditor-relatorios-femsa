@@ -14,7 +14,11 @@ import enums.DocumentOrientationEnum;
 import enums.ProcessStageEnum;
 import exceptions.HaltException;
 import model.HVPrecoInfos;
+import model.HVPrecoMap;
+import model.ReportCell;
 import model.ReportDocument;
+import model.ReportKeyColumn;
+import model.ReportRow;
 import model.ReportTab;
 import utils.FileManager;
 import utils.MyLogPrinter;
@@ -54,9 +58,9 @@ public class PrecoModule {
 			}
 		}
 		
-		List<HVPrecoInfos> horizontalMap = this.parseHorizontalToHVMap(hDoc.getTabs());
-		Map<String, List<HVPrecoInfos>> verticalMap = this.parseVerticalToHVMap(vDoc.getTabs());
-		this.compare(verticalMap, horizontalMap);
+		List<HVPrecoMap> horizontalMap = this.parseHorizontalToHVMap(hDoc.getTabs());
+		List<HVPrecoMap> verticalMap = this.parseVerticalToHVMap(vDoc.getTabs());
+		//this.compare(verticalMap, horizontalMap);
 		
 		MyLogPrinter.printBuiltMessage("Diff_PRECOS");
 	}
@@ -64,41 +68,65 @@ public class PrecoModule {
 	private void compare(Map<String, List<HVPrecoInfos>> verticalMap, List<HVPrecoInfos> horizontalMap) {
 		MyLogPrinter.printCollection(horizontalMap, "Horizontal_Map");
 		MyLogPrinter.printObject(verticalMap, "Vertical_Map");
-		for (String vKey : verticalMap.keySet()) {
-			for (HVPrecoInfos hInfos : horizontalMap) {
-				for (HVPrecoInfos vInfos : verticalMap.get(vKey)) {
-					if (hInfos.getId().equals(vInfos.getId())) {
-						if (hInfos.getSku().equals(vInfos.getSku()) && !hInfos.getPreco().equals(vInfos.getPreco())) {
-							MyLogPrinter.addToBuiltMessage("Diferenca de preco para o SKU " + hInfos.getSku() + " com Concat " + hInfos.getId());
-							MyLogPrinter.addToBuiltMessage("Horizontal:" + hInfos.getPreco() + " | Vertical: " + vInfos.getPreco());
-						}
-					}
-				}
-			}
-		}
+
 	}
 
-	private List<HVPrecoInfos> parseHorizontalToHVMap(final List<ReportTab> hTabs) {
-		List<HVPrecoInfos> precoInfos = new ArrayList<>();
+	private List<HVPrecoMap> parseHorizontalToHVMap(final List<ReportTab> hTabs) {
+		List<HVPrecoMap> precoMaps = new ArrayList<>();
 		hTabs.stream().forEach(t -> {
-			t.getRows().stream().forEach(r -> {
-				precoInfos.addAll(r.parseReportRowPrecoInfos(t.getTableColumns(), false));
+			List<ReportKeyColumn> keys = this.filterHorizontalKeyColumns(t.getTableColumns());
+			t.getRows().stream().forEach( r -> {
+				precoMaps.add(r.parseReportRowPrecoInfos(keys, true));
 			});
+			
 		});
 		System.out.println("Parsed Horizontal");
-		return precoInfos;
+		return precoMaps;
 	}
 	
-	private Map<String, List<HVPrecoInfos>> parseVerticalToHVMap(final List<ReportTab> vTabs) {
-		List<HVPrecoInfos> precoInfos = new ArrayList<>();
+	private List<HVPrecoMap> parseVerticalToHVMap(final List<ReportTab> vTabs) {
+		List<HVPrecoMap> precoMaps = new ArrayList<>();
+		List<ReportRow> freeRows = new ArrayList<>();
+		List<ReportKeyColumn> keys = this.filterVerticalKeyColumns(vTabs.iterator().next().getTableColumns());
+		
 		vTabs.stream().forEach(t -> {
-			t.getRows().stream().forEach(r -> {
-				precoInfos.addAll(r.parseReportRowPrecoInfosVertical(t.getTableColumns(), false));
-			});
+			freeRows.addAll(t.breakTab());
+			t = null;
 		});
-		MyLogPrinter.printCollection(precoInfos, "Preco infos");
-		Map<String, List<HVPrecoInfos>> map = precoInfos.stream().collect(Collectors.groupingBy(HVPrecoInfos::getId));
-		return map;
+		
+		Map<String, List<ReportRow>> collect = freeRows.stream().collect(Collectors.groupingBy(ReportRow::getRowID));
+		MyLogPrinter.printObject(collect, "TESTE");
+		return null;
 	}
+	
+	private List<ReportKeyColumn> filterVerticalKeyColumns(List<ReportKeyColumn> tableColumns) {
+		List<ReportKeyColumn> collected = tableColumns.stream().map(c -> {
+			if (c.getValue().equals("PRODUTO") || c.getValue().equals("PRECO")) {
+				return c;
+			}
+			return null;
+		}).collect(Collectors.toList());
+		
+		while(collected.remove(null));
+		
+		return collected;
+	
+	}
+	
+	private List<ReportKeyColumn> filterHorizontalKeyColumns(List<ReportKeyColumn> tableColumns) {
+		List<ReportKeyColumn> collected = tableColumns.stream().map(c -> {
+			if (c.getValue().contains("PRECO")) {
+				return c;
+			}
+			return null;
+		}).collect(Collectors.toList());
+		
+		while(collected.remove(null));
+		
+		return collected;
+	
+	}
+	
+
 	
 }

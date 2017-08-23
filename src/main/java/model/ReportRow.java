@@ -48,7 +48,6 @@ public class ReportRow implements Indentable {
 				}
 			}
 		}
-		
 		return null;
 	}
 	
@@ -70,57 +69,42 @@ public class ReportRow implements Indentable {
 	}
 	
 	public ReportCell findCellByColumn(final String key) {
-		return this.cells.stream().filter(c -> c.getColumnIndex().equals(key)).findFirst().orElse(null);
+		return this.cells.stream().filter(c -> c.getColumnIndex().equals(key)).findFirst().orElse(new ReportCell("-1", "-1"));
 	}
 	
-	public List<HVPrecoInfos> parseReportRowPrecoInfos(List<ReportKeyColumn> keyColumns, boolean excludeZero) {
-		List<HVPrecoInfos> collection = keyColumns.stream().map(c -> {
-			HVPrecoInfos precoInfos = new HVPrecoInfos();
-			if (c.getValue().contains("PRECO")) {
-				ReportCell cell = this.findCellByColumn(c.getIndex());
-				if (!cell.getValue().equals("0")) {
-					precoInfos.setPreco(cell.getValue());
-					precoInfos.setSku(c.getValue());
-					precoInfos.setId(this.findCellByColumn("A").getValue());
-					return precoInfos;
+	public HVPrecoMap parseReportRowPrecoInfos(List<ReportKeyColumn> keyColumns, boolean excludeZero) {
+		ReportCell idCell = this.findCellByColumn("A");
+		
+		HVPrecoMap precoMap = new HVPrecoMap();
+		List<HVPrecoInfos> infosList = new ArrayList<>();
+		precoMap.setId(idCell.getValue());
+		precoMap.setInfos(infosList);
+		for (ReportKeyColumn keyColumn : keyColumns) {
+			ReportCell cell = this.findCellByColumn(keyColumn.getIndex());
+			if (excludeZero) {
+				if (!cell.getValue().equals("0") || !cell.getValue().equals("0.00")) {
+					HVPrecoInfos infos = new HVPrecoInfos();
+					infos.setPreco(cell.getValue());
+					infos.setSku(keyColumn.getValue());
+					precoMap.getInfos().add(infos);
 				}
 			} else {
-				return null;
+				HVPrecoInfos infos = new HVPrecoInfos();
+				infos.setPreco(cell.getValue());
+				infos.setSku(keyColumn.getValue());
+				precoMap.getInfos().add(infos);
 			}
-			return null;
-		}).collect(Collectors.toList());
-		while(collection.remove(null));
-		return collection;
+		}
+		
+		return precoMap;
+	}
+	
+	public String getRowID() {
+		return this.cells.stream().filter( c -> c.getColumnIndex().equals("A")).map( c -> c.getValue()).findFirst().orElse("-1");
 	}
 	
 	public List<HVPrecoInfos> parseReportRowPrecoInfosVertical(List<ReportKeyColumn> keyColumns, boolean excludeZero) {
-		List<ReportKeyColumn> collected = keyColumns.stream().map(c -> {
-			if (c.getValue().equals("PRODUTO") || c.getValue().equals("PRECO") || c.getValue().equals("CONCAT")) {
-				return c;
-			}
-			return null;
-		}).collect(Collectors.toList());
 		
-		while(collected.remove(null));
-
-		
-		List<HVPrecoInfos> list = new ArrayList<>();
-		HVPrecoInfos infos = new HVPrecoInfos();
-		for (ReportKeyColumn k : collected) {
-			ReportCell cell = this.findCellByColumn(k.getIndex());
-			if (k.getValue().contains("PRODUTO")) {
-				infos.setSku(cell.getValue());
-			}
-			
-			if (k.getValue().contains("PRECO")) {
-				infos.setPreco(cell.getValue());
-			}
-			
-			if (k.getValue().contains("CONCAT")) {
-				infos.setId(cell.getValue());
-			}
-		}
-		list.add(infos);
-		return list;
+		return null;
 	}
 }

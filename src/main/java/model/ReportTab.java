@@ -58,12 +58,12 @@ public class ReportTab implements Indentable {
 		return rows.stream().filter(e -> e.getIndex() == 1).findFirst().orElse(null);
 	}
 
-	public ReportColumn getFirstColumn() {
+	public ReportColumn getColumnAt(String index) {
 		ReportColumn column = new ReportColumn();
 		List<ReportCell> columnCells = new ArrayList<>();
 		for (ReportRow row : this.rows) {
 			columnCells.add(
-					row.getCells().stream().filter(c -> c.getAddress().matches("A[0-9]+")).findFirst().orElse(null));
+					row.getCells().stream().filter(c -> c.getAddress().matches(index + "[0-9]+")).findFirst().orElse(null));
 		}
 
 		column.setColumnCells(columnCells);
@@ -76,6 +76,10 @@ public class ReportTab implements Indentable {
 	
 	public ReportKeyColumn getKeyColumnByNameLike(String name) {
 		return this.tableColumns.stream().filter(c -> c.getValue().contains(name)).findFirst().orElse(null);
+	}
+	
+	public List<ReportRow> breakTab() {
+		return this.rows;
 	}
 	
 }
