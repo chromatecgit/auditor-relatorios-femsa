@@ -3,9 +3,13 @@ package main;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import org.apache.poi.util.SystemOutLogger;
 
 import config.GlobBuilder;
 import config.PathBuilder;
@@ -21,6 +25,7 @@ import model.ReportDocument;
 import model.ReportKeyColumn;
 import model.ReportRow;
 import model.ReportTab;
+import utils.CallCounter;
 //CallCounter;
 import utils.FileManager;
 import utils.MyLogPrinter;
@@ -59,9 +64,12 @@ public class PrecoModule {
 				vDoc = d;
 			}
 		}
-		
-		HVPrecoMap horizontalMap = this.parseHorizontalToHVMap(hDoc.getTabs());
-		HVPrecoMap verticalMap = this.parseVerticalToHVMap(vDoc.getTabs());
+		List<ReportTab> hTabs = hDoc.getTabs();
+		hDoc = null;
+		HVPrecoMap horizontalMap = this.parseHorizontalToHVMap(hTabs);
+		List<ReportTab> vTabs = vDoc.getTabs();
+		vDoc = null;
+		HVPrecoMap verticalMap = this.parseVerticalToHVMap(vTabs);
 		//this.compare(verticalMap, horizontalMap);
 		MyLogPrinter.printObject(horizontalMap, "Horizontal_Map");
 		MyLogPrinter.printObject(verticalMap, "Vertical_Map");
@@ -76,16 +84,29 @@ public class PrecoModule {
 	}
 
 	private HVPrecoMap parseHorizontalToHVMap(final List<ReportTab> hTabs) {
+		System.out.println("Executanto [parseHorizontalToHVMap]");
+		CallCounter.start();
 		HVPrecoMap precoMap = new HVPrecoMap();
+		List<ReportKeyColumn> keys = this.filterHorizontalKeyColumns(hTabs.iterator().next().getTableColumns());
 		hTabs.parallelStream().forEach(t -> {
 			//CallCounter.hTabCounter++;
-			List<ReportKeyColumn> keys = this.filterHorizontalKeyColumns(t.getTableColumns());
 			t.getRows().parallelStream().forEach( r -> {
-				//CallCounter.hTabCounter_tgetRows++;
-				precoMap.getEntries().add(r.parseReportRowPrecoInfos(keys, true));
+				HVPrecoEntry entry = new HVPrecoEntry();
+				entry.setId(r.findCellByColumn("A").getValue());
+				for (ReportKeyColumn keyColumn : keys) {
+					//CallCounter.parseReportRowPrecoInfos_keycolumn++;
+					ReportCell cell = r.findCellByColumn(keyColumn.getIndex());
+					if (!cell.getValue().equals("0")) {
+						HVPrecoInfos infos = new HVPrecoInfos();
+						infos.setPreco(cell.getValue());
+						infos.setSku(keyColumn.getValue());
+						entry.getInfos().add(infos);
+					}
+				}
+				precoMap.getEntries().add(entry);
 			});
-			
 		});
+		CallCounter.stop();
 		System.out.println("Parsed Horizontal");
 		return precoMap;
 	}
@@ -105,29 +126,30 @@ public class PrecoModule {
 		// todas as ocorrencias já tiverem sido calculadas. evitando voltas inúteis
 		// Ordenar as coleção por ID e Talvez usar um laço FOR comum e guardar a posição do último item
 		// processado para que o loop comece de lá, para cortar mais voltas inúteis
-		List<String> ids = freeRows.stream().map(r -> r.getRowID()).distinct().collect(Collectors.toList());
-		ids.parallelStream().forEach( id -> {
-			//CallCounter.id_parallel++;
-			HVPrecoEntry entry = new HVPrecoEntry();
-			entry.setId(id);
-			freeRows.parallelStream().forEach( r -> {
-				//CallCounter.freeRows_parallel++;
-				if (r.getRowID().equals(id)) {
-					HVPrecoInfos infos = new HVPrecoInfos();
-					keys.parallelStream().forEach( k -> {
-						//CallCounter.key_parallel++;
-						ReportCell cell = r.findCellByColumn(k.getIndex());
-						if (k.getValue().equals("PRECO")) {
-							infos.setPreco(cell.getValue());
-						} else if (k.getValue().equals("PRODUTO")) {
-							infos.setSku(cell.getValue());	
-						}
-					});
-					entry.getInfos().add(infos);
-				}
-			});
-			precoMap.getEntries().add(entry);
-		});
+		Map<String, Long> ids = freeRows.stream().map(r -> r.getRowID()).collect(Collectors.groupingBy(e -> e, Collectors.counting()));
+		MyLogPrinter.printObject(ids, "Map_Ids");
+//		ids.parallelStream().forEach( id -> {
+//			//CallCounter.id_parallel++;
+//			HVPrecoEntry entry = new HVPrecoEntry();
+//			entry.setId(id);
+//			freeRows.parallelStream().forEach( r -> {
+//				//CallCounter.freeRows_parallel++;
+//				if (r.getRowID().equals(id)) {
+//					HVPrecoInfos infos = new HVPrecoInfos();
+//					keys.parallelStream().forEach( k -> {
+//						//CallCounter.key_parallel++;
+//						ReportCell cell = r.findCellByColumn(k.getIndex());
+//						if (k.getValue().equals("PRECO")) {
+//							infos.setPreco(cell.getValue());
+//						} else if (k.getValue().equals("PRODUTO")) {
+//							infos.setSku(cell.getValue());	
+//						}
+//					});
+//					entry.getInfos().add(infos);
+//				}
+//			});
+//			precoMap.getEntries().add(entry);
+//		});
 		
 		return precoMap;
 	}

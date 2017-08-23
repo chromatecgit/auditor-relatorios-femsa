@@ -72,32 +72,6 @@ public class ReportRow implements Indentable {
 		return this.cells.stream().filter(c -> c.getColumnIndex().equals(key)).findFirst().orElse(new ReportCell("-1", "-1"));
 	}
 	
-	public HVPrecoEntry parseReportRowPrecoInfos(List<ReportKeyColumn> keyColumns, boolean excludeZero) {
-		ReportCell idCell = this.findCellByColumn("A");
-		//CallCounter.parseReportRowPrecoInfos++;
-		HVPrecoEntry entry = new HVPrecoEntry();
-		entry.setId(idCell.getValue());
-		for (ReportKeyColumn keyColumn : keyColumns) {
-			//CallCounter.parseReportRowPrecoInfos_keycolumn++;
-			ReportCell cell = this.findCellByColumn(keyColumn.getIndex());
-			if (excludeZero) {
-				if (!cell.getValue().equals("0")) {
-					HVPrecoInfos infos = new HVPrecoInfos();
-					infos.setPreco(cell.getValue());
-					infos.setSku(keyColumn.getValue());
-					entry.getInfos().add(infos);
-				}
-			} else {
-				HVPrecoInfos infos = new HVPrecoInfos();
-				infos.setPreco(cell.getValue());
-				infos.setSku(keyColumn.getValue());
-				entry.getInfos().add(infos);
-			}
-		}
-		
-		return entry;
-	}
-	
 	public String getRowID() {
 		return this.cells.stream().filter( c -> c.getColumnIndex().equals("A")).map( c -> c.getValue()).findFirst().orElse("-1");
 	}
