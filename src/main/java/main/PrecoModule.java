@@ -21,7 +21,7 @@ import model.ReportDocument;
 import model.ReportKeyColumn;
 import model.ReportRow;
 import model.ReportTab;
-import utils.//CallCounter;
+//CallCounter;
 import utils.FileManager;
 import utils.MyLogPrinter;
 
@@ -99,7 +99,12 @@ public class PrecoModule {
 			freeRows.addAll(t.breakTab());
 			t = null;
 		});
-		
+		//TODO: Fazer um counter antes de selecionar os IDS distintos:
+		// Ver quantas vezes os ids aparecem na coleção e ordená-la por ordem alfanumérica
+		// Depois colocar isso num Map <id, quantidade> para interromper o loop principal quando
+		// todas as ocorrencias já tiverem sido calculadas. evitando voltas inúteis
+		// Ordenar as coleção por ID e Talvez usar um laço FOR comum e guardar a posição do último item
+		// processado para que o loop comece de lá, para cortar mais voltas inúteis
 		List<String> ids = freeRows.stream().map(r -> r.getRowID()).distinct().collect(Collectors.toList());
 		ids.parallelStream().forEach( id -> {
 			//CallCounter.id_parallel++;
@@ -112,9 +117,9 @@ public class PrecoModule {
 					keys.parallelStream().forEach( k -> {
 						//CallCounter.key_parallel++;
 						ReportCell cell = r.findCellByColumn(k.getIndex());
-						if (k.getValue().contains("PRECO")) {
+						if (k.getValue().equals("PRECO")) {
 							infos.setPreco(cell.getValue());
-						} else if (k.getValue().contains("PRODUTO")) {
+						} else if (k.getValue().equals("PRODUTO")) {
 							infos.setSku(cell.getValue());	
 						}
 					});

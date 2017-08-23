@@ -74,11 +74,11 @@ public class ReportRow implements Indentable {
 	
 	public HVPrecoEntry parseReportRowPrecoInfos(List<ReportKeyColumn> keyColumns, boolean excludeZero) {
 		ReportCell idCell = this.findCellByColumn("A");
-		CallCounter.parseReportRowPrecoInfos++;
+		//CallCounter.parseReportRowPrecoInfos++;
 		HVPrecoEntry entry = new HVPrecoEntry();
 		entry.setId(idCell.getValue());
 		for (ReportKeyColumn keyColumn : keyColumns) {
-			CallCounter.parseReportRowPrecoInfos_keycolumn++;
+			//CallCounter.parseReportRowPrecoInfos_keycolumn++;
 			ReportCell cell = this.findCellByColumn(keyColumn.getIndex());
 			if (excludeZero) {
 				if (!cell.getValue().equals("0")) {
