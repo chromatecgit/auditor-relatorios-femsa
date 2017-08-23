@@ -1,16 +1,16 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import enums.IndentationEnum;
 import exceptions.WarningException;
 import interfaces.Indentable;
+import utils.CallCounter;
 
 public class ReportRow implements Indentable {
 	private int index;
 	private List<ReportCell> cells;
+	
 
 	public int getIndex() {
 		return index;
@@ -74,10 +74,11 @@ public class ReportRow implements Indentable {
 	
 	public HVPrecoEntry parseReportRowPrecoInfos(List<ReportKeyColumn> keyColumns, boolean excludeZero) {
 		ReportCell idCell = this.findCellByColumn("A");
-		
+		CallCounter.parseReportRowPrecoInfos++;
 		HVPrecoEntry entry = new HVPrecoEntry();
 		entry.setId(idCell.getValue());
 		for (ReportKeyColumn keyColumn : keyColumns) {
+			CallCounter.parseReportRowPrecoInfos_keycolumn++;
 			ReportCell cell = this.findCellByColumn(keyColumn.getIndex());
 			if (excludeZero) {
 				if (!cell.getValue().equals("0")) {
@@ -99,10 +100,5 @@ public class ReportRow implements Indentable {
 	
 	public String getRowID() {
 		return this.cells.stream().filter( c -> c.getColumnIndex().equals("A")).map( c -> c.getValue()).findFirst().orElse("-1");
-	}
-	
-	public HVPrecoMap parseReportRowPrecoInfosVertical(List<ReportKeyColumn> keyColumns, boolean excludeZero) {
-		
-		return null;
 	}
 }

@@ -5,7 +5,7 @@ import java.util.List;
 
 public class HVPrecoMap {
 	private List<HVPrecoEntry> entries;
-	
+
 	public HVPrecoMap() {
 		this.entries = new ArrayList<>();
 	}
@@ -18,4 +18,15 @@ public class HVPrecoMap {
 		this.entries = entries;
 	}
 
+	public HVPrecoMap(List<HVPrecoEntry> entries) {
+		super();
+		this.entries = entries;
+	}
+
+	@Override
+	public String toString() {
+		return "HVPrecoMap [entries=" + entries + "]";
+	}
+	
+	
 }

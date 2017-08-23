@@ -13,6 +13,7 @@ import config.ProjectConfiguration;
 import enums.DocumentOrientationEnum;
 import enums.ProcessStageEnum;
 import exceptions.HaltException;
+import model.HVPrecoEntry;
 import model.HVPrecoInfos;
 import model.HVPrecoMap;
 import model.ReportCell;
@@ -20,13 +21,14 @@ import model.ReportDocument;
 import model.ReportKeyColumn;
 import model.ReportRow;
 import model.ReportTab;
+import utils.//CallCounter;
 import utils.FileManager;
 import utils.MyLogPrinter;
 
 public class PrecoModule {
 
 	private String[] fileNames;
-
+	
 	public PrecoModule(final String[] fileNames) {
 		this.fileNames = fileNames;
 	}
@@ -61,8 +63,11 @@ public class PrecoModule {
 		HVPrecoMap horizontalMap = this.parseHorizontalToHVMap(hDoc.getTabs());
 		HVPrecoMap verticalMap = this.parseVerticalToHVMap(vDoc.getTabs());
 		//this.compare(verticalMap, horizontalMap);
+		MyLogPrinter.printObject(horizontalMap, "Horizontal_Map");
+		MyLogPrinter.printObject(verticalMap, "Vertical_Map");
 		
-		MyLogPrinter.printBuiltMessage("Diff_PRECOS");
+		//CallCounter.printResults();
+		//MyLogPrinter.printBuiltMessage("Diff_PRECOS");
 	}
 	
 	private void compare(Map<String, List<HVPrecoInfos>> verticalMap, List<HVPrecoInfos> horizontalMap) {
@@ -73,8 +78,10 @@ public class PrecoModule {
 	private HVPrecoMap parseHorizontalToHVMap(final List<ReportTab> hTabs) {
 		HVPrecoMap precoMap = new HVPrecoMap();
 		hTabs.parallelStream().forEach(t -> {
+			//CallCounter.hTabCounter++;
 			List<ReportKeyColumn> keys = this.filterHorizontalKeyColumns(t.getTableColumns());
 			t.getRows().parallelStream().forEach( r -> {
+				//CallCounter.hTabCounter_tgetRows++;
 				precoMap.getEntries().add(r.parseReportRowPrecoInfos(keys, true));
 			});
 			
@@ -93,11 +100,31 @@ public class PrecoModule {
 			t = null;
 		});
 		
-		freeRows.stream().map( r -> {
-			r.parseReportRowPrecoInfosVertical(keys, false);
+		List<String> ids = freeRows.stream().map(r -> r.getRowID()).distinct().collect(Collectors.toList());
+		ids.parallelStream().forEach( id -> {
+			//CallCounter.id_parallel++;
+			HVPrecoEntry entry = new HVPrecoEntry();
+			entry.setId(id);
+			freeRows.parallelStream().forEach( r -> {
+				//CallCounter.freeRows_parallel++;
+				if (r.getRowID().equals(id)) {
+					HVPrecoInfos infos = new HVPrecoInfos();
+					keys.parallelStream().forEach( k -> {
+						//CallCounter.key_parallel++;
+						ReportCell cell = r.findCellByColumn(k.getIndex());
+						if (k.getValue().contains("PRECO")) {
+							infos.setPreco(cell.getValue());
+						} else if (k.getValue().contains("PRODUTO")) {
+							infos.setSku(cell.getValue());	
+						}
+					});
+					entry.getInfos().add(infos);
+				}
+			});
+			precoMap.getEntries().add(entry);
 		});
 		
-		return null;
+		return precoMap;
 	}
 	
 	private List<ReportKeyColumn> filterVerticalKeyColumns(List<ReportKeyColumn> tableColumns) {
