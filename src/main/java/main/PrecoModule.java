@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import org.apache.poi.util.SystemOutLogger;
@@ -66,15 +67,15 @@ public class PrecoModule {
 		}
 		List<ReportTab> hTabs = hDoc.getTabs();
 		hDoc = null;
-		HVPrecoMap horizontalMap = this.parseHorizontalToHVMap(hTabs);
+		//HVPrecoMap horizontalMap = this.parseHorizontalToHVMap(hTabs);
 		List<ReportTab> vTabs = vDoc.getTabs();
 		vDoc = null;
 		HVPrecoMap verticalMap = this.parseVerticalToHVMap(vTabs);
 		//this.compare(verticalMap, horizontalMap);
-		MyLogPrinter.printObject(horizontalMap, "Horizontal_Map");
+		//MyLogPrinter.printObject(horizontalMap, "Horizontal_Map");
 		MyLogPrinter.printObject(verticalMap, "Vertical_Map");
 		
-		//CallCounter.printResults();
+		CallCounter.printResults();
 		//MyLogPrinter.printBuiltMessage("Diff_PRECOS");
 	}
 	
@@ -112,6 +113,8 @@ public class PrecoModule {
 	}
 	
 	private HVPrecoMap parseVerticalToHVMap(final List<ReportTab> vTabs) {
+		System.out.println("Executanto [parseVerticalToHVMap]");
+		CallCounter.start();
 		HVPrecoMap precoMap = new HVPrecoMap();
 		List<ReportRow> freeRows = new ArrayList<>();
 		List<ReportKeyColumn> keys = this.filterVerticalKeyColumns(vTabs.iterator().next().getTableColumns());
@@ -120,37 +123,37 @@ public class PrecoModule {
 			freeRows.addAll(t.breakTab());
 			t = null;
 		});
-		//TODO: Fazer um counter antes de selecionar os IDS distintos:
-		// Ver quantas vezes os ids aparecem na coleção e ordená-la por ordem alfanumérica
-		// Depois colocar isso num Map <id, quantidade> para interromper o loop principal quando
-		// todas as ocorrencias já tiverem sido calculadas. evitando voltas inúteis
-		// Ordenar as coleção por ID e Talvez usar um laço FOR comum e guardar a posição do último item
-		// processado para que o loop comece de lá, para cortar mais voltas inúteis
-		Map<String, Long> ids = freeRows.stream().map(r -> r.getRowID()).collect(Collectors.groupingBy(e -> e, Collectors.counting()));
-		MyLogPrinter.printObject(ids, "Map_Ids");
-//		ids.parallelStream().forEach( id -> {
-//			//CallCounter.id_parallel++;
-//			HVPrecoEntry entry = new HVPrecoEntry();
-//			entry.setId(id);
-//			freeRows.parallelStream().forEach( r -> {
-//				//CallCounter.freeRows_parallel++;
-//				if (r.getRowID().equals(id)) {
-//					HVPrecoInfos infos = new HVPrecoInfos();
-//					keys.parallelStream().forEach( k -> {
-//						//CallCounter.key_parallel++;
-//						ReportCell cell = r.findCellByColumn(k.getIndex());
-//						if (k.getValue().equals("PRECO")) {
-//							infos.setPreco(cell.getValue());
-//						} else if (k.getValue().equals("PRODUTO")) {
-//							infos.setSku(cell.getValue());	
-//						}
-//					});
-//					entry.getInfos().add(infos);
-//				}
-//			});
-//			precoMap.getEntries().add(entry);
-//		});
 		
+		Map<String, Long> ids = freeRows.stream().map( fr -> fr.getRowID() ).collect(Collectors.groupingBy(e -> e, Collectors.counting()));
+		TreeMap<String, Long> orderedIds = new TreeMap<>(ids);
+		//MyLogPrinter.printObject(orderedIds, "Map_Ids");
+		
+		orderedIds.keySet().parallelStream().forEach( id -> {
+			//CallCounter.id_parallel++;
+			HVPrecoEntry entry = new HVPrecoEntry();
+			entry.setId(id);
+			long counter = orderedIds.get(id);
+			for (ReportRow row : freeRows) {
+				if (counter == 0) {
+					break;
+				} else if (row.getRowID().equals(id)) {
+					counter--;
+					HVPrecoInfos infos = new HVPrecoInfos();
+					keys.parallelStream().forEach( k -> {
+						CallCounter.key_parallel++;
+						ReportCell cell = row.findCellByColumn(k.getIndex());
+						if (k.getValue().equals("PRECO")) {
+							infos.setPreco(cell.getValue());
+						} else if (k.getValue().equals("PRODUTO")) {
+							infos.setSku(cell.getValue());	
+						}
+					});
+					entry.getInfos().add(infos);
+				}
+			}
+			precoMap.getEntries().add(entry);
+		});
+		CallCounter.stop();
 		return precoMap;
 	}
 	
