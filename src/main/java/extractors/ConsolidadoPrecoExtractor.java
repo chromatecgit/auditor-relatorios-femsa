@@ -248,8 +248,8 @@ public class ConsolidadoPrecoExtractor {
 				}
 			}
 		}
-		System.out.println("HMAP:" + horizontalMap);
-		System.out.println("VMAP:" + consolidatedVertical);
+//		System.out.println("HMAP:" + horizontalMap);
+//		System.out.println("VMAP:" + consolidatedVertical);
 		System.out.println("DIFFMAPS: " + diffMaps);
 		return diffMaps.isEmpty() ? true : false;
 	}
