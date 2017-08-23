@@ -1,30 +1,21 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HVPrecoMap {
-	private String id;
-	private List<HVPrecoInfos> infos;
-
-	public String getId() {
-		return id;
+	private List<HVPrecoEntry> entries;
+	
+	public HVPrecoMap() {
+		this.entries = new ArrayList<>();
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public List<HVPrecoEntry> getEntries() {
+		return entries;
 	}
 
-	public List<HVPrecoInfos> getInfos() {
-		return infos;
-	}
-
-	public void setInfos(List<HVPrecoInfos> infos) {
-		this.infos = infos;
-	}
-
-	@Override
-	public String toString() {
-		return "HVPrecoMap [id=" + id + ", infos=" + infos + "]";
+	public void setEntries(List<HVPrecoEntry> entries) {
+		this.entries = entries;
 	}
 
 }

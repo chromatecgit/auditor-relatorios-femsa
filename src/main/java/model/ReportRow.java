@@ -72,38 +72,36 @@ public class ReportRow implements Indentable {
 		return this.cells.stream().filter(c -> c.getColumnIndex().equals(key)).findFirst().orElse(new ReportCell("-1", "-1"));
 	}
 	
-	public HVPrecoMap parseReportRowPrecoInfos(List<ReportKeyColumn> keyColumns, boolean excludeZero) {
+	public HVPrecoEntry parseReportRowPrecoInfos(List<ReportKeyColumn> keyColumns, boolean excludeZero) {
 		ReportCell idCell = this.findCellByColumn("A");
 		
-		HVPrecoMap precoMap = new HVPrecoMap();
-		List<HVPrecoInfos> infosList = new ArrayList<>();
-		precoMap.setId(idCell.getValue());
-		precoMap.setInfos(infosList);
+		HVPrecoEntry entry = new HVPrecoEntry();
+		entry.setId(idCell.getValue());
 		for (ReportKeyColumn keyColumn : keyColumns) {
 			ReportCell cell = this.findCellByColumn(keyColumn.getIndex());
 			if (excludeZero) {
-				if (!cell.getValue().equals("0") || !cell.getValue().equals("0.00")) {
+				if (!cell.getValue().equals("0")) {
 					HVPrecoInfos infos = new HVPrecoInfos();
 					infos.setPreco(cell.getValue());
 					infos.setSku(keyColumn.getValue());
-					precoMap.getInfos().add(infos);
+					entry.getInfos().add(infos);
 				}
 			} else {
 				HVPrecoInfos infos = new HVPrecoInfos();
 				infos.setPreco(cell.getValue());
 				infos.setSku(keyColumn.getValue());
-				precoMap.getInfos().add(infos);
+				entry.getInfos().add(infos);
 			}
 		}
 		
-		return precoMap;
+		return entry;
 	}
 	
 	public String getRowID() {
 		return this.cells.stream().filter( c -> c.getColumnIndex().equals("A")).map( c -> c.getValue()).findFirst().orElse("-1");
 	}
 	
-	public List<HVPrecoInfos> parseReportRowPrecoInfosVertical(List<ReportKeyColumn> keyColumns, boolean excludeZero) {
+	public HVPrecoMap parseReportRowPrecoInfosVertical(List<ReportKeyColumn> keyColumns, boolean excludeZero) {
 		
 		return null;
 	}

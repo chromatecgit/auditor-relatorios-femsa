@@ -58,8 +58,8 @@ public class PrecoModule {
 			}
 		}
 		
-		List<HVPrecoMap> horizontalMap = this.parseHorizontalToHVMap(hDoc.getTabs());
-		List<HVPrecoMap> verticalMap = this.parseVerticalToHVMap(vDoc.getTabs());
+		HVPrecoMap horizontalMap = this.parseHorizontalToHVMap(hDoc.getTabs());
+		HVPrecoMap verticalMap = this.parseVerticalToHVMap(vDoc.getTabs());
 		//this.compare(verticalMap, horizontalMap);
 		
 		MyLogPrinter.printBuiltMessage("Diff_PRECOS");
@@ -68,24 +68,23 @@ public class PrecoModule {
 	private void compare(Map<String, List<HVPrecoInfos>> verticalMap, List<HVPrecoInfos> horizontalMap) {
 		MyLogPrinter.printCollection(horizontalMap, "Horizontal_Map");
 		MyLogPrinter.printObject(verticalMap, "Vertical_Map");
-
 	}
 
-	private List<HVPrecoMap> parseHorizontalToHVMap(final List<ReportTab> hTabs) {
-		List<HVPrecoMap> precoMaps = new ArrayList<>();
-		hTabs.stream().forEach(t -> {
+	private HVPrecoMap parseHorizontalToHVMap(final List<ReportTab> hTabs) {
+		HVPrecoMap precoMap = new HVPrecoMap();
+		hTabs.parallelStream().forEach(t -> {
 			List<ReportKeyColumn> keys = this.filterHorizontalKeyColumns(t.getTableColumns());
-			t.getRows().stream().forEach( r -> {
-				precoMaps.add(r.parseReportRowPrecoInfos(keys, true));
+			t.getRows().parallelStream().forEach( r -> {
+				precoMap.getEntries().add(r.parseReportRowPrecoInfos(keys, true));
 			});
 			
 		});
 		System.out.println("Parsed Horizontal");
-		return precoMaps;
+		return precoMap;
 	}
 	
-	private List<HVPrecoMap> parseVerticalToHVMap(final List<ReportTab> vTabs) {
-		List<HVPrecoMap> precoMaps = new ArrayList<>();
+	private HVPrecoMap parseVerticalToHVMap(final List<ReportTab> vTabs) {
+		HVPrecoMap precoMap = new HVPrecoMap();
 		List<ReportRow> freeRows = new ArrayList<>();
 		List<ReportKeyColumn> keys = this.filterVerticalKeyColumns(vTabs.iterator().next().getTableColumns());
 		
@@ -94,8 +93,10 @@ public class PrecoModule {
 			t = null;
 		});
 		
-		Map<String, List<ReportRow>> collect = freeRows.stream().collect(Collectors.groupingBy(ReportRow::getRowID));
-		MyLogPrinter.printObject(collect, "TESTE");
+		freeRows.stream().map( r -> {
+			r.parseReportRowPrecoInfosVertical(keys, false);
+		});
+		
 		return null;
 	}
 	
