@@ -33,19 +33,12 @@ public class ExcelExtractor implements ReportTabReadyListener {
 		this.fileName = fileName;
 	}
 
-	public void process(Path path, ProcessStageEnum processStageEnum) {
+	public void process(XSSFReader reader, ProcessStageEnum processStageEnum) {
 		try {
-			OPCPackage pkg = OPCPackage.open(path.toFile());
-			XSSFReader reader = new XSSFReader(pkg);
+			
 			SharedStringsTable sst = reader.getSharedStringsTable();
-			XMLReader parser = 
-							this.fetchSheetParser(sst, processStageEnum);
+			XMLReader parser = this.fetchSheetParser(sst, processStageEnum);
 							
-			this.builder.setNewFlagTo(path.toString().contains("new") ? true : false);
-			this.builder.setOrientation(
-					fileName.contains("_VERT") ? DocumentOrientationEnum.VERTICAL.getOrientation() : DocumentOrientationEnum.HORIZONTAL.getOrientation());
-			WorkbookExtractor we = new WorkbookExtractor();
-			List<TabNamesMap> tabNamesMapList = we.extractSheetNamesFrom(reader.getWorkbookData());
 			for (TabNamesMap tabData : tabNamesMapList) {
 				InputStream sheet = reader.getSheet(tabData.getId());
 				InputSource sheetSource = new InputSource(sheet);

@@ -3,14 +3,10 @@ package main;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
-
-import org.apache.poi.util.SystemOutLogger;
 
 import config.GlobBuilder;
 import config.PathBuilder;
@@ -21,6 +17,7 @@ import exceptions.HaltException;
 import model.HVPrecoEntry;
 import model.HVPrecoInfos;
 import model.HVPrecoMap;
+import model.PathBuilderMapValue;
 import model.ReportCell;
 import model.ReportDocument;
 import model.ReportKeyColumn;
@@ -44,8 +41,8 @@ public class PrecoModule {
 
 		pathBuilder.buildFilePaths(GlobBuilder.buildGlobPatternWith(Arrays.asList(fileNames)),
 				new Path[] { ProjectConfiguration.newFilesPath });
-
-		List<ReportDocument> documents = FileManager.fetchDocumentBy(pathBuilder.getPathMaps(), ProcessStageEnum.FULL);
+		
+		FileManager.fetchDocumentsBy(pathBuilder.getPathMaps(), ProcessStageEnum.FULL);
 		
 		try {
 			this.applyBusinessRule(documents, false);
