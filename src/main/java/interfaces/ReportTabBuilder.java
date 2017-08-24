@@ -6,7 +6,7 @@ import model.ReportTab;
 public interface ReportTabBuilder {
 	public ReportTab build();
 
-	public void addCell(final ReportCell cell);
+	public void addCell(ReportCell cell);
 
 	public void addAndReset();
 

@@ -11,11 +11,11 @@ public class ReportDocumentBuilder {
 
 	public ReportDocumentBuilder() {
 		this.document = new ReportDocument();
-		this.document.setTabs(new ArrayList<ReportTab>());
+		//this.document.setTabs(new ArrayList<ReportTab>());
 	}
 	
 	public void setNewFlagTo(boolean isNew) {
-		this.document.setNew(isNew);
+		//this.document.setNew(isNew);
 	}
 
 	public void addDocumentName(final String name) {
@@ -26,13 +26,9 @@ public class ReportDocumentBuilder {
 		ReportTab newTab = new ReportTab();
 		newTab = tab;
 		newTab.setName(tabName);
-		this.document.getTabs().add(newTab);
+		//this.document.getTabs().add(newTab);
 	}
 	
-	public void setOrientation(String orientation) {
-		this.document.setOrientation(orientation);
-	}
-
 	public ReportDocument build() {
 		return this.document;
 	}

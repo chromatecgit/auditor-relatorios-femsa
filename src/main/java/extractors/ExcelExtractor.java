@@ -1,24 +1,16 @@
 package extractors;
 
-import java.io.InputStream;
-import java.nio.file.Path;
-import java.util.List;
-
-import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.eventusermodel.XSSFReader;
 import org.apache.poi.xssf.model.SharedStringsTable;
 import org.xml.sax.ContentHandler;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
-import enums.DocumentOrientationEnum;
 import enums.ProcessStageEnum;
+import interfaces.ReportTabBuilder;
 import listener.ReportTabReadyListener;
-import model.TabNamesMap;
 import utils.ReportDocumentBuilder;
-import utils.ReportTabBuilder;
 import utils.SheetHandler;
 
 public class ExcelExtractor implements ReportTabReadyListener {
@@ -39,15 +31,15 @@ public class ExcelExtractor implements ReportTabReadyListener {
 			SharedStringsTable sst = reader.getSharedStringsTable();
 			XMLReader parser = this.fetchSheetParser(sst, processStageEnum);
 							
-			for (TabNamesMap tabData : tabNamesMapList) {
-				InputStream sheet = reader.getSheet(tabData.getId());
-				InputSource sheetSource = new InputSource(sheet);
-				tabName = tabData.getName();
-				System.out.println("FILE_NAME: " + fileName);
-				System.out.println("TAB_NAME: " + tabName);
-				parser.parse(sheetSource);
-				sheet.close();
-			}
+//			for (TabNamesMap tabData : tabNamesMapList) {
+//				InputStream sheet = reader.getSheet(tabData.getId());
+//				InputSource sheetSource = new InputSource(sheet);
+//				tabName = tabData.getName();
+//				System.out.println("FILE_NAME: " + fileName);
+//				System.out.println("TAB_NAME: " + tabName);
+//				parser.parse(sheetSource);
+//				sheet.close();
+//			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -63,7 +55,6 @@ public class ExcelExtractor implements ReportTabReadyListener {
 
 	@Override
 	public void onArrivalOf(final ReportTabBuilder tabBuilder) {
-		this.builder.setLastVisitedLine(tabBuilder.getLastLineIndex());
 		this.builder.addReportTab(tabBuilder.build(), tabName);
 	}
 	

@@ -18,16 +18,18 @@ public class FileManager {
 	public static ReportDocument fetchDocumentsBy(Map<String, PathBuilderMapValue> paths, ProcessStageEnum processStage) {
 		
 		for (String key : paths.keySet()) {
-			
-			PathBuilderMapValue pbmv = paths.get(key);
-			OPCPackage pkg = OPCPackage.open(pbmv.getPath().toFile());
-			XSSFReader reader = new XSSFReader(pkg);
-			WorkbookExtractor we = new WorkbookExtractor();
-			List<TabNamesMap> tabNamesMapList = we.extractSheetNamesFrom(reader.getWorkbookData());
-			
-			if (pbmv.isVertical()) {
-				ExcelExtractor e = new ExcelExtractor();
-				
+			try {
+				PathBuilderMapValue pbmv = paths.get(key);
+				OPCPackage pkg = OPCPackage.open(pbmv.getPath().toFile());
+				XSSFReader reader = new XSSFReader(pkg);
+				WorkbookExtractor we = new WorkbookExtractor();
+				List<TabNamesMap> tabNamesMapList = we.extractSheetNamesFrom(reader.getWorkbookData());
+				if (pbmv.isVertical()) {
+					
+					//ExcelExtractor e = new ExcelExtractor();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 			
 		}

@@ -17,6 +17,16 @@ public class ReportCell implements Indentable {
 		this.value = value;
 	}
 
+	public String getColumnIndex() {
+		String s = address;
+		return s.replaceAll("\\d", "");
+	}
+
+	public int getLineIndex() {
+		String s = address;
+		return Integer.parseInt(s.replaceAll("\\D", ""));
+	}
+
 	public String getAddress() {
 		return address;
 	}
