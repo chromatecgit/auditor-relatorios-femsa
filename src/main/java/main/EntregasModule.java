@@ -17,8 +17,8 @@ import exceptions.HaltException;
 import exceptions.WarningException;
 import model.ReportCell;
 import model.ReportDocument;
-import model.ReportKeyColumns;
-import model.ReportKeyColumnsSyncObj;
+import model.ReportKeyColumn;
+import model.ReportKeyColumnSyncObj;
 import model.ReportRow;
 import model.ReportTab;
 import utils.EntregasMapHelper;
@@ -101,7 +101,7 @@ public class EntregasModule {
 //				System.out.println(
 //						"Comparando linha do velho [" + oldRow.getIndex() + "], com o novo [" + row.getIndex() + "]");
 				
-				List<ReportKeyColumnsSyncObj> synchronizedColumnKeys = this.synchronizeColumns(oldTab.getTableColumns(), newTab.getTableColumns());
+				List<ReportKeyColumnSyncObj> synchronizedColumnKeys = this.synchronizeColumns(oldTab.getTableColumns(), newTab.getTableColumns());
 				
 				this.compareRows(oldRow, row, synchronizedColumnKeys);
 
@@ -112,18 +112,18 @@ public class EntregasModule {
 
 	}
 
-	private List<ReportKeyColumnsSyncObj> synchronizeColumns(List<ReportKeyColumns> oldTableColumns, List<ReportKeyColumns> newTableColumns) throws WarningException {
+	private List<ReportKeyColumnSyncObj> synchronizeColumns(List<ReportKeyColumn> oldTableColumns, List<ReportKeyColumn> newTableColumns) throws WarningException {
 		return oldTableColumns.stream().map(ok -> {
-			ReportKeyColumns keyFound = newTableColumns.stream().filter(nk -> nk.getValue().equals(ok.getValue())).findFirst().orElse(null);
+			ReportKeyColumn keyFound = newTableColumns.stream().filter(nk -> nk.getValue().equals(ok.getValue())).findFirst().orElse(null);
 			if (keyFound != null) {
-				return new ReportKeyColumnsSyncObj(ok.getIndex(), keyFound.getIndex());
+				return new ReportKeyColumnSyncObj(ok.getIndex(), keyFound.getIndex());
 			} else {
 				throw new WarningException("Nao foi encontrado registro [" + ok.getIndex() + "," + ok.getValue() + "] na entrega nova");
 			}
 		}).collect(Collectors.toList());
 	}
 
-	private void compareRows(ReportRow oldRow, ReportRow row, List<ReportKeyColumnsSyncObj> synchronizedColumnKeys) throws WarningException {
+	private void compareRows(ReportRow oldRow, ReportRow row, List<ReportKeyColumnSyncObj> synchronizedColumnKeys) throws WarningException {
 		synchronizedColumnKeys.stream().forEach(k -> {
 			ReportCell oldCell = oldRow.findCellByColumn(k.getOldKey());
 			ReportCell newCell = row.findCellByColumn(k.getNewKey());

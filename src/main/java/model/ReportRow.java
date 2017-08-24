@@ -2,13 +2,17 @@ package model;
 
 import java.util.List;
 
+import org.apache.poi.xssf.model.CalculationChain;
+
 import enums.IndentationEnum;
 import exceptions.WarningException;
 import interfaces.Indentable;
+import utils.CallCounter;
 
 public class ReportRow implements Indentable {
 	private int index;
 	private List<ReportCell> cells;
+	
 
 	public int getIndex() {
 		return index;
@@ -46,7 +50,6 @@ public class ReportRow implements Indentable {
 				}
 			}
 		}
-		
 		return null;
 	}
 	
@@ -68,7 +71,11 @@ public class ReportRow implements Indentable {
 	}
 	
 	public ReportCell findCellByColumn(final String key) {
-		return this.cells.stream().filter(c -> c.getColumnIndex().equals(key)).findFirst().orElse(null);
+		CallCounter.startPartial();
+		return this.cells.stream().filter(c -> c.getColumnIndex().equals(key)).findFirst().orElse(new ReportCell("-1", "-1"));
 	}
 	
+	public String getRowID() {
+		return this.cells.stream().filter( c -> c.getColumnIndex().equals("A")).map( c -> c.getValue()).findFirst().orElse("-1");
+	}
 }

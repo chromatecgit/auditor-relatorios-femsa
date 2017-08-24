@@ -28,6 +28,10 @@ public class ReportDocumentBuilder {
 		newTab.setName(tabName);
 		this.document.getTabs().add(newTab);
 	}
+	
+	public void setOrientation(String orientation) {
+		this.document.setOrientation(orientation);
+	}
 
 	public ReportDocument build() {
 		return this.document;

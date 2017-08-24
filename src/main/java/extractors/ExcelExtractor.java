@@ -13,6 +13,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
+import enums.DocumentOrientationEnum;
 import enums.ProcessStageEnum;
 import listener.ReportTabReadyListener;
 import model.TabNamesMap;
@@ -25,29 +26,26 @@ public class ExcelExtractor implements ReportTabReadyListener {
 	private ReportDocumentBuilder builder;
 	private String tabName;
 	private String fileName;
-	private OPCPackage pkg;
-	private XSSFReader reader;
-	private SharedStringsTable sst;
-	private XMLReader parser;
 
-	public ExcelExtractor(String fileName, Path path) {
+	public ExcelExtractor(String fileName) {
 		this.builder = new ReportDocumentBuilder();
 		this.builder.addDocumentName(fileName);
 		this.fileName = fileName;
 	}
-	
-	
 
 	public void process(Path path, ProcessStageEnum processStageEnum) {
 		try {
+			OPCPackage pkg = OPCPackage.open(path.toFile());
+			XSSFReader reader = new XSSFReader(pkg);
 			SharedStringsTable sst = reader.getSharedStringsTable();
-			XMLReader parser = this.fetchSheetParser(sst, processStageEnum);
+			XMLReader parser = 
+							this.fetchSheetParser(sst, processStageEnum);
 							
 			this.builder.setNewFlagTo(path.toString().contains("new") ? true : false);
-			
+			this.builder.setOrientation(
+					fileName.contains("_VERT") ? DocumentOrientationEnum.VERTICAL.getOrientation() : DocumentOrientationEnum.HORIZONTAL.getOrientation());
 			WorkbookExtractor we = new WorkbookExtractor();
 			List<TabNamesMap> tabNamesMapList = we.extractSheetNamesFrom(reader.getWorkbookData());
-			
 			for (TabNamesMap tabData : tabNamesMapList) {
 				InputStream sheet = reader.getSheet(tabData.getId());
 				InputSource sheetSource = new InputSource(sheet);
@@ -62,10 +60,6 @@ public class ExcelExtractor implements ReportTabReadyListener {
 		}
 	}
 	
-	public void processWorkbookData() {
-		
-	}
-	
 
 	private XMLReader fetchSheetParser(final SharedStringsTable sst, final ProcessStageEnum processStageEnum) throws SAXException {
 		XMLReader parser = XMLReaderFactory.createXMLReader("org.apache.xerces.parsers.SAXParser");
@@ -76,6 +70,7 @@ public class ExcelExtractor implements ReportTabReadyListener {
 
 	@Override
 	public void onArrivalOf(final ReportTabBuilder tabBuilder) {
+		this.builder.setLastVisitedLine(tabBuilder.getLastLineIndex());
 		this.builder.addReportTab(tabBuilder.build(), tabName);
 	}
 	

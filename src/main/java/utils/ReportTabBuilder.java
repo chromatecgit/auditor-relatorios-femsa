@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.ReportCell;
-import model.ReportKeyColumns;
+import model.ReportColumn;
+import model.ReportKeyColumn;
 import model.ReportRow;
 import model.ReportTab;
 import model.ReportTableDimensions;
@@ -13,8 +14,9 @@ public class ReportTabBuilder {
 	private ReportTab tab;
 	private ReportTableDimensions dimensions;
 	private List<ReportRow> rows;
-	private List<ReportKeyColumns> tableColumns;
+	private List<ReportKeyColumn> tableColumns;
 	private List<ReportCell> cells;
+	private int lastLineIndex;
 
 	public ReportTabBuilder() {
 		this.tab = new ReportTab();
@@ -22,6 +24,7 @@ public class ReportTabBuilder {
 		this.tableColumns = new ArrayList<>();
 		this.rows = new ArrayList<>();
 		this.dimensions = new ReportTableDimensions();
+		this.lastLineIndex = 1;
 	}
 
 	public ReportTab build() {
@@ -41,22 +44,40 @@ public class ReportTabBuilder {
 
 	public void addCell(final ReportCell cell) {
 		if (cell.getLineIndex() == 1) {
-			ReportKeyColumns r = new ReportKeyColumns();
+			ReportKeyColumn r = new ReportKeyColumn();
 			r.setIndex(cell.getColumnIndex());
 			r.setValue(cell.getValue());
 			this.tableColumns.add(r);
 		} else {
-			this.addAndReset(cell);
+			if (this.lastLineIndex == cell.getLineIndex()) {
+				this.cells.add(cell);
+			} else {
+				this.addAndReset(cell);
+			}
 		}
 	}
 
 	private void addAndReset(ReportCell cell) {
-		ReportRow row = new ReportRow();
-		row.setCells(this.cells);
-		this.rows.add(row);
-		this.cells = new ArrayList<>();
-		this.cells.add(cell);
+		if (this.lastLineIndex == 1) {
+			this.cells.add(cell);
+		} else {
+			ReportRow row = new ReportRow();
+			row.setCells(this.cells);
+			row.setIndex(lastLineIndex);
+			this.rows.add(row);
+			this.cells = new ArrayList<>();
+			this.cells.add(cell);
+			
+		}
+		this.lastLineIndex = cell.getLineIndex();
 	}
 
+	public int getLastLineIndex() {
+		return lastLineIndex;
+	}
+
+	public void setLastLineIndex(int lastLineIndex) {
+		this.lastLineIndex = lastLineIndex;
+	}
 
 }

@@ -7,9 +7,10 @@ public class Auditor {
 	public static void main(String args[]) {
 //		NumeroLinhasModule.execute(
 //				FilesPerModuleEnum.NUMERO_LINHAS.getExcelFileNames());
-		EntregasModule entregas = new EntregasModule(FilesPerModuleEnum.ENTREGAS.getExcelFileNames());
-		entregas.execute();
-		
+//		EntregasModule entregas = new EntregasModule(FilesPerModuleEnum.ENTREGAS.getExcelFileNames());
+//		entregas.execute();
+		PrecoModule preco = new PrecoModule(FilesPerModuleEnum.PRECO.getExcelFileNames());
+		preco.execute();
 	}
 	
 }

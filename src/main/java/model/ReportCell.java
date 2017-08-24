@@ -7,6 +7,16 @@ public class ReportCell implements Indentable {
 	private String address;
 	private String value;
 
+	public ReportCell() {
+		super();
+	}
+
+	public ReportCell(String address, String value) {
+		super();
+		this.address = address;
+		this.value = value;
+	}
+
 	public String getColumnIndex() {
 		String s = address;
 		return s.replaceAll("\\d", "");
@@ -35,8 +45,7 @@ public class ReportCell implements Indentable {
 
 	@Override
 	public String toString() {
-		return this.getHierarchy().getIndentationEntity() + 
-				"ReportCell [address=" + address + ", value=" + value + "]";
+		return this.getHierarchy().getIndentationEntity() + "ReportCell [address=" + address + ", value=" + value + "]";
 	}
 
 	@Override

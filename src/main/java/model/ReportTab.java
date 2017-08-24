@@ -8,7 +8,7 @@ import interfaces.Indentable;
 
 public class ReportTab implements Indentable {
 	private String name;
-	private List<ReportKeyColumns> tableColumns;
+	private List<ReportKeyColumn> tableColumns;
 	private List<ReportRow> rows;
 	private ReportTableDimensions dimensions;
 
@@ -36,11 +36,11 @@ public class ReportTab implements Indentable {
 		this.dimensions = dimensions;
 	}
 
-	public List<ReportKeyColumns> getTableColumns() {
+	public List<ReportKeyColumn> getTableColumns() {
 		return tableColumns;
 	}
 
-	public void setTableColumns(List<ReportKeyColumns> tableColumns) {
+	public void setTableColumns(List<ReportKeyColumn> tableColumns) {
 		this.tableColumns = tableColumns;
 	}
 
@@ -58,16 +58,28 @@ public class ReportTab implements Indentable {
 		return rows.stream().filter(e -> e.getIndex() == 1).findFirst().orElse(null);
 	}
 
-	public ReportColumn getFirstColumn() {
+	public ReportColumn getColumnAt(String index) {
 		ReportColumn column = new ReportColumn();
 		List<ReportCell> columnCells = new ArrayList<>();
 		for (ReportRow row : this.rows) {
 			columnCells.add(
-					row.getCells().stream().filter(c -> c.getAddress().matches("A[0-9]+")).findFirst().orElse(null));
+					row.getCells().stream().filter(c -> c.getAddress().matches(index + "[0-9]+")).findFirst().orElse(null));
 		}
 
 		column.setColumnCells(columnCells);
 		return column;
 	}
-
+	
+	public ReportKeyColumn getKeyColumnByName(String name) {
+		return this.tableColumns.stream().filter(c -> c.getValue().equalsIgnoreCase(name)).findFirst().orElse(null);
+	}
+	
+	public ReportKeyColumn getKeyColumnByNameLike(String name) {
+		return this.tableColumns.stream().filter(c -> c.getValue().contains(name)).findFirst().orElse(null);
+	}
+	
+	public List<ReportRow> breakTab() {
+		return this.rows;
+	}
+	
 }
