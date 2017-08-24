@@ -10,7 +10,6 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import enums.ProcessStageEnum;
-import interfaces.ReportTabBuilder;
 import listener.ReportTabReadyListener;
 import model.ReportCell;
 
@@ -40,12 +39,12 @@ public class SheetHandler extends DefaultHandler {
 
 	@Override
 	public void startDocument() throws SAXException {
+		builder = new ReportTabBuilder();
 		System.out.println("Inicio do parse");
 	}
 
 	@Override
 	public void endDocument() throws SAXException {
-		this.listener.onArrivalOf(this.builder);
 		this.builder = null;
 		System.out.println("Fim do parse");
 	}

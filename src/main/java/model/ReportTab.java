@@ -12,11 +12,11 @@ public class ReportTab implements Indentable {
 
 	public ReportTab() {
 		super();
-		this.name = "";
 		this.cells = new TreeMap<>();
 	}
 
-	public ReportTab(final String name) {
+	public ReportTab(String name) {
+		super();
 		this.name = name;
 		this.cells = new TreeMap<>();
 	}
@@ -25,6 +25,11 @@ public class ReportTab implements Indentable {
 		super();
 		this.name = name;
 		this.cells = new TreeMap<>(cells);
+	}
+
+	@Override
+	public IndentationEnum getHierarchy() {
+		return IndentationEnum.LEVEL_2;
 	}
 
 	public String getName() {
@@ -43,13 +48,11 @@ public class ReportTab implements Indentable {
 		this.cells = cells;
 	}
 
-	public IndentationEnum getHierarchy() {
-		return IndentationEnum.LEVEL_2;
-	}
-
 	@Override
 	public String toString() {
 		return this.getHierarchy().getIndentationEntity() + "ReportTab [name=" + name + ", cells=" + cells + "]";
 	}
+	
+	
 
 }
