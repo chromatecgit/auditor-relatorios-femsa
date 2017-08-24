@@ -45,6 +45,7 @@ public class SheetHandler extends DefaultHandler {
 
 	@Override
 	public void endDocument() throws SAXException {
+		this.listener.onArrivalOf(this.builder);
 		this.builder = null;
 		System.out.println("Fim do parse");
 	}

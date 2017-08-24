@@ -1,36 +1,16 @@
 package model;
 
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.ArrayList;
+import java.util.List;
 
 import enums.IndentationEnum;
 import interfaces.Indentable;
 
 public class ReportTab implements Indentable {
 	private String name;
-	private Map<ReportCellKey, ReportCell> cells;
-
-	public ReportTab() {
-		super();
-		this.cells = new TreeMap<>();
-	}
-
-	public ReportTab(String name) {
-		super();
-		this.name = name;
-		this.cells = new TreeMap<>();
-	}
-
-	public ReportTab(String name, Map<ReportCellKey, ReportCell> cells) {
-		super();
-		this.name = name;
-		this.cells = new TreeMap<>(cells);
-	}
-
-	@Override
-	public IndentationEnum getHierarchy() {
-		return IndentationEnum.LEVEL_2;
-	}
+	private List<ReportKeyColumn> tableColumns;
+	private List<ReportRow> rows;
+	private ReportTableDimensions dimensions;
 
 	public String getName() {
 		return name;
@@ -40,19 +20,66 @@ public class ReportTab implements Indentable {
 		this.name = name;
 	}
 
-	public Map<ReportCellKey, ReportCell> getCells() {
-		return cells;
+	public List<ReportRow> getRows() {
+		return rows;
 	}
 
-	public void setCells(Map<ReportCellKey, ReportCell> cells) {
-		this.cells = cells;
+	public void setRows(List<ReportRow> rows) {
+		this.rows = rows;
+	}
+
+	public ReportTableDimensions getDimensions() {
+		return dimensions;
+	}
+
+	public void setDimensions(ReportTableDimensions dimensions) {
+		this.dimensions = dimensions;
+	}
+
+	public List<ReportKeyColumn> getTableColumns() {
+		return tableColumns;
+	}
+
+	public void setTableColumns(List<ReportKeyColumn> tableColumns) {
+		this.tableColumns = tableColumns;
+	}
+
+	public IndentationEnum getHierarchy() {
+		return IndentationEnum.LEVEL_2;
 	}
 
 	@Override
 	public String toString() {
-		return this.getHierarchy().getIndentationEntity() + "ReportTab [name=" + name + ", cells=" + cells + "]";
+		return this.getHierarchy().getIndentationEntity() + "ReportTab [name=" + name + ", tableColumns=" + tableColumns
+				+ ", rows=" + rows + ", dimensions=" + dimensions + "]";
+	}
+
+	public ReportRow getFirstRow() {
+		return rows.stream().filter(e -> e.getIndex() == 1).findFirst().orElse(null);
+	}
+
+	public ReportColumn getColumnAt(String index) {
+		ReportColumn column = new ReportColumn();
+		List<ReportCell> columnCells = new ArrayList<>();
+		for (ReportRow row : this.rows) {
+			columnCells.add(
+					row.getCells().stream().filter(c -> c.getAddress().matches(index + "[0-9]+")).findFirst().orElse(null));
+		}
+
+		column.setColumnCells(columnCells);
+		return column;
 	}
 	
+	public ReportKeyColumn getKeyColumnByName(String name) {
+		return this.tableColumns.stream().filter(c -> c.getValue().equalsIgnoreCase(name)).findFirst().orElse(null);
+	}
 	
-
+	public ReportKeyColumn getKeyColumnByNameLike(String name) {
+		return this.tableColumns.stream().filter(c -> c.getValue().contains(name)).findFirst().orElse(null);
+	}
+	
+	public List<ReportRow> breakTab() {
+		return this.rows;
+	}
+	
 }
