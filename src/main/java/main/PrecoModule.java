@@ -67,7 +67,7 @@ public class PrecoModule {
 		}
 		List<ReportTab> hTabs = hDoc.getTabs();
 		hDoc = null;
-		//HVPrecoMap horizontalMap = this.parseHorizontalToHVMap(hTabs);
+		HVPrecoMap horizontalMap = this.parseHorizontalToHVMap(hTabs);
 		List<ReportTab> vTabs = vDoc.getTabs();
 		vDoc = null;
 		HVPrecoMap verticalMap = this.parseVerticalToHVMap(vTabs);
@@ -142,6 +142,7 @@ public class PrecoModule {
 					keys.parallelStream().forEach( k -> {
 						CallCounter.key_parallel++;
 						ReportCell cell = row.findCellByColumn(k.getIndex());
+						CallCounter.register();
 						if (k.getValue().equals("PRECO")) {
 							infos.setPreco(cell.getValue());
 						} else if (k.getValue().equals("PRODUTO")) {
@@ -153,6 +154,7 @@ public class PrecoModule {
 			}
 			precoMap.getEntries().add(entry);
 		});
+		CallCounter.stopPartial();
 		CallCounter.stop();
 		return precoMap;
 	}
