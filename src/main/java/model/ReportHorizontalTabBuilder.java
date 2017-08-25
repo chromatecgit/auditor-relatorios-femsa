@@ -1,21 +1,24 @@
 package model;
 
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import interfaces.ReportTabBuilder;
+import utils.ReportTabBuilderIndexVO;
 
 public class ReportHorizontalTabBuilder implements ReportTabBuilder {
 	
 	private ReportTab tab;
+	// Column Letter Index X Column Name
 	private Map<String, String> tableHeaders;
 	private String tag;
+	// Concat X Line Index
+	private ReportTabBuilderIndexVO currentConcatLineIndex;
 	
 	public ReportHorizontalTabBuilder(final String tag) {
 		this.tab = new ReportTab();
 		this.tableHeaders = new LinkedHashMap<>();
+		this.currentConcatLineIndex = new ReportTabBuilderIndexVO();
 		this.tag = tag;
 	}
 
@@ -30,22 +33,21 @@ public class ReportHorizontalTabBuilder implements ReportTabBuilder {
 			this.tableHeaders.put(cell.getColumnIndex(), cell.getValue());
 		} else {
 			String cellValue = this.tableHeaders.get(cell.getColumnIndex());
-			ReportCellKey cellKey = new ReportCellKey();
 			if (cellValue.equalsIgnoreCase("CONCAT")) {
-				//TODO: Crar um mapa para os concats também, talvez,
-				// para colocá-los em todas as células. Acho que nessa hora não vale a
-				// pena filtrar pro SKU, por causa da verificacao de entrega
-				// e ela precisa da tabela praticamente integral.
-//				cellKey.setConcat(concat);
-//				cellKey.setSku(sku);
+				currentConcatLineIndex.setConcat(cell.getValue());
+				currentConcatLineIndex.setLineIndex(cell.getLineIndex());
+			} else if (cell.getLineIndex() == currentConcatLineIndex.getLineIndex() && !cell.getValue().equals("0")) {
+				this.addAndReset(cell, cellValue);
 			}
-			this.tab.getCells().put(cellKey, cell);
 		}
 	}
 
 	@Override
-	public void addAndReset() {
-		// TODO Auto-generated method stub
+	public void addAndReset(ReportCell cell, String cellValue) {
+		ReportCellKey cellKey = new ReportCellKey();
+		cellKey.setConcat(currentConcatLineIndex.getConcat());
+		cellKey.setColumnName(cellValue);
+		this.tab.getCells().put(cellKey, cell);
 	}
 
 	@Override
@@ -63,4 +65,9 @@ public class ReportHorizontalTabBuilder implements ReportTabBuilder {
 		this.tab.setFileName(fileName);
 	}
 
+	@Override
+	public void addTabName(String tabName) {
+		this.tab.setTabName(tabName);
+	}
+	
 }

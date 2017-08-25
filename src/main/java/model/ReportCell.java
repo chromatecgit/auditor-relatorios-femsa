@@ -50,7 +50,7 @@ public class ReportCell implements Indentable {
 
 	@Override
 	public IndentationEnum getHierarchy() {
-		return IndentationEnum.LEVEL_4;
+		return IndentationEnum.LEVEL_3;
 	}
 
 }

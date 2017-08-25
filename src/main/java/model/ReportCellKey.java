@@ -1,9 +1,11 @@
 package model;
 
-public class ReportCellKey {
+import enums.IndentationEnum;
+
+public class ReportCellKey implements Comparable<ReportCellKey> {
 
 	private String concat;
-	private String sku;
+	private String columnName;
 
 	public String getConcat() {
 		return concat;
@@ -13,17 +15,21 @@ public class ReportCellKey {
 		this.concat = concat;
 	}
 
-	public String getSku() {
-		return sku;
+	public String getColumnName() {
+		return columnName;
 	}
 
-	public void setSku(String sku) {
-		this.sku = sku;
+	public void setColumnName(String columnName) {
+		this.columnName = columnName;
+	}
+	
+	public IndentationEnum getHierarchy() {
+		return IndentationEnum.LEVEL_2;
 	}
 
 	@Override
 	public String toString() {
-		return "ReportCellKey [concat=" + concat + ", sku=" + sku + "]";
+		return this.getHierarchy().getIndentationEntity() + "ReportCellKey [concat=" + concat + ", columnName=" + columnName + "]";
 	}
 
 	@Override
@@ -31,7 +37,7 @@ public class ReportCellKey {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((concat == null) ? 0 : concat.hashCode());
-		result = prime * result + ((sku == null) ? 0 : sku.hashCode());
+		result = prime * result + ((columnName == null) ? 0 : columnName.hashCode());
 		return result;
 	}
 
@@ -49,12 +55,20 @@ public class ReportCellKey {
 				return false;
 		} else if (!concat.equals(other.concat))
 			return false;
-		if (sku == null) {
-			if (other.sku != null)
+		if (columnName == null) {
+			if (other.columnName != null)
 				return false;
-		} else if (!sku.equals(other.sku))
+		} else if (!columnName.equals(other.columnName))
 			return false;
 		return true;
+	}
+
+	@Override
+	public int compareTo(ReportCellKey otherKey) {
+		String result1 = this.getConcat() + this.getColumnName();
+		String result2 = otherKey.getConcat() + otherKey.getColumnName();
+		
+		return result1.compareTo(result2);
 	}
 
 }
