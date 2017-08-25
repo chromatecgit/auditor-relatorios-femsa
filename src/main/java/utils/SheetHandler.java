@@ -26,7 +26,6 @@ public class SheetHandler extends DefaultHandler {
 	private ReportTabReadyListener listener;
 	private ReportCell cell;
 	private ProcessStageEnum processStageEnum;
-	
 
 	public SheetHandler(final SharedStringsTable sst,
 						final ReportTabReadyListener listener,
@@ -38,7 +37,6 @@ public class SheetHandler extends DefaultHandler {
 		this.processStageEnum = processStageEnum;
 		this.builder = builder;
 	}
-	
 
 	@Override
 	public void startDocument() throws SAXException {

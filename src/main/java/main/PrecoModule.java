@@ -31,7 +31,8 @@ public class PrecoModule {
 		Map<String, PathBuilderMapValue> pathsMap = pathBuilder.getPathMaps();
 		
 		for (String fileName : pathsMap.keySet()) {
-			FileManager.fetchDocumentsBy(fileName, pathsMap.get(fileName), ProcessStageEnum.FULL);
+			//TODO: fazer a verificacao de vertical ou horizontal aqui
+			//FileManager.fetchDocumentsVerticalAndHorizontalFrom(fileName, pathsMap.get(fileName), ProcessStageEnum.FULL);
 		}
 		
 		
