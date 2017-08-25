@@ -1,8 +1,22 @@
 package model;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import interfaces.ReportTabBuilder;
 
 public class ReportVerticalTabBuilder implements ReportTabBuilder {
+	
+	
+	private ReportTab tab;
+	private List<ReportCell> tableHeaders;
+	private String tag;
+	
+	public ReportVerticalTabBuilder(final String tag) {
+		this.tab = new ReportTab();
+		this.tableHeaders = new LinkedList<>();
+		this.tag = tag;
+	}
 
 	@Override
 	public ReportTab build() {
@@ -30,6 +44,12 @@ public class ReportVerticalTabBuilder implements ReportTabBuilder {
 
 	@Override
 	public void addNumberOfColumns(int columns) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addDocumentName(String fileName) {
 		// TODO Auto-generated method stub
 		
 	}

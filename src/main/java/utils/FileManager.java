@@ -1,7 +1,6 @@
 package utils;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.eventusermodel.XSSFReader;
@@ -11,28 +10,30 @@ import extractors.ExcelExtractor;
 import extractors.WorkbookExtractor;
 import model.PathBuilderMapValue;
 import model.ReportDocument;
+import model.ReportVerticalTabBuilder;
 import model.TabNamesMap;
 
 public class FileManager {
 	
-	public static ReportDocument fetchDocumentsBy(Map<String, PathBuilderMapValue> paths, ProcessStageEnum processStage) {
+	public static ReportDocument fetchDocumentsBy(String fileName, PathBuilderMapValue pathMap, ProcessStageEnum processStage) {
 		
-		for (String key : paths.keySet()) {
-			try {
-				PathBuilderMapValue pbmv = paths.get(key);
-				OPCPackage pkg = OPCPackage.open(pbmv.getPath().toFile());
-				XSSFReader reader = new XSSFReader(pkg);
-				WorkbookExtractor we = new WorkbookExtractor();
-				List<TabNamesMap> tabNamesMapList = we.extractSheetNamesFrom(reader.getWorkbookData());
-				if (pbmv.isVertical()) {
-					
-					//ExcelExtractor e = new ExcelExtractor();
+		try {
+			OPCPackage pkg = OPCPackage.open(pathMap.getPath().toFile());
+			XSSFReader reader = new XSSFReader(pkg);
+			WorkbookExtractor workbookExtractor = new WorkbookExtractor();
+			List<TabNamesMap> tabNamesMapList = workbookExtractor.extractSheetNamesFrom(reader.getWorkbookData());
+			if (pathMap.isVertical()) {
+				ReportVerticalTabBuilder reportVerticalTabBuilder = new ReportVerticalTabBuilder("PRECO");
+				reportVerticalTabBuilder.addDocumentName(fileName);
+				ExcelExtractor e = new ExcelExtractor(fileName, reportVerticalTabBuilder);
+				for (TabNamesMap tabMap : tabNamesMapList) {
+					e.process(reader, tabMap, processStage);
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
-			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+			
 		return null;
 		
 	}

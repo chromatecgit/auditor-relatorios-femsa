@@ -10,6 +10,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import enums.ProcessStageEnum;
+import interfaces.ReportTabBuilder;
 import listener.ReportTabReadyListener;
 import model.ReportCell;
 
@@ -25,21 +26,22 @@ public class SheetHandler extends DefaultHandler {
 	private ReportTabReadyListener listener;
 	private ReportCell cell;
 	private ProcessStageEnum processStageEnum;
-	private boolean recordValue;
 	
 
-	public SheetHandler(final SharedStringsTable sst, final ReportTabReadyListener listener, final ProcessStageEnum processStageEnum) {
+	public SheetHandler(final SharedStringsTable sst,
+						final ReportTabReadyListener listener,
+						final ProcessStageEnum processStageEnum,
+						final ReportTabBuilder builder) {
 		this.sst = sst;
 		this.listener = listener;
 		this.cell = new ReportCell();
 		this.processStageEnum = processStageEnum;
-		this.recordValue = true;
+		this.builder = builder;
 	}
 	
 
 	@Override
 	public void startDocument() throws SAXException {
-		builder = new ReportTabBuilder();
 		System.out.println("Inicio do parse");
 	}
 
@@ -92,9 +94,7 @@ public class SheetHandler extends DefaultHandler {
 			nextIsString = false;
 		}
 		
-		if (this.recordValue) {
-			this.getCellValue(name);
-		}
+		this.getCellValue(name);
 	}
 	
 	private void getCellValue(String name) {

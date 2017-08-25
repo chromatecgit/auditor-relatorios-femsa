@@ -25,7 +25,6 @@ public class ReportDocumentBuilder {
 	public void addReportTab(final ReportTab tab, final String tabName) {
 		ReportTab newTab = new ReportTab();
 		newTab = tab;
-		newTab.setName(tabName);
 		//this.document.getTabs().add(newTab);
 	}
 	

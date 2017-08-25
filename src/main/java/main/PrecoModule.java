@@ -3,12 +3,14 @@ package main;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import config.GlobBuilder;
 import config.PathBuilder;
 import config.ProjectConfiguration;
 import enums.ProcessStageEnum;
 import exceptions.HaltException;
+import model.PathBuilderMapValue;
 import model.ReportDocument;
 import utils.FileManager;
 
@@ -26,7 +28,12 @@ public class PrecoModule {
 		pathBuilder.buildFilePaths(GlobBuilder.buildGlobPatternWith(Arrays.asList(fileNames)),
 				new Path[] { ProjectConfiguration.newFilesPath });
 		
-		FileManager.fetchDocumentsBy(pathBuilder.getPathMaps(), ProcessStageEnum.FULL);
+		Map<String, PathBuilderMapValue> pathsMap = pathBuilder.getPathMaps();
+		
+		for (String fileName : pathsMap.keySet()) {
+			FileManager.fetchDocumentsBy(fileName, pathsMap.get(fileName), ProcessStageEnum.FULL);
+		}
+		
 		
 		try {
 			this.applyBusinessRule(null, false);

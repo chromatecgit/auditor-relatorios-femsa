@@ -1,7 +1,7 @@
 package listener;
 
-import utils.ReportTabBuilder;
+import interfaces.ReportTabBuilder;
 
 public interface ReportTabReadyListener {
-	void onArrivalOf(ReportTabBuilder tabBuilder);
+	void onArrivalOf(final ReportTabBuilder tabBuilder);
 }
