@@ -22,10 +22,12 @@ public class FileManager {
 		ReportTab processedTab = new ReportTab();
 		
 		try {
+			
 			OPCPackage pkg = OPCPackage.open(pathMap.getPath().toFile());
-			XSSFReader reader = new XSSFReader(pkg);
+			XSSFReader reader= new XSSFReader(pkg);
 			WorkbookExtractor workbookExtractor = new WorkbookExtractor();
-			List<TabNamesMap> tabNamesMapList = workbookExtractor.extractSheetNamesFrom(reader.getWorkbookData());
+			List<TabNamesMap> tabNamesMapList =  workbookExtractor.extractSheetNamesFrom(reader.getWorkbookData());
+			
 			if (skipOutros) {
 				tabNamesMapList.removeIf( t -> t.getName().contains("OUTROS"));
 			}
@@ -38,7 +40,6 @@ public class FileManager {
 				return e.getProcessedTab();
 				//MyLogPrinter.printObject(e.getProcessedTab(), "Processed Horizontal Tab");
 			}).findFirst().orElse(null);
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -55,7 +56,7 @@ public class FileManager {
 			WorkbookExtractor workbookExtractor = new WorkbookExtractor();
 			List<TabNamesMap> tabNamesMapList = workbookExtractor.extractSheetNamesFrom(reader.getWorkbookData());
 			
-			tabNamesMapList.parallelStream().forEach( tabMap ->  {
+			tabNamesMapList.stream().forEach( tabMap ->  {
 				ReportVerticalTabBuilder reportVerticalTabBuilder = new ReportVerticalTabBuilder("PRECO");
 				reportVerticalTabBuilder.addDocumentName(fileName);
 				ExcelExtractor e = new ExcelExtractor(fileName, reportVerticalTabBuilder);
@@ -77,7 +78,7 @@ public class FileManager {
 	private static ReportTab merge(List<ReportTab> tabs, String fileName) {
 		ReportTab newTab = new ReportTab();
 		StringBuilder sbTabName = new StringBuilder();
-		tabs.parallelStream().forEach( t -> {
+		tabs.stream().forEach( t -> {
 			sbTabName.append("_");
 			sbTabName.append(t.getTabName());
 			sbTabName.append("_");

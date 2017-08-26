@@ -18,4 +18,5 @@ public interface ReportTabBuilder {
 	public void addNumberOfRows(final int rows);
 
 	public void addNumberOfColumns(final int columns);
+	
 }
