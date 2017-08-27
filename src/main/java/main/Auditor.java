@@ -11,6 +11,7 @@ public class Auditor {
 //		entregas.execute();
 		PrecoModule preco = new PrecoModule(FilesPerModuleEnum.PRECO.getExcelFileNames());
 		preco.execute();
+		SoviModule sovi = new SoviModule(FilesPerModuleEnum.SOVI.getExcelFileNames());
 	}
 	
 }
