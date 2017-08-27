@@ -1,5 +1,6 @@
 package utils;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class FileManager {
 			}
 			
 			processedTab = tabNamesMapList.stream().map( tabMap ->  {
-				ReportHorizontalTabBuilder reportHorizontalTabBuilder = new ReportHorizontalTabBuilder("PRECO");
+				ReportHorizontalTabBuilder reportHorizontalTabBuilder = new ReportHorizontalTabBuilder();
 				reportHorizontalTabBuilder.addDocumentName(fileName);
 				ExcelExtractor e = new ExcelExtractor(fileName, reportHorizontalTabBuilder);
 				e.process(reader, tabMap, processStage);
@@ -46,7 +47,7 @@ public class FileManager {
 		return processedTab;
 	}
 	
-	public static ReportTab fetchVerticalDocument(String fileName, PathBuilderMapValue pathMap, ProcessStageEnum processStage) {
+	public static ReportTab fetchVerticalDocument(String fileName, PathBuilderMapValue pathMap, ProcessStageEnum processStage, String[] filters) {
 		
 		final List<ReportTab> processedTabs = new ArrayList<>();
 		
@@ -57,7 +58,7 @@ public class FileManager {
 			List<TabNamesMap> tabNamesMapList = workbookExtractor.extractSheetNamesFrom(reader.getWorkbookData());
 			
 			tabNamesMapList.stream().forEach( tabMap ->  {
-				ReportVerticalTabBuilder reportVerticalTabBuilder = new ReportVerticalTabBuilder("PRECO");
+				ReportVerticalTabBuilder reportVerticalTabBuilder = new ReportVerticalTabBuilder(filters);
 				reportVerticalTabBuilder.addDocumentName(fileName);
 				ExcelExtractor e = new ExcelExtractor(fileName, reportVerticalTabBuilder);
 				e.process(reader, tabMap, processStage);
@@ -75,17 +76,20 @@ public class FileManager {
 
 	}
 	
-	private static ReportTab merge(List<ReportTab> tabs, String fileName) {
+	private static ReportTab merge(final List<ReportTab> tabs, final String fileName) {
 		ReportTab newTab = new ReportTab();
 		StringBuilder sbTabName = new StringBuilder();
+		
 		tabs.stream().forEach( t -> {
-			sbTabName.append("_");
+			sbTabName.append("#");
 			sbTabName.append(t.getTabName());
-			sbTabName.append("_");
+			newTab.setNumberOfColumns(newTab.getNumberOfColumns() + t.getNumberOfColumns());
+			newTab.setNumberOfRows(newTab.getNumberOfRows() + t.getNumberOfRows());
 			newTab.getCells().putAll(t.getCells()); 
 		});
 		newTab.setFileName(fileName);
 		newTab.setTabName(sbTabName.toString());
+		
 		return newTab;
 	}
 	

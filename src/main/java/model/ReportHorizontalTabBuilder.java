@@ -11,15 +11,13 @@ public class ReportHorizontalTabBuilder implements ReportTabBuilder {
 	private ReportTab tab;
 	// Column Letter Index X Column Name
 	private Map<String, String> tableHeaders;
-	private String tag;
 	// Concat X Line Index
 	private ReportTabBuilderIndexVO currentConcatLineIndex;
 	
-	public ReportHorizontalTabBuilder(final String tag) {
+	public ReportHorizontalTabBuilder() {
 		this.tab = new ReportTab();
 		this.tableHeaders = new LinkedHashMap<>();
 		this.currentConcatLineIndex = new ReportTabBuilderIndexVO();
-		this.tag = tag;
 	}
 
 	@Override

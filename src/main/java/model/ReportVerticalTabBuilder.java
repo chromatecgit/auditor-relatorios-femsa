@@ -11,17 +11,17 @@ public class ReportVerticalTabBuilder implements ReportTabBuilder {
 	private ReportTab tab;
 	// Column Letter Index X Column Name
 	private Map<String, String> tableHeaders;
-	private String tag;
+	private String[] filters;
 	// Concat X Line Index
 	private ReportTabBuilderIndexVO currentConcatLineIndex;
 	private String currentSKU;
 
-	public ReportVerticalTabBuilder(final String tag) {
+	public ReportVerticalTabBuilder(final String[] filters) {
 		this.tab = new ReportTab();
 		this.tableHeaders = new LinkedHashMap<>();
 		this.currentSKU = "";
 		this.currentConcatLineIndex = new ReportTabBuilderIndexVO();
-		this.tag = tag;
+		this.filters = filters;
 	}
 
 	@Override
@@ -41,9 +41,19 @@ public class ReportVerticalTabBuilder implements ReportTabBuilder {
 			} else if (cellValue.equals("PRODUTO")) {
 				this.currentSKU = cell.getValue();
 			} else if (cell.getLineIndex() == currentConcatLineIndex.getLineIndex()) {
-				this.addAndReset(cell, cellValue);
+				if (!this.isInFilter(cellValue)) {
+					this.addAndReset(cell, cellValue);
+				}
 			}
 		}
+	}
+	
+	private boolean isInFilter(String cellValue) {
+		for (String filter : filters) {
+			if (cellValue.contains(filter))
+				return true;
+		}
+		return false;
 	}
 
 	@Override
