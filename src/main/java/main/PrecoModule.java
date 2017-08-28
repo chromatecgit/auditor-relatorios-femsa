@@ -9,6 +9,7 @@ import java.util.Map;
 import config.GlobBuilder;
 import config.PathBuilder;
 import config.ProjectConfiguration;
+import enums.FileClassEnum;
 import enums.ProcessStageEnum;
 import exceptions.HaltException;
 import model.PathBuilderMapValue;
@@ -41,10 +42,10 @@ public class PrecoModule {
 		ReportTab horizontalTab = new ReportTab();
 		
 		for (String fileName : pathsMap.keySet()) {
-			if (pathsMap.get(fileName).isVertical()) {
+			if (pathsMap.get(fileName).getFileClass().getCode() == FileClassEnum.VERTICAL.getCode()) {
 				verticalTab = FileManager.fetchVerticalDocument(fileName, pathsMap.get(fileName), ProcessStageEnum.FULL, filters);
 				MyLogPrinter.printObject(verticalTab, "verticalTab");
-			} else {
+			} else if (pathsMap.get(fileName).getFileClass().getCode() == FileClassEnum.HORIZONTAL.getCode()) {
 				horizontalTab = FileManager.fetchHorizontalDocument(fileName, pathsMap.get(fileName), ProcessStageEnum.FULL, true);
 				MyLogPrinter.printObject(horizontalTab, "horizontalTab");
 			}

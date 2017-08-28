@@ -2,16 +2,18 @@ package model;
 
 import java.nio.file.Path;
 
+import enums.FileClassEnum;
+
 public class PathBuilderMapValue {
-	private boolean isVertical;
+	private FileClassEnum fileClass;
 	private Path path;
 
-	public boolean isVertical() {
-		return isVertical;
+	public FileClassEnum getFileClass() {
+		return fileClass;
 	}
 
-	public void setVertical(boolean isVertical) {
-		this.isVertical = isVertical;
+	public void setFileClass(FileClassEnum fileClass) {
+		this.fileClass = fileClass;
 	}
 
 	public Path getPath() {
