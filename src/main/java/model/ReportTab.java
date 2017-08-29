@@ -7,10 +7,10 @@ import enums.IndentationEnum;
 import interfaces.Indentable;
 
 public class ReportTab implements Indentable {
-	private String fileName;
-	private String tabName;
-	private int numberOfRows;
-	private int numberOfColumns;
+	protected String fileName;
+	protected String tabName;
+	protected int numberOfRows;
+	protected int numberOfColumns;
 	private Map<ReportCellKey, ReportCell> cells;
 
 	public ReportTab() {
@@ -31,14 +31,6 @@ public class ReportTab implements Indentable {
 		this.cells = new TreeMap<>(cells);
 	}
 
-	public Map<ReportCellKey, ReportCell> getCells() {
-		return cells;
-	}
-
-	public void setCells(Map<ReportCellKey, ReportCell> cells) {
-		this.cells = cells;
-	}
-
 	public String getFileName() {
 		return fileName;
 	}
@@ -53,10 +45,6 @@ public class ReportTab implements Indentable {
 
 	public void setTabName(String tabName) {
 		this.tabName = tabName;
-	}
-
-	public IndentationEnum getHierarchy() {
-		return IndentationEnum.LEVEL_2;
 	}
 
 	public int getNumberOfRows() {
@@ -75,11 +63,22 @@ public class ReportTab implements Indentable {
 		this.numberOfColumns = numberOfColumns;
 	}
 
+	public Map<ReportCellKey, ReportCell> getCells() {
+		return cells;
+	}
+
+	public void setCells(Map<ReportCellKey, ReportCell> cells) {
+		this.cells = cells;
+	}
+
+	public IndentationEnum getHierarchy() {
+		return IndentationEnum.LEVEL_1;
+	}
+
 	@Override
 	public String toString() {
-		return this.getHierarchy().getIndentationEntity() + "ReportTab [fileName=" + fileName + ", tabName="
-				+ tabName + ", numberOfRows=" + numberOfRows + ", numberOfColumns=" + numberOfColumns + ", cells="
-				+ cells + "]";
+		return this.getHierarchy().getIndentationEntity() + "ReportTab [fileName=" + fileName + ", tabName=" + tabName
+				+ ", numberOfRows=" + numberOfRows + ", numberOfColumns=" + numberOfColumns + ", cells=" + cells + "]";
 	}
 
 }

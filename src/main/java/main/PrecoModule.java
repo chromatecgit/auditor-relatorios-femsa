@@ -62,7 +62,7 @@ public class PrecoModule {
 		// Verificar se as duas possuem o mesmo tamanho antes
 		List<ReportCellKey> outKeys = new ArrayList<>();
 		verticalTab.getCells().forEach( (key, vCell) -> {
-			ReportCell hCell = horizontalTab.getCells().get(key);
+			ReportCell hCell = horizontalTab.getCells().get(key.getKeyWithEmptyPoc());
 			if (hCell != null) {
 				if (!vCell.getValue().equals(hCell.getValue())) {
 					MyLogPrinter.addToBuiltMessage("[Horizontal]=" + key + " valores=" + hCell + "/[Vertical]=" + key + " valores=" + vCell);

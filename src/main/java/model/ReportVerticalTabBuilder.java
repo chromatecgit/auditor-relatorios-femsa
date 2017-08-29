@@ -62,9 +62,12 @@ public class ReportVerticalTabBuilder implements ReportTabBuilder {
 
 	@Override
 	public void addAndReset(ReportCell cell, String cellValue) {
+		//TODO: verificar se o resultado do put deu certo, caso contrario, usar a chave para encontrar o registro e somar o Sovi ou Preço
+		// Colocar a informaçao de POC na celula como extra
 		ReportCellKey cellKey = new ReportCellKey();
 		cellKey.setConcat(currentConcatLineIndex.getConcat());
 		cellKey.setColumnName(this.currentSKU.isEmpty() ? cellValue : currentSKU);
+		cellKey.setPoc(currentPoc);
 		this.currentSKU = "";
 		this.currentPoc = "";
 		this.tab.getCells().put(cellKey, cell);

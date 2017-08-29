@@ -4,16 +4,27 @@ import enums.IndentationEnum;
 
 public class ReportCellKey implements Comparable<ReportCellKey> {
 
-	protected String concat;
-	protected String columnName;
+	private String concat;
+	private String columnName;
+	private String poc;
 
 	public ReportCellKey() {
 		super();
+		this.poc = "";
 	}
 
 	public ReportCellKey(String concat, String columnName) {
 		this.concat = concat;
 		this.columnName = columnName;
+		this.poc = "";
+	}
+	
+
+	public ReportCellKey(String concat, String columnName, String poc) {
+		super();
+		this.concat = concat;
+		this.columnName = columnName;
+		this.poc = poc;
 	}
 
 	public String getConcat() {
@@ -32,14 +43,25 @@ public class ReportCellKey implements Comparable<ReportCellKey> {
 		this.columnName = columnName;
 	}
 
+	public String getPoc() {
+		return poc;
+	}
+
+	public void setPoc(String poc) {
+		this.poc = poc;
+	}
+
 	public IndentationEnum getHierarchy() {
 		return IndentationEnum.LEVEL_2;
+	}
+	
+	public ReportCellKey getKeyWithEmptyPoc() {
+		return new ReportCellKey(this.concat, this.columnName, "");
 	}
 
 	@Override
 	public String toString() {
-		return this.getHierarchy().getIndentationEntity() + "ReportCellKey [concat=" + concat + ", columnName="
-				+ columnName + "]";
+		return this.getHierarchy().getIndentationEntity() + "ReportCellKey [concat=" + concat + ", columnName=" + columnName + ", poc=" + poc + "]";
 	}
 
 	@Override
