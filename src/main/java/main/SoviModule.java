@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import config.GlobBuilder;
 import config.PathBuilder;
 import config.ProjectConfiguration;
+import enums.ConsolidadoSoviFiltersEnum;
 import enums.FileClassEnum;
 import enums.ProcessStageEnum;
 import exceptions.HaltException;
@@ -16,6 +18,7 @@ import model.PathBuilderMapValue;
 import model.ReportCell;
 import model.ReportCellKey;
 import model.ReportTab;
+import utils.ConsolidadosFilter;
 import utils.FileManager;
 import utils.MyLogPrinter;
 
@@ -24,6 +27,7 @@ public class SoviModule {
 	private String[] fileNames;
 	private String[] filters = {"CATEGORIA"};
 	private int errorNumber = 0;
+	private PathBuilderMapValue consolidadaValue = new PathBuilderMapValue();
 
 	public SoviModule(final String[] fileNames) {
 		this.fileNames = fileNames;
@@ -49,7 +53,7 @@ public class SoviModule {
 				horizontalTab = FileManager.fetchHorizontalDocument(fileName, pathsMap.get(fileName), ProcessStageEnum.FULL, true);
 				MyLogPrinter.printObject(horizontalTab, "horizontalTab");
 			} else if (pathsMap.get(fileName).getFileClass().getCode() == FileClassEnum.CONSOLIDADA.getCode()) {
-				
+				consolidadaValue = pathsMap.get(fileName);
 			}
 		}
 		
@@ -77,39 +81,29 @@ public class SoviModule {
 		MyLogPrinter.printObject(outKeys, "SoviModule_outkeys");
 		MyLogPrinter.printBuiltMessage("SoviModule_diff");
 		if (outKeys.isEmpty() && errorNumber == 0) {
-//			this.compareSoviVerticalToConsolidada(verticalTab);
+			this.compareSoviVerticalToConsolidada(verticalTab);
 		}
 
 	}
 
-//	private boolean compareSoviVerticalToConsolidada(List<ConsolidadaSoviTab> consolidadaSoviTabs) {
-//		List<DiffMap> diffMaps = new ArrayList<>();
-//		HVMapGroupConsolidada groupConsolidada = this.mapConsolidada(consolidadaSoviTabs);
-//		//FIXME: Mudar esse jeito de validar!
-//		for (ConsolidadaSoviTab tab : consolidadaSoviTabs) {
-//			for (ConsolidadaSoviID id : tab.getConsolidadaSoviIDs()) {
-//				HVMapConsolidada tempMap = groupConsolidada.findHVMapGroupConsolidadaByID(id.getId());
-//				for (ConsolidadaSoviRow row : id.getConsolidadaSoviRows()) {
-//					HVMapInfosGroup tempGroup = tempMap.findHVMapInfosGroupByFilterName(row.getColumnName());
-//					if (tempGroup.getTotalSovi() == row.getSovi()) {
-//						break;
-//					} else {
-//						DiffMap diffMap = new DiffMap();
-//						diffMap.setId(id.getId());
-//						diffMap.setHorizontalOrigin(row.getColumnName());
-//						diffMap.setHorizontalSovi(row.getSovi());
-//						diffMap.setVerticalSovi(tempGroup.getTotalSovi());
-//						diffMaps.add(diffMap);
-//					}
-//				}
-//			}
-//			
-//		}
-//		consolidadaSoviTabs = null;
-//		MyLogPrinter.printCollection(diffMaps, "DiffMapsConsolidadaSovi");
-//		return diffMaps.isEmpty() ? true : false;
-//
-//	}
+	private boolean compareSoviVerticalToConsolidada(final ReportTab verticalTab) {
+		ReportTab consolidadaTab = FileManager.fetchConsolidadaDocument("CONSOLIDADA_SOVI", consolidadaValue, ProcessStageEnum.FULL);
+		//MyLogPrinter.printObject(consolidadaTab, "consolidadaTab");
+		
+		return false;
+
+	}
+	
+	private ReportTab classifyByConsolidadaRules(final ReportTab verticalTab) {
+		
+		for (ConsolidadoSoviFiltersEnum e : ConsolidadoSoviFiltersEnum.values()) {
+			ConsolidadosFilter consolidadosFilter = e.getConsolidadosFilter();
+			
+		}
+		return verticalTab;
+		
+		
+	}
 //	
 //	private HVMapGroupConsolidada mapConsolidada(List<ConsolidadaSoviTab> consolidadaSoviTabs) {
 //		HVMapGroupConsolidada groupConsolidada = new HVMapGroupConsolidada();

@@ -4,8 +4,17 @@ import enums.IndentationEnum;
 
 public class ReportCellKey implements Comparable<ReportCellKey> {
 
-	private String concat;
-	private String columnName;
+	protected String concat;
+	protected String columnName;
+
+	public ReportCellKey() {
+		super();
+	}
+
+	public ReportCellKey(String concat, String columnName) {
+		this.concat = concat;
+		this.columnName = columnName;
+	}
 
 	public String getConcat() {
 		return concat;
@@ -22,14 +31,15 @@ public class ReportCellKey implements Comparable<ReportCellKey> {
 	public void setColumnName(String columnName) {
 		this.columnName = columnName;
 	}
-	
+
 	public IndentationEnum getHierarchy() {
 		return IndentationEnum.LEVEL_2;
 	}
 
 	@Override
 	public String toString() {
-		return this.getHierarchy().getIndentationEntity() + "ReportCellKey [concat=" + concat + ", columnName=" + columnName + "]";
+		return this.getHierarchy().getIndentationEntity() + "ReportCellKey [concat=" + concat + ", columnName="
+				+ columnName + "]";
 	}
 
 	@Override
@@ -67,7 +77,7 @@ public class ReportCellKey implements Comparable<ReportCellKey> {
 	public int compareTo(ReportCellKey otherKey) {
 		String result1 = this.getConcat() + this.getColumnName();
 		String result2 = otherKey.getConcat() + otherKey.getColumnName();
-		
+
 		return result1.compareTo(result2);
 	}
 

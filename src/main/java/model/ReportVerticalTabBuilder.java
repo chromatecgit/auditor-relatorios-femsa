@@ -15,6 +15,7 @@ public class ReportVerticalTabBuilder implements ReportTabBuilder {
 	// Concat X Line Index
 	private ReportTabBuilderIndexVO currentConcatLineIndex;
 	private String currentSKU;
+	private String currentPoc;
 
 	public ReportVerticalTabBuilder(final String[] filters) {
 		this.tab = new ReportTab();
@@ -22,6 +23,7 @@ public class ReportVerticalTabBuilder implements ReportTabBuilder {
 		this.currentSKU = "";
 		this.currentConcatLineIndex = new ReportTabBuilderIndexVO();
 		this.filters = filters;
+		this.currentPoc = "";
 	}
 
 	@Override
@@ -40,6 +42,8 @@ public class ReportVerticalTabBuilder implements ReportTabBuilder {
 				currentConcatLineIndex.setLineIndex(cell.getLineIndex());
 			} else if (cellValue.equals("PRODUTO")) {
 				this.currentSKU = cell.getValue();
+			} else if (cellValue.equals("POC")) {
+				this.currentPoc = cell.getValue();
 			} else if (cell.getLineIndex() == currentConcatLineIndex.getLineIndex()) {
 				if (!this.isInFilter(cellValue)) {
 					this.addAndReset(cell, cellValue);
@@ -62,6 +66,7 @@ public class ReportVerticalTabBuilder implements ReportTabBuilder {
 		cellKey.setConcat(currentConcatLineIndex.getConcat());
 		cellKey.setColumnName(this.currentSKU.isEmpty() ? cellValue : currentSKU);
 		this.currentSKU = "";
+		this.currentPoc = "";
 		this.tab.getCells().put(cellKey, cell);
 	}
 

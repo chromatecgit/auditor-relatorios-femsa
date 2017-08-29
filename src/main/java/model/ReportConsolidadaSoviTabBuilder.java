@@ -11,17 +11,14 @@ public class ReportConsolidadaSoviTabBuilder implements ReportTabBuilder {
 	private ReportTab tab;
 	//cell.getColumnIndex(), cell.getValue()
 	private Map<String, String> tableHeaders;
-	private Map<ReportCellKey, String> skuPOCMap;
-	private String[] filters;
 	private ReportTabBuilderIndexVO currentConcatLineIndex;
 	private String currentSKU;
 	
-	public ReportConsolidadaSoviTabBuilder(final String[] filters) {
+	public ReportConsolidadaSoviTabBuilder() {
 		this.tab = new ReportTab();
 		this.tableHeaders = new LinkedHashMap<>();
 		this.currentSKU = "";
 		this.currentConcatLineIndex = new ReportTabBuilderIndexVO();
-		this.filters = filters;
 	}
 
 	@Override
@@ -48,14 +45,14 @@ public class ReportConsolidadaSoviTabBuilder implements ReportTabBuilder {
 			if (cellValue.equalsIgnoreCase("CONCAT")) {
 				currentConcatLineIndex.setConcat(cell.getValue());
 				currentConcatLineIndex.setLineIndex(cell.getLineIndex());
-			} else if (cell.getLineIndex() == currentConcatLineIndex.getLineIndex()) {
+			} else if (cell.getLineIndex() == currentConcatLineIndex.getLineIndex() && !cell.getValue().equals("0")) {
 				this.addAndReset(cell, cellValue);
 			}
 		}
 	}
 
 	@Override
-	public void addAndReset(ReportCell cell, String cellValue) {
+	public void addAndReset(final ReportCell cell, final String cellValue) {
 		ReportCellKey cellKey = new ReportCellKey();
 		cellKey.setConcat(currentConcatLineIndex.getConcat());
 		cellKey.setColumnName(this.currentSKU.isEmpty() ? cellValue : currentSKU);

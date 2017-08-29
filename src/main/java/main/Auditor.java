@@ -9,9 +9,10 @@ public class Auditor {
 //				FilesPerModuleEnum.NUMERO_LINHAS.getExcelFileNames());
 //		EntregasModule entregas = new EntregasModule(FilesPerModuleEnum.ENTREGAS.getExcelFileNames());
 //		entregas.execute();
-		PrecoModule preco = new PrecoModule(FilesPerModuleEnum.PRECO.getExcelFileNames());
-		preco.execute();
-		//SoviModule sovi = new SoviModule(FilesPerModuleEnum.SOVI.getExcelFileNames());
+//		PrecoModule preco = new PrecoModule(FilesPerModuleEnum.PRECO.getExcelFileNames());
+//		preco.execute();
+		SoviModule sovi = new SoviModule(FilesPerModuleEnum.SOVI.getExcelFileNames());
+		sovi.execute();
 	}
 	
 }

@@ -43,6 +43,7 @@ public class ReportCell implements Indentable {
 		this.value = value;
 	}
 
+
 	@Override
 	public String toString() {
 		return this.getHierarchy().getIndentationEntity() + "ReportCell [address=" + address + ", value=" + value + "]";

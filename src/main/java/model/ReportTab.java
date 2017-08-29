@@ -8,7 +8,6 @@ import interfaces.Indentable;
 
 public class ReportTab implements Indentable {
 	private String fileName;
-	private String originalOrientation;
 	private String tabName;
 	private int numberOfRows;
 	private int numberOfColumns;
@@ -76,17 +75,9 @@ public class ReportTab implements Indentable {
 		this.numberOfColumns = numberOfColumns;
 	}
 
-	public String getOriginalOrientation() {
-		return originalOrientation;
-	}
-
-	public void setOriginalOrientation(String originalOrientation) {
-		this.originalOrientation = originalOrientation;
-	}
-
 	@Override
 	public String toString() {
-		return this.getHierarchy().getIndentationEntity() + "ReportTab [fileName=" + fileName + ", originalOrientation=" + originalOrientation + ", tabName="
+		return this.getHierarchy().getIndentationEntity() + "ReportTab [fileName=" + fileName + ", tabName="
 				+ tabName + ", numberOfRows=" + numberOfRows + ", numberOfColumns=" + numberOfColumns + ", cells="
 				+ cells + "]";
 	}

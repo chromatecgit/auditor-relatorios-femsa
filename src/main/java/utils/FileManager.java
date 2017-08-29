@@ -11,6 +11,7 @@ import enums.ProcessStageEnum;
 import extractors.ExcelExtractor;
 import extractors.WorkbookExtractor;
 import model.PathBuilderMapValue;
+import model.ReportConsolidadaSoviTabBuilder;
 import model.ReportHorizontalTabBuilder;
 import model.ReportTab;
 import model.ReportVerticalTabBuilder;
@@ -74,6 +75,31 @@ public class FileManager {
 		
 		return mergedTabs;
 
+	}
+	
+	public static ReportTab fetchConsolidadaDocument(String fileName, PathBuilderMapValue pathMap, ProcessStageEnum processStage) {
+		
+		ReportTab processedTab = new ReportTab();
+		
+		try {
+			
+			OPCPackage pkg = OPCPackage.open(pathMap.getPath().toFile());
+			XSSFReader reader= new XSSFReader(pkg);
+			WorkbookExtractor workbookExtractor = new WorkbookExtractor();
+			List<TabNamesMap> tabNamesMapList =  workbookExtractor.extractSheetNamesFrom(reader.getWorkbookData());
+			
+			processedTab = tabNamesMapList.stream().map( tabMap ->  {
+				ReportConsolidadaSoviTabBuilder reportConsolidadaSoviTabBuilder = new ReportConsolidadaSoviTabBuilder();
+				reportConsolidadaSoviTabBuilder.addDocumentName(fileName);
+				ExcelExtractor e = new ExcelExtractor(fileName, reportConsolidadaSoviTabBuilder);
+				e.process(reader, tabMap, processStage);
+				return e.getProcessedTab();
+				//MyLogPrinter.printObject(e.getProcessedTab(), "Processed Horizontal Tab");
+			}).findFirst().orElse(null);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return processedTab;
 	}
 	
 	private static ReportTab merge(final List<ReportTab> tabs, final String fileName) {
