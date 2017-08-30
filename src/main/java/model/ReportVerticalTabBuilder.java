@@ -2,6 +2,7 @@ package model;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import interfaces.ReportTabBuilder;
 import utils.ReportTabBuilderIndexVO;
@@ -19,6 +20,7 @@ public class ReportVerticalTabBuilder implements ReportTabBuilder {
 
 	public ReportVerticalTabBuilder(final String[] filters) {
 		this.tab = new ReportTab();
+		this.tab.setCells(new TreeMap<ReportCellKey, ReportCell>());
 		this.tableHeaders = new LinkedHashMap<>();
 		this.currentSKU = "";
 		this.currentConcatLineIndex = new ReportTabBuilderIndexVO();
@@ -67,10 +69,16 @@ public class ReportVerticalTabBuilder implements ReportTabBuilder {
 		ReportCellKey cellKey = new ReportCellKey();
 		cellKey.setConcat(currentConcatLineIndex.getConcat());
 		cellKey.setColumnName(this.currentSKU.isEmpty() ? cellValue : currentSKU);
-		cellKey.setPoc(currentPoc);
+		cell.getPocs().add(this.currentPoc);
+		ReportCell result = this.tab.getCells().put(cellKey, cell);
+		if (result != null && cellKey.getColumnName().startsWith("SOVI")) {
+			ReportCell reportCell = this.tab.getCells().get(cellKey);
+			reportCell.getPocs().add(this.currentPoc);
+			reportCell.setValue(String.valueOf(Integer.valueOf(reportCell.getValue()) + Integer.valueOf(result.getValue())));
+			this.tab.getCells().put(cellKey, reportCell);
+		}
 		this.currentSKU = "";
 		this.currentPoc = "";
-		this.tab.getCells().put(cellKey, cell);
 	}
 
 	@Override

@@ -6,17 +6,14 @@ public class ReportCellKey implements Comparable<ReportCellKey> {
 
 	private String concat;
 	private String columnName;
-	private String poc;
 
 	public ReportCellKey() {
 		super();
-		this.poc = "";
 	}
 
 	public ReportCellKey(String concat, String columnName) {
 		this.concat = concat;
 		this.columnName = columnName;
-		this.poc = "";
 	}
 	
 
@@ -24,7 +21,6 @@ public class ReportCellKey implements Comparable<ReportCellKey> {
 		super();
 		this.concat = concat;
 		this.columnName = columnName;
-		this.poc = poc;
 	}
 
 	public String getConcat() {
@@ -43,14 +39,6 @@ public class ReportCellKey implements Comparable<ReportCellKey> {
 		this.columnName = columnName;
 	}
 
-	public String getPoc() {
-		return poc;
-	}
-
-	public void setPoc(String poc) {
-		this.poc = poc;
-	}
-
 	public IndentationEnum getHierarchy() {
 		return IndentationEnum.LEVEL_2;
 	}
@@ -61,7 +49,7 @@ public class ReportCellKey implements Comparable<ReportCellKey> {
 
 	@Override
 	public String toString() {
-		return this.getHierarchy().getIndentationEntity() + "ReportCellKey [concat=" + concat + ", columnName=" + columnName + ", poc=" + poc + "]";
+		return this.getHierarchy().getIndentationEntity() + "ReportCellKey [concat=" + concat + ", columnName=" + columnName + "]";
 	}
 
 	@Override

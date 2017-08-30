@@ -1,7 +1,6 @@
 package model;
 
 import java.util.Map;
-import java.util.TreeMap;
 
 import enums.IndentationEnum;
 import interfaces.Indentable;
@@ -16,19 +15,17 @@ public class ReportTab implements Indentable {
 	public ReportTab() {
 		super();
 		this.tabName = "";
-		this.cells = new TreeMap<>();
 	}
 
 	public ReportTab(final String name) {
 		super();
 		this.tabName = name;
-		this.cells = new TreeMap<>();
 	}
 
 	public ReportTab(final String tabName, final Map<ReportCellKey, ReportCell> cells) {
 		super();
 		this.tabName = tabName;
-		this.cells = new TreeMap<>(cells);
+		this.cells = cells;
 	}
 
 	public String getFileName() {

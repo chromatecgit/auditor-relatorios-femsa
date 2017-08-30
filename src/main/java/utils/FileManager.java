@@ -1,8 +1,8 @@
 package utils;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.eventusermodel.XSSFReader;
@@ -111,6 +111,7 @@ public class FileManager {
 			sbTabName.append(t.getTabName());
 			newTab.setNumberOfColumns(newTab.getNumberOfColumns() + t.getNumberOfColumns());
 			newTab.setNumberOfRows(newTab.getNumberOfRows() + t.getNumberOfRows());
+			newTab.setCells(new TreeMap<>());
 			newTab.getCells().putAll(t.getCells()); 
 		});
 		newTab.setFileName(fileName);

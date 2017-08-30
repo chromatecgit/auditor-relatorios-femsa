@@ -2,6 +2,7 @@ package model;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import interfaces.ReportTabBuilder;
 import utils.ReportTabBuilderIndexVO;
@@ -16,6 +17,7 @@ public class ReportHorizontalTabBuilder implements ReportTabBuilder {
 	
 	public ReportHorizontalTabBuilder() {
 		this.tab = new ReportTab();
+		this.tab.setCells(new TreeMap<ReportCellKey, ReportCell>());
 		this.tableHeaders = new LinkedHashMap<>();
 		this.currentConcatLineIndex = new ReportTabBuilderIndexVO();
 	}
