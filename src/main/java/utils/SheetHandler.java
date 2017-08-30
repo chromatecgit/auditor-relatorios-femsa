@@ -102,7 +102,7 @@ public class SheetHandler extends DefaultHandler {
 				BigDecimal t = new BigDecimal(lastContents).setScale(2, BigDecimal.ROUND_HALF_UP);
 				lastContents = t.toString();
 			}
-			this.cell.setValue(lastContents);
+			this.cell.setValue(lastContents.trim());
 			this.builder.addCell(this.cell);
 			this.cell = new ReportCell();
 		}

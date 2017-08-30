@@ -104,6 +104,7 @@ public class FileManager {
 	
 	private static ReportTab merge(final List<ReportTab> tabs, final String fileName) {
 		ReportTab newTab = new ReportTab();
+		newTab.setCells(new TreeMap<>());
 		StringBuilder sbTabName = new StringBuilder();
 		
 		tabs.stream().forEach( t -> {
@@ -111,7 +112,7 @@ public class FileManager {
 			sbTabName.append(t.getTabName());
 			newTab.setNumberOfColumns(newTab.getNumberOfColumns() + t.getNumberOfColumns());
 			newTab.setNumberOfRows(newTab.getNumberOfRows() + t.getNumberOfRows());
-			newTab.setCells(new TreeMap<>());
+			
 			newTab.getCells().putAll(t.getCells()); 
 		});
 		newTab.setFileName(fileName);

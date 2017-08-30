@@ -85,10 +85,13 @@ public class SoviModule {
 		}
 
 	}
-
+	/**
+	 *	Metodo compareSoviVerticalToConsolidada
+	 *	
+	 * */
 	private boolean compareSoviVerticalToConsolidada(final ReportTab verticalTab) {
 		ReportTab consolidadaTab = FileManager.fetchConsolidadaDocument("CONSOLIDADA_SOVI", consolidadaValue, ProcessStageEnum.FULL);
-		//MyLogPrinter.printObject(consolidadaTab, "consolidadaTab");
+		MyLogPrinter.printObject(consolidadaTab, "consolidadaTab");
 		
 		return false;
 
