@@ -3,9 +3,11 @@ package main;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
+import java.util.Set;
 
 import config.GlobBuilder;
 import config.PathBuilder;
@@ -80,9 +82,9 @@ public class SoviModule {
 		});
 		MyLogPrinter.printObject(outKeys, "SoviModule_outkeys");
 		MyLogPrinter.printBuiltMessage("SoviModule_diff");
-		if (outKeys.isEmpty() && errorNumber == 0) {
+//		if (outKeys.isEmpty() && errorNumber == 0) {
 			this.compareSoviVerticalToConsolidada(verticalTab);
-		}
+//		}
 
 	}
 	/**
@@ -91,6 +93,7 @@ public class SoviModule {
 	 * */
 	private boolean compareSoviVerticalToConsolidada(final ReportTab verticalTab) {
 		ReportTab consolidadaTab = FileManager.fetchConsolidadaDocument("CONSOLIDADA_SOVI", consolidadaValue, ProcessStageEnum.FULL);
+		this.classifyByConsolidadaRules(verticalTab);
 		MyLogPrinter.printObject(consolidadaTab, "consolidadaTab");
 		
 		return false;
@@ -98,10 +101,20 @@ public class SoviModule {
 	}
 	
 	private ReportTab classifyByConsolidadaRules(final ReportTab verticalTab) {
-		
+		Set<String> skuSet = new HashSet<>();
+		verticalTab.getCells().keySet().stream().forEach(r -> {
+			if (r.getColumnName().startsWith("SOVI")) {
+				skuSet.add(r.getColumnName());
+			}
+		});
+		// filtersEnum / skus
+		Map<String , List<String>> filterSkuMap = new HashMap<>();
+		//Classificar os SKUs
 		for (ConsolidadoSoviFiltersEnum e : ConsolidadoSoviFiltersEnum.values()) {
 			ConsolidadosFilter consolidadosFilter = e.getConsolidadosFilter();
-			
+			for (String sku : skuSet) {
+				if (sku.contains(consolidadosFilter.get)
+			}
 		}
 		return verticalTab;
 		

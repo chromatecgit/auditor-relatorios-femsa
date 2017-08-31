@@ -1,17 +1,17 @@
 package enums;
 
 public enum TabEnum {
-	AGUA("SV_Agua"),
-	CERVEJA("SV_Cerv"),
-	CHA("SV_Cha"),
-	CSD("SV_CSD"),
-	ENERGETICO("SV_Energ"),
-	ISOTONICO("SV_Iso"),
-	LACTEO("SV_Lacteo"),
-	OTHER("SV_Other"),
-	REFRESCO("SV_Refres"),
-	SOJA("SV_Soja"),
-	SUCO("SV_Suco");
+	AGUA("Agua"),
+	CERVEJA("Cerveja"),
+	CHA("Cha"),
+	CSD("CSD"),
+	ENERGETICO("Energetico"),
+	ISOTONICO("Isotonico"),
+	LACTEO("Lacteo"),
+	OTHER("Other"),
+	REFRESCO("Refresco"),
+	SOJA("Soja"),
+	SUCO("Suco");
 	
 	private String tabName;
 	
