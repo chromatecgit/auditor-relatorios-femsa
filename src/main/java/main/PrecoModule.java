@@ -18,6 +18,7 @@ import model.ReportCellKey;
 import model.ReportTab;
 import utils.FileManager;
 import utils.MyLogPrinter;
+import utils.TabUtils;
 
 public class PrecoModule {
 
@@ -43,7 +44,8 @@ public class PrecoModule {
 		
 		for (String fileName : pathsMap.keySet()) {
 			if (pathsMap.get(fileName).getFileClass().getCode() == FileClassEnum.VERTICAL.getCode()) {
-				verticalTab = FileManager.fetchVerticalDocument(fileName, pathsMap.get(fileName), ProcessStageEnum.FULL, filters);
+				verticalTab = TabUtils.merge(
+						FileManager.fetchVerticalDocument(fileName, pathsMap.get(fileName), ProcessStageEnum.FULL, filters));
 				MyLogPrinter.printObject(verticalTab, "verticalTab");
 			} else if (pathsMap.get(fileName).getFileClass().getCode() == FileClassEnum.HORIZONTAL.getCode()) {
 				horizontalTab = FileManager.fetchHorizontalDocument(fileName, pathsMap.get(fileName), ProcessStageEnum.FULL, true);

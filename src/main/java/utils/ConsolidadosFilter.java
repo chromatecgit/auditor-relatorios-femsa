@@ -124,6 +124,10 @@ public class ConsolidadosFilter {
 	public void setConcorrencia(ConcorrenciaEnum concorrencia) {
 		this.concorrencia = concorrencia;
 	}
+	
+	public String getOnlySheet() {
+		return Arrays.asList(this.sheets).stream().map( t -> t.getTabName()).findFirst().orElse("");
+	}
 
 	@Override
 	public String toString() {

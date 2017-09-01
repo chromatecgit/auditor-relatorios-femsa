@@ -1,8 +1,15 @@
 package model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ReportDocument {
 	private String fileName;
-	private ReportTab tab;
+	private Map<String, ReportTab> tabs;
+
+	public ReportDocument() {
+		this.tabs = new HashMap<>();
+	}
 
 	public String getFileName() {
 		return fileName;
@@ -12,12 +19,12 @@ public class ReportDocument {
 		this.fileName = fileName;
 	}
 
-	public ReportTab getTab() {
-		return tab;
+	public Map<String, ReportTab> getTabs() {
+		return tabs;
 	}
 
-	public void setTab(ReportTab tab) {
-		this.tab = tab;
+	public void setTabs(Map<String, ReportTab> tabs) {
+		this.tabs = tabs;
 	}
 
 }

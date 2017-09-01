@@ -1,8 +1,8 @@
 package utils;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.TreeMap;
+import java.util.Map;
 
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.eventusermodel.XSSFReader;
@@ -12,6 +12,7 @@ import extractors.ExcelExtractor;
 import extractors.WorkbookExtractor;
 import model.PathBuilderMapValue;
 import model.ReportConsolidadaSoviTabBuilder;
+import model.ReportDocument;
 import model.ReportHorizontalTabBuilder;
 import model.ReportTab;
 import model.ReportVerticalTabBuilder;
@@ -48,9 +49,10 @@ public class FileManager {
 		return processedTab;
 	}
 	
-	public static ReportTab fetchVerticalDocument(String fileName, PathBuilderMapValue pathMap, ProcessStageEnum processStage, String[] filters) {
+	public static ReportDocument fetchVerticalDocument(String fileName, PathBuilderMapValue pathMap, ProcessStageEnum processStage, String[] filters) {
 		
-		final List<ReportTab> processedTabs = new ArrayList<>();
+		final ReportDocument document = new ReportDocument();
+		final Map<String, ReportTab> processedTabs = new HashMap<>();
 		
 		try {
 			OPCPackage pkg = OPCPackage.open(pathMap.getPath().toFile());
@@ -63,17 +65,17 @@ public class FileManager {
 				reportVerticalTabBuilder.addDocumentName(fileName);
 				ExcelExtractor e = new ExcelExtractor(fileName, reportVerticalTabBuilder);
 				e.process(reader, tabMap, processStage);
-				processedTabs.add(e.getProcessedTab());
+				processedTabs.put(tabMap.getName(), e.getProcessedTab());
 			});
 			//MyLogPrinter.printCollection(verticalProcessedTabs, "Processed Vertical Tab");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		ReportTab mergedTabs = FileManager.merge(processedTabs, fileName);
-		processedTabs.clear();
+		document.setTabs(processedTabs);
+		document.setFileName(fileName);
 		
-		return mergedTabs;
+		return document;
 
 	}
 	
@@ -86,7 +88,7 @@ public class FileManager {
 			OPCPackage pkg = OPCPackage.open(pathMap.getPath().toFile());
 			XSSFReader reader= new XSSFReader(pkg);
 			WorkbookExtractor workbookExtractor = new WorkbookExtractor();
-			List<TabNamesMap> tabNamesMapList =  workbookExtractor.extractSheetNamesFrom(reader.getWorkbookData());
+			List<TabNamesMap> tabNamesMapList = workbookExtractor.extractSheetNamesFrom(reader.getWorkbookData());
 			
 			processedTab = tabNamesMapList.stream().map( tabMap ->  {
 				ReportConsolidadaSoviTabBuilder reportConsolidadaSoviTabBuilder = new ReportConsolidadaSoviTabBuilder();
@@ -102,24 +104,6 @@ public class FileManager {
 		return processedTab;
 	}
 	
-	private static ReportTab merge(final List<ReportTab> tabs, final String fileName) {
-		ReportTab newTab = new ReportTab();
-		newTab.setCells(new TreeMap<>());
-		StringBuilder sbTabName = new StringBuilder();
-		
-		tabs.stream().forEach( t -> {
-			sbTabName.append("#");
-			sbTabName.append(t.getTabName());
-			newTab.setNumberOfColumns(newTab.getNumberOfColumns() + t.getNumberOfColumns());
-			newTab.setNumberOfRows(newTab.getNumberOfRows() + t.getNumberOfRows());
-			
-			newTab.getCells().putAll(t.getCells()); 
-		});
-		newTab.setFileName(fileName);
-		newTab.setTabName(sbTabName.toString());
-		
-		return newTab;
-	}
 	
 	//TODO: fazer um metodo para processar aba por aba - fetchSheetBySheet
 	//TODO: fazer um metodo para processar aba por aba - fetchSheetBySheet

@@ -8,21 +8,32 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import org.apache.commons.collections4.bag.TreeBag;
 
 import config.GlobBuilder;
 import config.PathBuilder;
 import config.ProjectConfiguration;
 import enums.ConsolidadoSoviFiltersEnum;
+import enums.ConsolidadoTypeEnum;
 import enums.FileClassEnum;
 import enums.ProcessStageEnum;
+import enums.TabEnum;
 import exceptions.HaltException;
 import model.PathBuilderMapValue;
 import model.ReportCell;
 import model.ReportCellKey;
+import model.ReportDocument;
 import model.ReportTab;
 import utils.ConsolidadosFilter;
 import utils.FileManager;
 import utils.MyLogPrinter;
+import utils.TabUtils;
 
 public class SoviModule {
 	
@@ -30,6 +41,8 @@ public class SoviModule {
 	private String[] filters = {"CATEGORIA"};
 	private int errorNumber = 0;
 	private PathBuilderMapValue consolidadaValue = new PathBuilderMapValue();
+	private final String volumeRegexPattern = "\\d+(\\.\\d+)?M?L";
+	private final Pattern compiledPattern = Pattern.compile(volumeRegexPattern);
 
 	public SoviModule(final String[] fileNames) {
 		this.fileNames = fileNames;
@@ -44,32 +57,33 @@ public class SoviModule {
 		
 		final Map<String, PathBuilderMapValue> pathsMap = pathBuilder.getPathMaps();
 		
-		ReportTab verticalTab = new ReportTab();
+		ReportDocument verticalDocument = new ReportDocument();
 		ReportTab horizontalTab = new ReportTab();
 		
 		for (String fileName : pathsMap.keySet()) {
 			if (pathsMap.get(fileName).getFileClass().getCode() == FileClassEnum.VERTICAL.getCode()) {
-				verticalTab = FileManager.fetchVerticalDocument(fileName, pathsMap.get(fileName), ProcessStageEnum.FULL, filters);
-				MyLogPrinter.printObject(verticalTab, "verticalTab");
+				verticalDocument = FileManager.fetchVerticalDocument(
+						fileName, pathsMap.get(fileName), ProcessStageEnum.FULL, filters);
+				MyLogPrinter.printObject(verticalDocument, "verticalTab");
 			} else if (pathsMap.get(fileName).getFileClass().getCode() == FileClassEnum.HORIZONTAL.getCode()) {
 				horizontalTab = FileManager.fetchHorizontalDocument(fileName, pathsMap.get(fileName), ProcessStageEnum.FULL, true);
 				MyLogPrinter.printObject(horizontalTab, "horizontalTab");
 			} else if (pathsMap.get(fileName).getFileClass().getCode() == FileClassEnum.CONSOLIDADA.getCode()) {
-				consolidadaValue = pathsMap.get(fileName);
+				this.consolidadaValue = pathsMap.get(fileName);
 			}
 		}
 		
 		try {
-			this.applyBusinessRule(verticalTab, horizontalTab);
+			this.applyBusinessRule(verticalDocument, horizontalTab);
 		} catch (HaltException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	private void applyBusinessRule(final ReportTab verticalTab, final ReportTab horizontalTab) throws HaltException {
+	private void applyBusinessRule(final ReportDocument verticalDocument, final ReportTab horizontalTab) throws HaltException {
 		// Verificar se as duas possuem o mesmo tamanho antes
 		List<ReportCellKey> outKeys = new ArrayList<>();
-		verticalTab.getCells().forEach( (key, vCell) -> {
+		TabUtils.merge(verticalDocument).getCells().forEach( (key, vCell) -> {
 			ReportCell hCell = horizontalTab.getCells().get(key.getKeyWithEmptyPoc());
 			if (hCell != null) {
 				if (!vCell.getValue().equals(hCell.getValue())) {
@@ -83,367 +97,118 @@ public class SoviModule {
 		MyLogPrinter.printObject(outKeys, "SoviModule_outkeys");
 		MyLogPrinter.printBuiltMessage("SoviModule_diff");
 //		if (outKeys.isEmpty() && errorNumber == 0) {
-			this.compareSoviVerticalToConsolidada(verticalTab);
+			this.compareSoviVerticalToConsolidada(verticalDocument);
 //		}
 
 	}
-	/**
-	 *	Metodo compareSoviVerticalToConsolidada
-	 *	
-	 * */
-	private boolean compareSoviVerticalToConsolidada(final ReportTab verticalTab) {
+
+	private boolean compareSoviVerticalToConsolidada(final ReportDocument verticalDocument) {
 		ReportTab consolidadaTab = FileManager.fetchConsolidadaDocument("CONSOLIDADA_SOVI", consolidadaValue, ProcessStageEnum.FULL);
-		this.classifyByConsolidadaRules(verticalTab);
+		this.classifyByConsolidadaRules(verticalDocument);
 		MyLogPrinter.printObject(consolidadaTab, "consolidadaTab");
 		
 		return false;
 
 	}
 	
-	private ReportTab classifyByConsolidadaRules(final ReportTab verticalTab) {
-		Set<String> skuSet = new HashSet<>();
-		verticalTab.getCells().keySet().stream().forEach(r -> {
-			if (r.getColumnName().startsWith("SOVI")) {
-				skuSet.add(r.getColumnName());
-			}
-		});
-		// filtersEnum / skus
-		Map<String , List<String>> filterSkuMap = new HashMap<>();
+	private ReportTab classifyByConsolidadaRules(final ReportDocument verticalDocument) {
+
+		ReportTab parsedTab = new ReportTab();
+		
+		Map<ReportCellKey, List<String>> filterSkuMap = new HashMap<>();
 		//Classificar os SKUs
+		//ConsolidadoTypeEnum.SOVI
 		for (ConsolidadoSoviFiltersEnum e : ConsolidadoSoviFiltersEnum.values()) {
 			ConsolidadosFilter consolidadosFilter = e.getConsolidadosFilter();
-			for (String sku : skuSet) {
-				if (sku.contains(consolidadosFilter.get)
+			
+			List<ReportTab> tabsToCalculate = new ArrayList<>();
+			//TabEnum.AGUA
+			for (TabEnum tabEnum : consolidadosFilter.getSheets()) {
+				tabsToCalculate.add(verticalDocument.getTabs().get(tabEnum.getTabName()));
+			}
+			
+			this.calculateUsingFilter(tabsToCalculate, consolidadosFilter, e);
+		}
+		return null;
+	}
+
+	private Map<ReportCellKey, Integer> calculateUsingFilter(final List<ReportTab> tabsToCalculate, final ConsolidadosFilter consolidadosFilter,
+			final ConsolidadoSoviFiltersEnum e) {
+		
+		final List<Integer> soviToSum = new ArrayList<>();
+		final String keyForMap = e.name();
+		final Map<ReportCellKey, String> verticalCellMaps = new TreeMap<>();
+		final ReportTab verticalConverted = new ReportTab();
+		
+		tabsToCalculate.stream().forEach( t -> {
+			t.getCells().forEach( (key, cell) -> {
+				boolean passed = false;
+				if (key.getColumnName().startsWith(consolidadosFilter.getConsolidadoType().name())) {
+					for (String poc : cell.getPocs()) {
+						if (this.belongsToRule(key.getColumnName(), poc , consolidadosFilter)) {
+							soviToSum.add(Integer.valueOf(cell.getValue()));
+						}
+					}
+				}
+//				ReportCellKey newKey = new ReportCellKey(key.getConcat(), e.name());
+//				verticalCellMaps.put(newKey, value)
+			});
+			
+			//gravar o concat e a regra da consolidada aqui
+			//key e rule
+		});
+		
+		
+		
+		return null;
+	}
+
+	private boolean belongsToRule(final String sku, final String poc, final ConsolidadosFilter rule) {
+		//TODO: Talvez retirar o asterisco e colocar vazia, para melhorar performance
+		String pocName = rule.getPoc().getCompleteName();
+		if (!pocName.equals("*") && !poc.contains(pocName)) {
+			return false;
+		}
+		
+		for (String synonym : rule.getProduct().getSynonyms()) {
+			if (synonym.equals("*")) {
+				break;
+			} else {
+				if (!sku.contains(synonym)) {
+					continue;
+				} else {
+					break;
+				}
 			}
 		}
-		return verticalTab;
 		
+		String cia = rule.getCompany().getCia();
+		if (!cia.equals("*") && !sku.contains(cia)) {
+			return false;
+		}
 		
+		if (rule.getConsumoImediato().isCI()) {
+			Matcher m = compiledPattern.matcher(sku);
+			if (m.matches()) {
+				String result = m.group(1);
+				if (result.contains("M")) {
+					double number = Double.valueOf(result.replace("ML", ""));
+					return number <= 600 ? true : false;
+				} else {
+					return false;
+				}
+			}
+		}
+		
+		if (rule.getPropria().isPropria() && (!poc.contains("Proprio") || !poc.contains("Concorrencia"))) {
+			return false;
+		}
+		
+		//SOVI CHA FEMSA FUZE ICE TEA 300ML PET
+		return true;
 	}
-//	
-//	private HVMapGroupConsolidada mapConsolidada(List<ConsolidadaSoviTab> consolidadaSoviTabs) {
-//		HVMapGroupConsolidada groupConsolidada = new HVMapGroupConsolidada();
-//		
-//		for (ConsolidadaSoviTab tab : consolidadaSoviTabs) {
-//			for (ConsolidadaSoviID id : tab.getConsolidadaSoviIDs()) {
-//				HVMapConsolidada hvMapConsolidada = new HVMapConsolidada();
-//				hvMapConsolidada.setId(id.getId());
-//
-//				for (ConsolidadaSoviRow row : id.getConsolidadaSoviRows()) {
-//					HVMapInfosGroup infosGroup = new HVMapInfosGroup();
-//					infosGroup.setFilter(row.getColumnName());
-//					infosGroup.setHvMapInfosList(this.applyRule(id.getId(), row.getColumnName()));
-//					infosGroup.calculateTotalSovi();
-//					hvMapConsolidada.getInfosGroup().add(infosGroup);
-//				}
-//				groupConsolidada.getHvMaps().add(hvMapConsolidada);
-//			}
-//		}
-//		MyLogPrinter.printCollection(groupConsolidada.getHvMaps(), "VerticalXConsolidadaRules");
-//		return groupConsolidada;
-//	}
-//
-//	private List<HVMapInfos> applyRule(String id, String columnName) {
-//		ConsolidadoSoviFiltersEnum columnEnum = ConsolidadoSoviFiltersEnum.valueOf(columnName);
-//		ConsolidadosFilter consolidadosFilter = columnEnum.getConsolidadosFilter();
-//
-//		HVMap hvMapByID = this.verticalMap.findHVMapByID(id);
-//		List<HVMapInfos> extractedInfos = hvMapByID.applyConsolidadaFilter(consolidadosFilter);
-//
-//		return extractedInfos;
-//	}
-//
-//	private List<ConsolidadaSoviTab> extractFromConsolidada() throws IOException {
-//		List<ConsolidadaSoviTab> consolidadaSoviTabs = new ArrayList<>();
-//
-//		for (Sheet sheet : consolidadaWB) {
-//			// System.out.println("[INICIO] Extracao Sovi Consolidada da Aba: "
-//			// + sheet.getSheetName());
-//			ConsolidadaSoviTab consolidadaSoviTab = new ConsolidadaSoviTab();
-//			List<ConsolidadaSoviID> consolidadaIDs = new ArrayList<>();
-//			consolidadaSoviTab.setTabName(sheet.getSheetName());
-//			consolidadaSoviTab.setConsolidadaSoviIDs(consolidadaIDs);
-//			for (Row row : sheet) {
-//				if (row.getRowNum() != 0) {
-//					ConsolidadaSoviID consolidadaID = new ConsolidadaSoviID();
-//					List<ConsolidadaSoviRow> consolidadaRows = new ArrayList<>();
-//					consolidadaID.setConsolidadaSoviRows(consolidadaRows);
-//
-//					for (String keyColumn : consolidadaKeys.keySet()) {
-//						Cell cell = row.getCell(consolidadaKeys.get(keyColumn));
-//						if (KeyColumnsEnum.MATRICULA.getFieldName().equalsIgnoreCase(keyColumn)) {
-//							consolidadaID.setId(this.getCellValueAsString(cell));
-//						} else {
-//							if (cell.getNumericCellValue() != 0.0) {
-//								ConsolidadaSoviRow consolidadaRow = new ConsolidadaSoviRow();
-//								consolidadaRow.setColumnName(keyColumn.toUpperCase());
-//								consolidadaRow.setSovi((int) cell.getNumericCellValue());
-//								consolidadaID.getConsolidadaSoviRows().add(consolidadaRow);
-//							}
-//						}
-//					}
-//					consolidadaSoviTab.getConsolidadaSoviIDs().add(consolidadaID);
-//				}
-//			}
-//			// System.out.println("[FINAL] Extracao Sovi Consolidada da Aba: "
-//			// + sheet.getSheetName());
-//			consolidadaSoviTabs.add(consolidadaSoviTab);
-//		}
-//		MyLogPrinter.printCollection(consolidadaSoviTabs, "ConsolidadaSoviTabsResult");
-//		this.consolidadaWB.close();
-//		consolidadaWB = null;
-//		return consolidadaSoviTabs;
-//	}
-//
-//	private List<HorizontalSoviTab> extractFromHorizontal() throws IOException {
-//		List<HorizontalSoviTab> horizontalTabs = new ArrayList<>();
-//
-//		for (Sheet sheet : horizontalWB) {
-//			// System.out.println("[INICIO] Extracao Sovi Horizontal da Aba: " +
-//			// sheet.getSheetName());
-//			HorizontalSoviTab horizontalSoviTab = new HorizontalSoviTab();
-//			List<HorizontalSoviID> horizontalIDs = new ArrayList<>();
-//			horizontalSoviTab.setTabName(sheet.getSheetName());
-//			horizontalSoviTab.setIds(horizontalIDs);
-//			for (Row row : sheet) {
-//				if (row.getRowNum() != 0) {
-//					HorizontalSoviID horizontalID = new HorizontalSoviID();
-//					List<HorizontalSoviRow> horizontalRows = new ArrayList<>();
-//					horizontalID.setHorizontalSoviRows(horizontalRows);
-//
-//					for (String keyColumn : horizontalKeys.keySet()) {
-//						Cell cell = row.getCell(horizontalKeys.get(keyColumn));
-//						if (KeyColumnsEnum.MATRICULA.getFieldName().equalsIgnoreCase(keyColumn)) {
-//							horizontalID.setId(this.getCellValueAsString(cell));
-//						} else {
-//							if (cell.getNumericCellValue() != 0.0) {
-//								HorizontalSoviRow horizontalRow = new HorizontalSoviRow();
-//								horizontalRow.setSku(keyColumn.toUpperCase());
-//								horizontalRow.setSovi((int) cell.getNumericCellValue());
-//								horizontalID.getHorizontalSoviRows().add(horizontalRow);
-//							}
-//						}
-//					}
-//					horizontalSoviTab.getIds().add(horizontalID);
-//				}
-//			}
-//			// //System.out.println("[FINAL] Extracao Sovi Horizontal da Aba: "
-//			// +
-//			// sheet.getSheetName());
-//			horizontalTabs.add(horizontalSoviTab);
-//		}
-//
-//		horizontalWB.close();
-//		horizontalWB = null;
-//		return horizontalTabs;
-//	}
-//
-//	private List<VerticalSoviTab> extractFromVertical() throws IOException {
-//		String lastID = "";
-//		boolean isNewID = true;
-//		List<VerticalSoviTab> verticalTabs = new ArrayList<>();
-//
-//		for (Sheet sheet : verticalWB) {
-//			// //System.out.println("[INICIO] Extracao Sovi Vertical da Aba: " +
-//			// sheet.getSheetName());
-//			// TAB
-//			VerticalSoviTab verticalSoviTab = new VerticalSoviTab();
-//			verticalSoviTab.setTabName(sheet.getSheetName());
-//			List<VerticalSoviID> ids = new ArrayList<>();
-//			verticalSoviTab.setVerticalSoviIDs(ids);
-//			// ID
-//			VerticalSoviID verticalSoviID = null;
-//			List<VerticalSoviRow> verticalRows = null;
-//			for (Row row : sheet) {
-//				VerticalSoviRow verticalSoviRow = new VerticalSoviRow();
-//				if (row.getRowNum() != 0) {
-//
-//					for (String keyColumn : verticalKeys.keySet()) {
-//						Cell cell = row.getCell(verticalKeys.get(keyColumn));
-//						if (KeyColumnsEnum.MATRICULA.getFieldName().equalsIgnoreCase(keyColumn)) {
-//							if (!this.getCellValueAsString(cell).equals(lastID)) {
-//								verticalSoviID = new VerticalSoviID();
-//								verticalRows = new ArrayList<>();
-//								verticalSoviID.setVerticalSoviRows(verticalRows);
-//								verticalSoviID.setId(this.getCellValueAsString(cell));
-//								lastID = verticalSoviID.getId();
-//								isNewID = true;
-//							} else {
-//								isNewID = false;
-//							}
-//						} else if (KeyColumnsEnum.POC.getFieldName().equalsIgnoreCase(keyColumn)) {
-//							verticalSoviRow.setPoc(cell.getStringCellValue());
-//						} else if (KeyColumnsEnum.SKU.getFieldName().equalsIgnoreCase(keyColumn)) {
-//							verticalSoviRow.setSku(cell.getStringCellValue().toUpperCase());
-//						} else if (KeyColumnsEnum.SOVI.getFieldName().equalsIgnoreCase(keyColumn)) {
-//							verticalSoviRow.setSovi((int) cell.getNumericCellValue());
-//						}
-//					}
-//					verticalSoviID.getVerticalSoviRows().add(verticalSoviRow);
-//					if (isNewID) {
-//						verticalSoviTab.getVerticalSoviIDs().add(verticalSoviID);
-//					}
-//				}
-//			}
-//			verticalTabs.add(verticalSoviTab);
-//			// //System.out.println("[FINAL] Extracao Sovi Vertical da Aba: " +
-//			// sheet.getSheetName());
-//		}
-//
-//		this.verticalWB.close();
-//		this.verticalWB = null;
-//		return verticalTabs;
-//	}
-//
-//	private HVMapGroup mapVerticalTabs(List<VerticalSoviTab> verticalTabs) {
-//		HVMapGroup verticalMapGroup = new HVMapGroup();
-//
-//		for (VerticalSoviTab verticalTab : verticalTabs) {
-//			for (VerticalSoviID verticalSovi : verticalTab.getVerticalSoviIDs()) {
-//				HVMap hvMap = new HVMap();
-//				hvMap.setId(verticalSovi.getId());
-//
-//				for (VerticalSoviRow verticalRow : verticalSovi.getVerticalSoviRows()) {
-//					HVMapInfos infos = new HVMapInfos();
-//					infos.setPoc(verticalRow.getPoc());
-//					infos.setSku(verticalRow.getSku());
-//					infos.setSovi(verticalRow.getSovi());
-//					infos.setTabName(verticalTab.getTabName());
-//					hvMap.getMapInfos().add(infos);
-//				}
-//				Collections.sort(hvMap.getMapInfos());
-//				verticalMapGroup.addHVMap(hvMap);
-//			}
-//		}
-//
-//		return verticalMapGroup;
-//	}
-//
-//	private HVMapGroup mapHorizontalTabs(List<HorizontalSoviTab> horizontalTabs) {
-//		HVMapGroup horizontalMap = new HVMapGroup();
-//		for (HorizontalSoviTab horizontalTab : horizontalTabs) {
-//			if (horizontalTab.getTabName().trim().equals("SOVI")) {
-//				for (HorizontalSoviID horizontalID : horizontalTab.getIds()) {
-//					HVMap hvMap = new HVMap();
-//					hvMap.setId(horizontalID.getId());
-//					for (HorizontalSoviRow horizontalRow : horizontalID.getHorizontalSoviRows()) {
-//						HVMapInfos infos = new HVMapInfos();
-//						infos.setPoc("");
-//						infos.setSku(horizontalRow.getSku());
-//						infos.setSovi(horizontalRow.getSovi());
-//						infos.setTabName(horizontalTab.getTabName());
-//						hvMap.getMapInfos().add(infos);
-//					}
-//					Collections.sort(hvMap.getMapInfos());
-//					horizontalMap.getHVMaps().add(hvMap);
-//				}
-//			}
-//		}
-//		return horizontalMap;
-//	}
-//
-//	private XSSFWorkbook filterKeys(File file, String fileName, ConsolidadoKeyColumns keyColumns) {
-//		try {
-//			OPCPackage pkg = OPCPackage.open(file);
-//
-//			XSSFWorkbook wb = new XSSFWorkbook(pkg);
-//
-//			Sheet sheet = wb.getSheetAt(wb.getFirstVisibleTab());
-//			System.out.println("Processando: " + sheet.getSheetName());
-//
-//			Row row = sheet.getRow(sheet.getFirstRowNum());
-//			for (Cell cell : row) {
-//				for (String columnName : keyColumns.getColumnNames()) {
-//					String cellName = cell.getStringCellValue().toLowerCase();
-//					if (cellName.toLowerCase().equals(columnName) && keyColumns.equals(ConsolidadoKeyColumns.SOVI_V)) {
-//						this.verticalKeys.put(cellName, cell.getColumnIndex());
-//					} else if (cellName.toLowerCase().startsWith(columnName)
-//							&& keyColumns.equals(ConsolidadoKeyColumns.SOVI_H)) {
-//						this.horizontalKeys.put(cellName, cell.getColumnIndex());
-//					} else if (cellName.toLowerCase().startsWith(columnName)
-//							&& keyColumns.equals(ConsolidadoKeyColumns.CONSOLIDADA)) {
-//						this.consolidadaKeys.put(cellName, cell.getColumnIndex());
-//					}
-//				}
-//			}
-//			System.out.println("Chaves extraidas com sucesso de " +
-//			sheet.getSheetName());
-//			return wb;
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return null;
-//	}
-//
-//	private boolean compareSoviHorizontalVertical(final List<VerticalSoviTab> verticalTabs,
-//			final List<HorizontalSoviTab> horizontalTabs) {
-//		List<DiffMap> diffMaps = new ArrayList<>();
-//
-//		HVMapGroup horizontalMap = this.mapHorizontalTabs(horizontalTabs);
-//		Collections.sort(horizontalMap.getHVMaps());
-//
-//		this.verticalMap = this.mapVerticalTabs(verticalTabs);
-//		HVMapGroup consolidatedVertical = this.verticalMap.consolidateSoviBySKU();
-//		Collections.sort(consolidatedVertical.getHVMaps());
-//
-//		// System.out.println("HORIZONTAL MAP: " + horizontalMap);
-//		// System.out.println("VERTICAL CONSOLIDATED MAP: " +
-//		// consolidatedVertical);
-//
-//		for (HVMap hMap : horizontalMap.getHVMaps()) {
-//			for (HVMap vMap : consolidatedVertical.getHVMaps()) {
-//				if (hMap.getId().equals(vMap.getId())) {
-//					diffMaps.addAll(this.compareSoviAndSKU(hMap, vMap));
-//				}
-//			}
-//		}
-//		System.out.println("DIFFMAPS: " + diffMaps);
-//		return diffMaps.isEmpty() ? true : false;
-//	}
-//
-//	private List<DiffMap> compareSoviAndSKU(HVMap hMap, HVMap vMap) {
-//		List<DiffMap> diffMaps = new ArrayList<>();
-//
-//		if (hMap.getMapInfos().size() != vMap.getMapInfos().size()) {
-//			// System.out.println("HMAP: " + hMap.getMapInfos().size() + " - " +
-//			// "VMAP: " + vMap.getMapInfos().size());
-//			if (hMap.getMapInfos().size() - vMap.getMapInfos().size() < 0) {
-//				// System.out.println("SKU a mais em Vertical");
-//				for (String vSku : vMap.getAllSKUs()) {
-//					List<HVMapInfos> findMapsBySKU = vMap.findMapsBySKU(vSku);
-//					if (findMapsBySKU == null || findMapsBySKU.isEmpty()) {
-//						// System.out.println("\tSKU: " + vSku);
-//					}
-//				}
-//			} else {
-//				// System.out.println("SKU a mais em Horizontal");
-//				for (String hSku : hMap.getAllSKUs()) {
-//					List<HVMapInfos> findMapsBySKU = vMap.findMapsBySKU(hSku);
-//					if (findMapsBySKU == null || findMapsBySKU.isEmpty()) {
-//						// System.out.println("\tSKU: " + hSku);
-//					}
-//				}
-//			}
-//
-//		}
-//		for (HVMapInfos hInfos : hMap.getMapInfos()) {
-//			for (HVMapInfos vInfos : vMap.getMapInfos()) {
-//				if (hInfos.getSku().equalsIgnoreCase(vInfos.getSku())) {
-//					if (hInfos.getSovi().equals(vInfos.getSovi())) {
-//						break;
-//					} else {
-//						DiffMap diffMap = new DiffMap();
-//						diffMap.setId(hMap.getId());
-//						diffMap.setSku(vInfos.getSku());
-//						diffMap.setHorizontalSovi(hInfos.getSovi());
-//						diffMap.setVerticalSovi(vInfos.getSovi());
-//						diffMaps.add(diffMap);
-//					}
-//				}
-//			}
-//		}
-//		return diffMaps;
-//	}
+	
+
 	
 }
 
