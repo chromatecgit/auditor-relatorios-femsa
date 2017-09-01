@@ -94,6 +94,7 @@ public class SoviModule {
 				outKeys.add(key);
 			}
 		});
+		MyLogPrinter.printObject(outKeys.stream().map(o -> o.getColumnName()).collect(Collectors.toSet()), "SoviModule_outkeys_distinct");
 		MyLogPrinter.printObject(outKeys, "SoviModule_outkeys");
 		MyLogPrinter.printBuiltMessage("SoviModule_diff");
 //		if (outKeys.isEmpty() && errorNumber == 0) {
@@ -150,10 +151,9 @@ public class SoviModule {
 						}
 					}
 				}
-//				ReportCellKey newKey = new ReportCellKey(key.getConcat(), e.name());
-//				verticalCellMaps.put(newKey, value)
 			});
-			
+//			ReportCellKey newKey = new ReportCellKey(key.getConcat(), e.name());
+//			verticalCellMaps.put(newKey, value)
 			//gravar o concat e a regra da consolidada aqui
 			//key e rule
 		});

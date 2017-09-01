@@ -27,4 +27,9 @@ public class ReportDocument {
 		this.tabs = tabs;
 	}
 
+	@Override
+	public String toString() {
+		return "ReportDocument [fileName=" + fileName + ", tabs=" + tabs + "]";
+	}
+
 }
