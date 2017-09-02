@@ -3,10 +3,10 @@ package main;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.TreeMap;
 
 import config.GlobBuilder;
 import config.PathBuilder;
@@ -17,7 +17,7 @@ import exceptions.HaltException;
 import model.PathBuilderMapValue;
 import model.ReportCell;
 import model.ReportCellKey;
-import model.ReportSymmetryResults;
+import model.ReportSymmetryResult;
 import model.ReportTab;
 import utils.FileManager;
 import utils.MyLogPrinter;
@@ -66,7 +66,7 @@ public class PrecoModule {
 	private void applyBusinessRule(final ReportTab verticalTab, final ReportTab horizontalTab) throws HaltException {
 		
 		this.checkSymmetry(verticalTab, horizontalTab);
-		
+	
 		List<ReportCellKey> outKeys = new ArrayList<>();
 		horizontalTab.getCells().forEach( (key, vCell) -> {
 			ReportCell hCell = verticalTab.getCells().get(key);
@@ -74,28 +74,44 @@ public class PrecoModule {
 				MyLogPrinter.addToBuiltMessage("[Horizontal]=" + key + " valores=" + hCell + "/[Vertical]=" + key + " valores=" + vCell);
 			}
 		});
+		
 		MyLogPrinter.printObject(outKeys, "PrecoModule_outkeys");
 		MyLogPrinter.printBuiltMessage("PrecoModule_diff");
+			
 	}
 
-	private void checkSymmetry(ReportTab verticalTab, ReportTab horizontalTab) {
+	private void checkSymmetry(final ReportTab verticalTab, final ReportTab horizontalTab) throws HaltException {
 		//Trocar por keys?
-		final List<ReportSymmetryResults> asymmetricValues = new ArrayList<>();
+		final Map<ReportCellKey, ReportCell> asymmetricValues = new TreeMap<>();
 		final Map<ReportCellKey, ReportCell> vCells = verticalTab.getCells();
 		final Map<ReportCellKey, ReportCell> hCells = horizontalTab.getCells();
 		
-		vCells.forEach((key, cell) -> {
-			ReportCell hCell = hCells.remove(key);
-			if (hCell == null) {
-				ReportSymmetryResults vResult = new ReportSymmetryResults(key, cell);
-				asymmetricValues.add(vResult);
+		System.out.println(vCells.size());
+		hCells.forEach((key, cell) -> {
+			if (vCells.remove(key) == null) {
+				asymmetricValues.put(key, cell);
 			}
 		});
 		
-		//asymmetricValues.stream().
+		if (!vCells.isEmpty() || !asymmetricValues.isEmpty()) {
+			System.out.println(vCells.size());
+			asymmetricValues.putAll(vCells);
+			MyLogPrinter.printObject(this.formatAsymmetricValues(asymmetricValues), "PrecoModule_asymmetricValues");
+			throw new HaltException("Existem registros em não conformidade. Favor conferir log do arquivo \"PrecoModule_asymmetricValues\"");
+		}
 	}
 
-//	private ReportTab filterTab(ReportTab tab) {
-//		tab.getCells().
-//	}
+	private Map<String, ReportSymmetryResult> formatAsymmetricValues (final Map<ReportCellKey, ReportCell> asymmetricValues) {
+		Map<String, ReportSymmetryResult> results = new HashMap<>();
+		 asymmetricValues.entrySet().stream().forEach(e -> {
+			
+			ReportSymmetryResult r = new ReportSymmetryResult();
+			r.getDescriptions().add(e.getKey().getColumnName() +"="+ e.getValue().getValue() + " ");
+			results.merge(e.getKey().getConcat(), r, (nv, ov) -> {
+				ov.getDescriptions().addAll(nv.getDescriptions());
+				return ov;
+			});
+		});
+		return results;
+	}
 }
