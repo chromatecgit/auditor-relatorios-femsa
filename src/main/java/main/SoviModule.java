@@ -152,10 +152,9 @@ public class SoviModule {
 					}
 				}
 			});
+			
 //			ReportCellKey newKey = new ReportCellKey(key.getConcat(), e.name());
 //			verticalCellMaps.put(newKey, value)
-			//gravar o concat e a regra da consolidada aqui
-			//key e rule
 		});
 		
 		

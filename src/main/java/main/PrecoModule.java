@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import config.GlobBuilder;
 import config.PathBuilder;
@@ -15,6 +17,7 @@ import exceptions.HaltException;
 import model.PathBuilderMapValue;
 import model.ReportCell;
 import model.ReportCellKey;
+import model.ReportSymmetryResults;
 import model.ReportTab;
 import utils.FileManager;
 import utils.MyLogPrinter;
@@ -61,20 +64,35 @@ public class PrecoModule {
 	}
 
 	private void applyBusinessRule(final ReportTab verticalTab, final ReportTab horizontalTab) throws HaltException {
-		// Verificar se as duas possuem o mesmo tamanho antes
+		
+		this.checkSymmetry(verticalTab, horizontalTab);
+		
 		List<ReportCellKey> outKeys = new ArrayList<>();
-		verticalTab.getCells().forEach( (key, vCell) -> {
-			ReportCell hCell = horizontalTab.getCells().get(key.getKeyWithEmptyPoc());
-			if (hCell != null) {
-				if (!vCell.getValue().equals(hCell.getValue())) {
-					MyLogPrinter.addToBuiltMessage("[Horizontal]=" + key + " valores=" + hCell + "/[Vertical]=" + key + " valores=" + vCell);
-				}
-			} else {
-				outKeys.add(key);
+		horizontalTab.getCells().forEach( (key, vCell) -> {
+			ReportCell hCell = verticalTab.getCells().get(key);
+			if (!vCell.getValue().equals(hCell.getValue())) {
+				MyLogPrinter.addToBuiltMessage("[Horizontal]=" + key + " valores=" + hCell + "/[Vertical]=" + key + " valores=" + vCell);
 			}
 		});
 		MyLogPrinter.printObject(outKeys, "PrecoModule_outkeys");
 		MyLogPrinter.printBuiltMessage("PrecoModule_diff");
+	}
+
+	private void checkSymmetry(ReportTab verticalTab, ReportTab horizontalTab) {
+		//Trocar por keys?
+		final List<ReportSymmetryResults> asymmetricValues = new ArrayList<>();
+		final Map<ReportCellKey, ReportCell> vCells = verticalTab.getCells();
+		final Map<ReportCellKey, ReportCell> hCells = horizontalTab.getCells();
+		
+		vCells.forEach((key, cell) -> {
+			ReportCell hCell = hCells.remove(key);
+			if (hCell == null) {
+				ReportSymmetryResults vResult = new ReportSymmetryResults(key, cell);
+				asymmetricValues.add(vResult);
+			}
+		});
+		
+		//asymmetricValues.stream().
 	}
 
 //	private ReportTab filterTab(ReportTab tab) {
