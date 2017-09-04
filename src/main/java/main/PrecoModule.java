@@ -3,6 +3,7 @@ package main;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,7 +66,7 @@ public class PrecoModule {
 
 	private void applyBusinessRule(final ReportTab verticalTab, final ReportTab horizontalTab) throws HaltException {
 		
-		this.checkSymmetry(verticalTab, horizontalTab);
+//		this.checkSymmetry(verticalTab, horizontalTab);
 	
 		List<ReportCellKey> outKeys = new ArrayList<>();
 		horizontalTab.getCells().forEach( (key, vCell) -> {
@@ -96,22 +97,22 @@ public class PrecoModule {
 		if (!vCells.isEmpty() || !asymmetricValues.isEmpty()) {
 			System.out.println(vCells.size());
 			asymmetricValues.putAll(vCells);
-			MyLogPrinter.printObject(this.formatAsymmetricValues(asymmetricValues), "PrecoModule_asymmetricValues");
+			MyLogPrinter.printCollection(this.formatAsymmetricValues(asymmetricValues), "PrecoModule_asymmetricValues");
 			throw new HaltException("Existem registros em não conformidade. Favor conferir log do arquivo \"PrecoModule_asymmetricValues\"");
 		}
 	}
 
-	private Map<String, ReportSymmetryResult> formatAsymmetricValues (final Map<ReportCellKey, ReportCell> asymmetricValues) {
+	private Collection<ReportSymmetryResult> formatAsymmetricValues (final Map<ReportCellKey, ReportCell> asymmetricValues) {
 		Map<String, ReportSymmetryResult> results = new HashMap<>();
 		 asymmetricValues.entrySet().stream().forEach(e -> {
-			
 			ReportSymmetryResult r = new ReportSymmetryResult();
+			r.setKey(e.getKey().getConcat());
 			r.getDescriptions().add(e.getKey().getColumnName() +"="+ e.getValue().getValue() + " ");
 			results.merge(e.getKey().getConcat(), r, (nv, ov) -> {
 				ov.getDescriptions().addAll(nv.getDescriptions());
 				return ov;
 			});
 		});
-		return results;
+		return results.values();
 	}
 }

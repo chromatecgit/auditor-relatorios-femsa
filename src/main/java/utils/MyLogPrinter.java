@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +28,16 @@ public class MyLogPrinter {
 	}
 	
 	public static void printCollection(List<? extends Object> objs, String fileName) {
+		PrintWriter pw = MyLogPrinter.getPrintWriter(fileName);
+
+		for (Object obj : objs) {
+			pw.write(obj.toString());
+		}
+		pw.close();
+		System.out.println("PRINTED " + fileName + "!");
+	}
+	
+	public static void printCollection(Collection<? extends Object> objs, String fileName) {
 		PrintWriter pw = MyLogPrinter.getPrintWriter(fileName);
 
 		for (Object obj : objs) {

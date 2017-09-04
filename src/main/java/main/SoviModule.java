@@ -3,6 +3,7 @@ package main;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -28,7 +29,9 @@ import exceptions.HaltException;
 import model.PathBuilderMapValue;
 import model.ReportCell;
 import model.ReportCellKey;
+import model.ReportCellMultipleKey;
 import model.ReportDocument;
+import model.ReportSymmetryResult;
 import model.ReportTab;
 import utils.ConsolidadosFilter;
 import utils.FileManager;
@@ -81,7 +84,7 @@ public class SoviModule {
 	}
 	
 	private void applyBusinessRule(final ReportDocument verticalDocument, final ReportTab horizontalTab) throws HaltException {
-		// Verificar se as duas possuem o mesmo tamanho antes
+//		this.checkSymmetry(TabUtils.merge(verticalDocument), horizontalTab);
 		List<ReportCellKey> outKeys = new ArrayList<>();
 		TabUtils.merge(verticalDocument).getCells().forEach( (key, vCell) -> {
 			ReportCell hCell = horizontalTab.getCells().get(key.getKeyWithEmptyPoc());
@@ -116,7 +119,7 @@ public class SoviModule {
 
 		ReportTab parsedTab = new ReportTab();
 		
-		Map<ReportCellKey, List<String>> filterSkuMap = new HashMap<>();
+		Map<ReportCellMultipleKey, Integer> filterSkuMap = new TreeMap<>();
 		//Classificar os SKUs
 		//ConsolidadoTypeEnum.SOVI
 		for (ConsolidadoSoviFiltersEnum e : ConsolidadoSoviFiltersEnum.values()) {
@@ -127,39 +130,35 @@ public class SoviModule {
 			for (TabEnum tabEnum : consolidadosFilter.getSheets()) {
 				tabsToCalculate.add(verticalDocument.getTabs().get(tabEnum.getTabName()));
 			}
+			filterSkuMap.putAll(this.calculateUsingFilter(tabsToCalculate, consolidadosFilter, e));
+			MyLogPrinter.printObject(filterSkuMap, "SoviModule_filterSkuMap");
 			
-			this.calculateUsingFilter(tabsToCalculate, consolidadosFilter, e);
 		}
+//		MyLogPrinter.printObject(filterSkuMap, "SoviModule_filterSkuMap");
 		return null;
 	}
 
-	private Map<ReportCellKey, Integer> calculateUsingFilter(final List<ReportTab> tabsToCalculate, final ConsolidadosFilter consolidadosFilter,
+	private Map<ReportCellMultipleKey, Integer> calculateUsingFilter(final List<ReportTab> tabsToCalculate, final ConsolidadosFilter consolidadosFilter,
 			final ConsolidadoSoviFiltersEnum e) {
 		
-		final List<Integer> soviToSum = new ArrayList<>();
-		final String keyForMap = e.name();
-		final Map<ReportCellKey, String> verticalCellMaps = new TreeMap<>();
-		final ReportTab verticalConverted = new ReportTab();
+		final Map<ReportCellMultipleKey, Integer> verticalCellMaps = new TreeMap<>();
 		
 		tabsToCalculate.stream().forEach( t -> {
 			t.getCells().forEach( (key, cell) -> {
-				boolean passed = false;
 				if (key.getColumnName().startsWith(consolidadosFilter.getConsolidadoType().name())) {
 					for (String poc : cell.getPocs()) {
 						if (this.belongsToRule(key.getColumnName(), poc , consolidadosFilter)) {
-							soviToSum.add(Integer.valueOf(cell.getValue()));
+							ReportCellMultipleKey newKey = new ReportCellMultipleKey(key.getConcat(), key.getColumnName(),poc, e.name());
+							verticalCellMaps.merge(newKey, Integer.valueOf(cell.getValue()),(nv,ov) -> {
+								return nv + ov;
+							});
 						}
 					}
 				}
 			});
-			
-//			ReportCellKey newKey = new ReportCellKey(key.getConcat(), e.name());
-//			verticalCellMaps.put(newKey, value)
 		});
 		
-		
-		
-		return null;
+		return verticalCellMaps;
 	}
 
 	private boolean belongsToRule(final String sku, final String poc, final ConsolidadosFilter rule) {
@@ -207,7 +206,40 @@ public class SoviModule {
 		return true;
 	}
 	
+	private void checkSymmetry(final ReportTab verticalTab, final ReportTab horizontalTab) throws HaltException {
+		//Trocar por keys?
+		final Map<ReportCellKey, ReportCell> asymmetricValues = new TreeMap<>();
+		final Map<ReportCellKey, ReportCell> vCells = verticalTab.getCells();
+		final Map<ReportCellKey, ReportCell> hCells = horizontalTab.getCells();
+		
+		System.out.println(vCells.size());
+		hCells.forEach((key, cell) -> {
+			if (vCells.remove(key) == null) {
+				asymmetricValues.put(key, cell);
+			}
+		});
+		
+		if (!vCells.isEmpty() || !asymmetricValues.isEmpty()) {
+			System.out.println(vCells.size());
+			asymmetricValues.putAll(vCells);
+			MyLogPrinter.printCollection(this.formatAsymmetricValues(asymmetricValues), "SoviModule_asymmetricValues");
+			throw new HaltException("Existem registros em não conformidade. Favor conferir log do arquivo \"SoviModule_asymmetricValues\"");
+		}
+	}
 
+	private Collection<ReportSymmetryResult> formatAsymmetricValues (final Map<ReportCellKey, ReportCell> asymmetricValues) {
+		Map<String, ReportSymmetryResult> results = new HashMap<>();
+		 asymmetricValues.entrySet().stream().forEach(e -> {
+			ReportSymmetryResult r = new ReportSymmetryResult();
+			r.setKey(e.getKey().getConcat());
+			r.getDescriptions().add(e.getKey().getColumnName() +"="+ e.getValue().getValue() + " ");
+			results.merge(e.getKey().getConcat(), r, (nv, ov) -> {
+				ov.getDescriptions().addAll(nv.getDescriptions());
+				return ov;
+			});
+		});
+		return results.values();
+	}
 	
 }
 
