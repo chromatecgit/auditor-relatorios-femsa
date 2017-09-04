@@ -107,7 +107,7 @@ public enum ConsolidadoSoviFiltersEnum {
 	SOVIFAMRETFEMSA(
 			new ConsolidadosFilter(
 					ConsolidadoTypeEnum.SOVI,
-					TabGroupEnum.ALL.getTabs(),
+					TabEnum.CSD,
 					POCTypeEnum.ALL, 
 					ProductEnum.FAMRET, 
 					CompanyEnum.FEMSA, 

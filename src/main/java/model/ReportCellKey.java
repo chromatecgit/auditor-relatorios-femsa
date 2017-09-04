@@ -15,7 +15,6 @@ public class ReportCellKey implements Comparable<ReportCellKey> {
 		this.concat = concat;
 		this.columnName = columnName;
 	}
-	
 
 	public ReportCellKey(String concat, String columnName, String poc) {
 		super();
@@ -42,22 +41,17 @@ public class ReportCellKey implements Comparable<ReportCellKey> {
 	public IndentationEnum getHierarchy() {
 		return IndentationEnum.LEVEL_2;
 	}
-	
+
 	public ReportCellKey getKeyWithEmptyPoc() {
 		return new ReportCellKey(this.concat, this.columnName, "");
-	}
-
-	@Override
-	public String toString() {
-		return this.getHierarchy().getIndentationEntity() + "ReportCellKey [concat=" + concat + ", columnName=" + columnName + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((concat == null) ? 0 : concat.hashCode());
 		result = prime * result + ((columnName == null) ? 0 : columnName.hashCode());
+		result = prime * result + ((concat == null) ? 0 : concat.hashCode());
 		return result;
 	}
 
@@ -70,17 +64,22 @@ public class ReportCellKey implements Comparable<ReportCellKey> {
 		if (getClass() != obj.getClass())
 			return false;
 		ReportCellKey other = (ReportCellKey) obj;
-		if (concat == null) {
-			if (other.concat != null)
-				return false;
-		} else if (!concat.equals(other.concat))
-			return false;
 		if (columnName == null) {
 			if (other.columnName != null)
 				return false;
 		} else if (!columnName.equals(other.columnName))
 			return false;
+		if (concat == null) {
+			if (other.concat != null)
+				return false;
+		} else if (!concat.equals(other.concat))
+			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "ReportCellKey [concat=" + concat + ", columnName=" + columnName + "]";
 	}
 
 	@Override

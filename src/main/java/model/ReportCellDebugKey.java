@@ -1,16 +1,16 @@
 package model;
 
-public class ReportCellMultipleKey implements Comparable<ReportCellMultipleKey>{
+public class ReportCellDebugKey implements Comparable<ReportCellDebugKey>{
 	private String concat;
 	private String sku;
 	private String poc;
 	private String rule;
 
-	public ReportCellMultipleKey() {
+	public ReportCellDebugKey() {
 		super();
 	}
 
-	public ReportCellMultipleKey(String concat, String sku, String poc, String rule) {
+	public ReportCellDebugKey(String concat, String sku, String poc, String rule) {
 		super();
 		this.concat = concat;
 		this.sku = sku;
@@ -74,7 +74,7 @@ public class ReportCellMultipleKey implements Comparable<ReportCellMultipleKey>{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ReportCellMultipleKey other = (ReportCellMultipleKey) obj;
+		ReportCellDebugKey other = (ReportCellDebugKey) obj;
 		if (concat == null) {
 			if (other.concat != null)
 				return false;
@@ -99,7 +99,7 @@ public class ReportCellMultipleKey implements Comparable<ReportCellMultipleKey>{
 	}
 
 	@Override
-	public int compareTo(ReportCellMultipleKey o) {
+	public int compareTo(ReportCellDebugKey o) {
 		String result1 = this.getConcat() + this.getSku() + this.getPoc() + this.getRule();
 		String result2 = o.getConcat() + o.getSku() + o.getPoc() + o.getRule();
 		return result1.compareTo(result2);

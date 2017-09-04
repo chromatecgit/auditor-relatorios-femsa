@@ -29,14 +29,15 @@ import exceptions.HaltException;
 import model.PathBuilderMapValue;
 import model.ReportCell;
 import model.ReportCellKey;
-import model.ReportCellMultipleKey;
+import model.ReportCellDebugKey;
+import model.ReportCellKey;
 import model.ReportDocument;
 import model.ReportSymmetryResult;
 import model.ReportTab;
 import utils.ConsolidadosFilter;
 import utils.FileManager;
 import utils.MyLogPrinter;
-import utils.TabUtils;
+import utils.ReportDocumentUtils;
 
 public class SoviModule {
 	
@@ -86,7 +87,7 @@ public class SoviModule {
 	private void applyBusinessRule(final ReportDocument verticalDocument, final ReportTab horizontalTab) throws HaltException {
 //		this.checkSymmetry(TabUtils.merge(verticalDocument), horizontalTab);
 		List<ReportCellKey> outKeys = new ArrayList<>();
-		TabUtils.merge(verticalDocument).getCells().forEach( (key, vCell) -> {
+		ReportDocumentUtils.merge(verticalDocument).getCells().forEach( (key, vCell) -> {
 			ReportCell hCell = horizontalTab.getCells().get(key.getKeyWithEmptyPoc());
 			if (hCell != null) {
 				if (!vCell.getValue().equals(hCell.getValue())) {
@@ -119,7 +120,7 @@ public class SoviModule {
 
 		ReportTab parsedTab = new ReportTab();
 		
-		Map<ReportCellMultipleKey, Integer> filterSkuMap = new TreeMap<>();
+		Map<ReportCellDebugKey, Integer> filterSkuMap = new TreeMap<>();
 		//Classificar os SKUs
 		//ConsolidadoTypeEnum.SOVI
 		for (ConsolidadoSoviFiltersEnum e : ConsolidadoSoviFiltersEnum.values()) {
@@ -130,28 +131,51 @@ public class SoviModule {
 			for (TabEnum tabEnum : consolidadosFilter.getSheets()) {
 				tabsToCalculate.add(verticalDocument.getTabs().get(tabEnum.getTabName()));
 			}
-			filterSkuMap.putAll(this.calculateUsingFilter(tabsToCalculate, consolidadosFilter, e));
-			MyLogPrinter.printObject(filterSkuMap, "SoviModule_filterSkuMap");
-			
+			filterSkuMap.putAll(this.calculateUsingFilterDebug(tabsToCalculate, consolidadosFilter, e));
+			MyLogPrinter.printObject(filterSkuMap, "SoviModule_filterSkuMap_" + e.name());
+			filterSkuMap.clear();
 		}
 //		MyLogPrinter.printObject(filterSkuMap, "SoviModule_filterSkuMap");
 		return null;
 	}
 
-	private Map<ReportCellMultipleKey, Integer> calculateUsingFilter(final List<ReportTab> tabsToCalculate, final ConsolidadosFilter consolidadosFilter,
+	private Map<ReportCellKey, Integer> calculateUsingFilter(final List<ReportTab> tabsToCalculate, final ConsolidadosFilter consolidadosFilter,
 			final ConsolidadoSoviFiltersEnum e) {
 		
-		final Map<ReportCellMultipleKey, Integer> verticalCellMaps = new TreeMap<>();
+		final Map<ReportCellKey, Integer> verticalCellMaps = new TreeMap<>();
 		
 		tabsToCalculate.stream().forEach( t -> {
 			t.getCells().forEach( (key, cell) -> {
 				if (key.getColumnName().startsWith(consolidadosFilter.getConsolidadoType().name())) {
-					for (String poc : cell.getPocs()) {
+					for (String poc : cell.getPocInfos().keySet()) {
 						if (this.belongsToRule(key.getColumnName(), poc , consolidadosFilter)) {
-							ReportCellMultipleKey newKey = new ReportCellMultipleKey(key.getConcat(), key.getColumnName(),poc, e.name());
+//							ReportCellMultipleKey newKey = new ReportCellMultipleKey(key.getConcat(), key.getColumnName(),poc, e.name());
+							ReportCellKey newKey = new ReportCellKey(key.getConcat(), e.name());
 							verticalCellMaps.merge(newKey, Integer.valueOf(cell.getValue()),(nv,ov) -> {
 								return nv + ov;
 							});
+						}
+					}
+				}
+			});
+		});
+		
+		return verticalCellMaps;
+	}
+	
+	private Map<ReportCellDebugKey, Integer> calculateUsingFilterDebug(final List<ReportTab> tabsToCalculate, final ConsolidadosFilter consolidadosFilter,
+			final ConsolidadoSoviFiltersEnum e) {
+		
+		final Map<ReportCellDebugKey, Integer> verticalCellMaps = new TreeMap<>();
+		
+		tabsToCalculate.stream().forEach( t -> {
+			t.getCells().forEach( (key, cell) -> {
+				if (key.getColumnName().startsWith(consolidadosFilter.getConsolidadoType().name())) {
+					for (String poc : cell.getPocInfos().keySet()) {
+						if (this.belongsToRule(key.getColumnName(), poc , consolidadosFilter)) {
+							ReportCellDebugKey newKey = new ReportCellDebugKey(key.getConcat(), key.getColumnName(), poc,  e.name());
+							
+							verticalCellMaps.put(newKey, Integer.valueOf(cell.getValue()));
 						}
 					}
 				}
@@ -168,16 +192,22 @@ public class SoviModule {
 			return false;
 		}
 		
+		boolean containsSynonym = false;
 		for (String synonym : rule.getProduct().getSynonyms()) {
 			if (synonym.equals("*")) {
+				containsSynonym = true;
 				break;
 			} else {
 				if (!sku.contains(synonym)) {
 					continue;
 				} else {
+					containsSynonym = true;
 					break;
 				}
 			}
+		}
+		if (!containsSynonym) {
+			return false;
 		}
 		
 		String cia = rule.getCompany().getCia();
@@ -198,7 +228,7 @@ public class SoviModule {
 			}
 		}
 		
-		if (rule.getPropria().isPropria() && (!poc.contains("Proprio") || !poc.contains("Concorrencia"))) {
+		if (rule.getPropria().isPropria() && (!poc.contains("Proprio") && !poc.contains("Concorrencia"))) {
 			return false;
 		}
 		

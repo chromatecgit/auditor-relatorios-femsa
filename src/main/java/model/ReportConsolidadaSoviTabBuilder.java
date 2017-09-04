@@ -55,9 +55,7 @@ public class ReportConsolidadaSoviTabBuilder implements ReportTabBuilder {
 
 	@Override
 	public void addAndReset(final ReportCell cell, final String cellValue) {
-		ReportCellKey cellKey = new ReportCellKey();
-		cellKey.setConcat(currentConcatLineIndex.getConcat());
-		cellKey.setColumnName(this.currentSKU.isEmpty() ? cellValue : currentSKU);
+		ReportCellKey cellKey = new ReportCellKey(currentConcatLineIndex.getConcat(), this.currentSKU.isEmpty() ? cellValue : currentSKU, "");
 		this.currentSKU = "";
 		this.tab.getCells().put(cellKey, cell);
 	}

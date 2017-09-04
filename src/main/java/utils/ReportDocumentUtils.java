@@ -5,7 +5,7 @@ import java.util.TreeMap;
 import model.ReportDocument;
 import model.ReportTab;
 
-public class TabUtils {
+public class ReportDocumentUtils {
 	public static ReportTab merge(final ReportDocument document) {
 		ReportTab newTab = new ReportTab();
 		newTab.setCells(new TreeMap<>());

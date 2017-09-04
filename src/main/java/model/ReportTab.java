@@ -1,30 +1,43 @@
 package model;
 
 import java.util.Map;
+import java.util.TreeMap;
 
 import enums.IndentationEnum;
 import interfaces.Indentable;
 
 public class ReportTab implements Indentable {
-	protected String fileName;
-	protected String tabName;
-	protected int numberOfRows;
-	protected int numberOfColumns;
+	private String fileName;
+	private String tabName;
+	private int numberOfRows;
+	private int numberOfColumns;
 	private Map<ReportCellKey, ReportCell> cells;
 
 	public ReportTab() {
 		super();
 		this.tabName = "";
+		this.cells = new TreeMap<>();
 	}
 
-	public ReportTab(final String name) {
-		super();
-		this.tabName = name;
-	}
-
-	public ReportTab(final String tabName, final Map<ReportCellKey, ReportCell> cells) {
+	public ReportTab(final String tabName) {
 		super();
 		this.tabName = tabName;
+		this.cells = new TreeMap<>();
+	}
+
+	public ReportTab(String fileName, String tabName) {
+		super();
+		this.fileName = fileName;
+		this.tabName = tabName;
+	}
+
+	public ReportTab(String fileName, String tabName, int numberOfRows, int numberOfColumns,
+			Map<ReportCellKey, ReportCell> cells) {
+		super();
+		this.fileName = fileName;
+		this.tabName = tabName;
+		this.numberOfRows = numberOfRows;
+		this.numberOfColumns = numberOfColumns;
 		this.cells = cells;
 	}
 
@@ -60,16 +73,16 @@ public class ReportTab implements Indentable {
 		this.numberOfColumns = numberOfColumns;
 	}
 
+	public IndentationEnum getHierarchy() {
+		return IndentationEnum.LEVEL_1;
+	}
+
 	public Map<ReportCellKey, ReportCell> getCells() {
 		return cells;
 	}
 
 	public void setCells(Map<ReportCellKey, ReportCell> cells) {
 		this.cells = cells;
-	}
-
-	public IndentationEnum getHierarchy() {
-		return IndentationEnum.LEVEL_1;
 	}
 
 	@Override

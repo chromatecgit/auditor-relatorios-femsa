@@ -1,7 +1,7 @@
 package model;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 import enums.IndentationEnum;
 import interfaces.Indentable;
@@ -9,18 +9,18 @@ import interfaces.Indentable;
 public class ReportCell implements Indentable {
 	private String address;
 	private String value;
-	private Set<String> pocs;
+	private Map<String, Integer> pocInfos;
 
 	public ReportCell() {
 		super();
-		this.pocs = new HashSet<>();
+		this.pocInfos = new HashMap<>();
 	}
 
 	public ReportCell(String address, String value) {
 		super();
 		this.address = address;
 		this.value = value;
-		this.pocs = new HashSet<>();
+		this.pocInfos = new HashMap<>();
 	}
 
 	public String getColumnIndex() {
@@ -49,18 +49,17 @@ public class ReportCell implements Indentable {
 		this.value = value;
 	}
 
-	public Set<String> getPocs() {
-		return pocs;
+	public Map<String, Integer> getPocInfos() {
+		return pocInfos;
 	}
 
-	public void setPocs(Set<String> pocs) {
-		this.pocs = pocs;
+	public void setPocInfos(Map<String, Integer> pocInfos) {
+		this.pocInfos = pocInfos;
 	}
 
 	@Override
 	public String toString() {
-		return this.getHierarchy().getIndentationEntity() + "ReportCell [address=" + address + ", value=" + value
-				+ ", pocs=" + pocs + "]";
+		return "ReportCell [address=" + address + ", value=" + value + ", pocInfos=" + pocInfos + "]";
 	}
 
 	@Override

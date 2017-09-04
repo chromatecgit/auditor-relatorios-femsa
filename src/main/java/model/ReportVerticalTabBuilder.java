@@ -67,11 +67,11 @@ public class ReportVerticalTabBuilder implements ReportTabBuilder {
 		ReportCellKey cellKey = new ReportCellKey();
 		cellKey.setConcat(this.currentConcatLineIndex.getConcat());
 		cellKey.setColumnName(this.currentSKU.isEmpty() ? cellValue : currentSKU);
-		cell.getPocs().add(this.currentPoc);
+		cell.getPocInfos().put(this.currentPoc, Integer.valueOf(cell.getValue()));
 		ReportCell result = this.tab.getCells().put(cellKey, cell);
 		if (result != null && cellKey.getColumnName().startsWith("SOVI")) {
 			ReportCell reportCell = this.tab.getCells().get(cellKey);
-			reportCell.getPocs().addAll(result.getPocs());
+			reportCell.getPocInfos().putAll(result.getPocInfos());
 			reportCell.setValue(String.valueOf(Integer.valueOf(reportCell.getValue()) + Integer.valueOf(result.getValue())));
 			this.tab.getCells().put(cellKey, reportCell);
 		}

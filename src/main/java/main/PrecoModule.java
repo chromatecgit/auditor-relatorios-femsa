@@ -22,7 +22,7 @@ import model.ReportSymmetryResult;
 import model.ReportTab;
 import utils.FileManager;
 import utils.MyLogPrinter;
-import utils.TabUtils;
+import utils.ReportDocumentUtils;
 
 public class PrecoModule {
 
@@ -48,7 +48,7 @@ public class PrecoModule {
 		
 		for (String fileName : pathsMap.keySet()) {
 			if (pathsMap.get(fileName).getFileClass().getCode() == FileClassEnum.VERTICAL.getCode()) {
-				verticalTab = TabUtils.merge(
+				verticalTab = ReportDocumentUtils.merge(
 						FileManager.fetchVerticalDocument(fileName, pathsMap.get(fileName), ProcessStageEnum.FULL, filters));
 				MyLogPrinter.printObject(verticalTab, "verticalTab");
 			} else if (pathsMap.get(fileName).getFileClass().getCode() == FileClassEnum.HORIZONTAL.getCode()) {
@@ -65,7 +65,6 @@ public class PrecoModule {
 	}
 
 	private void applyBusinessRule(final ReportTab verticalTab, final ReportTab horizontalTab) throws HaltException {
-		
 //		this.checkSymmetry(verticalTab, horizontalTab);
 	
 		List<ReportCellKey> outKeys = new ArrayList<>();
