@@ -1,11 +1,9 @@
 package main;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -15,6 +13,7 @@ import config.ProjectConfiguration;
 import enums.FileClassEnum;
 import enums.ProcessStageEnum;
 import exceptions.HaltException;
+import exceptions.WarningException;
 import model.PathBuilderMapValue;
 import model.ReportCell;
 import model.ReportCellKey;
@@ -27,8 +26,8 @@ import utils.ReportDocumentUtils;
 public class PrecoModule {
 
 	private String[] fileNames;
-	
 	private String[] filters = {"CATEGORIA", "TAMANHO"};
+	private final Map<ReportCellKey, ReportCell> asymmetricValues = new TreeMap<>();
 	
 	public PrecoModule(final String[] fileNames) {
 		this.fileNames = fileNames;
@@ -50,10 +49,10 @@ public class PrecoModule {
 			if (pathsMap.get(fileName).getFileClass().getCode() == FileClassEnum.VERTICAL.getCode()) {
 				verticalTab = ReportDocumentUtils.merge(
 						FileManager.fetchVerticalDocument(fileName, pathsMap.get(fileName), ProcessStageEnum.FULL, filters));
-				MyLogPrinter.printObject(verticalTab, "verticalTab");
+				MyLogPrinter.printObject(verticalTab, "PrecoModule_verticalTab");
 			} else if (pathsMap.get(fileName).getFileClass().getCode() == FileClassEnum.HORIZONTAL.getCode()) {
 				horizontalTab = FileManager.fetchHorizontalDocument(fileName, pathsMap.get(fileName), ProcessStageEnum.FULL, true);
-				MyLogPrinter.printObject(horizontalTab, "horizontalTab");
+				MyLogPrinter.printObject(horizontalTab, "PrecoModule_horizontalTab");
 			}
 		}
 		
@@ -65,28 +64,30 @@ public class PrecoModule {
 	}
 
 	private void applyBusinessRule(final ReportTab verticalTab, final ReportTab horizontalTab) throws HaltException {
-//		this.checkSymmetry(verticalTab, horizontalTab);
-	
-		List<ReportCellKey> outKeys = new ArrayList<>();
-		horizontalTab.getCells().forEach( (key, vCell) -> {
-			ReportCell hCell = verticalTab.getCells().get(key);
-			if (!vCell.getValue().equals(hCell.getValue())) {
-				MyLogPrinter.addToBuiltMessage("[Horizontal]=" + key + " valores=" + hCell + "/[Vertical]=" + key + " valores=" + vCell);
-			}
-		});
-		
-		MyLogPrinter.printObject(outKeys, "PrecoModule_outkeys");
-		MyLogPrinter.printBuiltMessage("PrecoModule_diff");
+		try {
+			this.checkSymmetry(verticalTab, horizontalTab);
+		} catch (WarningException we) {
+			we.printStackTrace();
+		} finally {
+			ReportTab newHorizontalTab = this.makeSymmetrical(horizontalTab, asymmetricValues);
+			newHorizontalTab.getCells().forEach( (key, hCell) -> {
+				ReportCell vCell = verticalTab.getCells().get(key);
+				if (!hCell.getValue().equals(vCell.getValue())) {
+					MyLogPrinter.addToBuiltMessage("[Horizontal]=" + key + " valores=" + hCell + "/[Vertical]=" + key + " valores=" + vCell);
+				}
+			});
 			
+			MyLogPrinter.printBuiltMessage("PrecoModule_diff");
+		}
+	
 	}
 
-	private void checkSymmetry(final ReportTab verticalTab, final ReportTab horizontalTab) throws HaltException {
-		//Trocar por keys?
-		final Map<ReportCellKey, ReportCell> asymmetricValues = new TreeMap<>();
-		final Map<ReportCellKey, ReportCell> vCells = verticalTab.getCells();
-		final Map<ReportCellKey, ReportCell> hCells = horizontalTab.getCells();
+	private void checkSymmetry(final ReportTab verticalTab, final ReportTab horizontalTab) {
+		final Map<ReportCellKey, ReportCell> vCells = new TreeMap<>();
+		vCells.putAll(verticalTab.getCells());
+		final Map<ReportCellKey, ReportCell> hCells = new TreeMap<>();
+		hCells.putAll(horizontalTab.getCells());
 		
-		System.out.println(vCells.size());
 		hCells.forEach((key, cell) -> {
 			if (vCells.remove(key) == null) {
 				asymmetricValues.put(key, cell);
@@ -94,16 +95,30 @@ public class PrecoModule {
 		});
 		
 		if (!vCells.isEmpty() || !asymmetricValues.isEmpty()) {
-			System.out.println(vCells.size());
 			asymmetricValues.putAll(vCells);
-			MyLogPrinter.printCollection(this.formatAsymmetricValues(asymmetricValues), "PrecoModule_asymmetricValues");
-			throw new HaltException("Existem registros em não conformidade. Favor conferir log do arquivo \"PrecoModule_asymmetricValues\"");
+			MyLogPrinter.printCollection(
+					this.formatAsymmetricValues(asymmetricValues), "PrecoModule_asymmetricValues");
+			throw new WarningException(
+					"Existem registros em não conformidade. Favor conferir log do arquivo \"PrecoModule_asymmetricValues\"");
 		}
+		
+	}
+	
+	private ReportTab makeSymmetrical(final ReportTab horizontalTab, final Map<ReportCellKey, ReportCell> asymmetricValues) {
+		ReportTab newTab = horizontalTab;
+		asymmetricValues.forEach( (k,v) -> {
+			ReportCell cell = newTab.getCells().remove(k);
+			if (cell == null)  {
+				newTab.getCells().put(k, v);
+			}
+		});
+		MyLogPrinter.printObject(newTab, "PrecoModule_newTab");
+		return newTab;
 	}
 
 	private Collection<ReportSymmetryResult> formatAsymmetricValues (final Map<ReportCellKey, ReportCell> asymmetricValues) {
 		Map<String, ReportSymmetryResult> results = new HashMap<>();
-		 asymmetricValues.entrySet().stream().forEach(e -> {
+		asymmetricValues.entrySet().stream().forEach(e -> {
 			ReportSymmetryResult r = new ReportSymmetryResult();
 			r.setKey(e.getKey().getConcat());
 			r.getDescriptions().add(e.getKey().getColumnName() +"="+ e.getValue().getValue() + " ");

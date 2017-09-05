@@ -79,7 +79,7 @@ public class ReportCellKey implements Comparable<ReportCellKey> {
 
 	@Override
 	public String toString() {
-		return "ReportCellKey [concat=" + concat + ", columnName=" + columnName + "]";
+		return this.getHierarchy().getIndentationEntity() + "ReportCellKey [concat=" + concat + ", columnName=" + columnName + "]";
 	}
 
 	@Override

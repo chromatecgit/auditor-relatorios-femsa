@@ -59,7 +59,7 @@ public enum ConsolidadoSoviFiltersEnum {
 					ConsolidadoTypeEnum.SOVI,
 					TabEnum.CSD,
 					POCTypeEnum.ALL, 
-					ProductEnum.COLAS, 
+					ProductEnum.ALL, 
 					CompanyEnum.FEMSA, 
 					ConsumoImediatoEnum.SIM, 
 					PropriaEnum.NAO, 

@@ -53,7 +53,7 @@ public class ReportVerticalTabBuilder implements ReportTabBuilder {
 			}
 		}
 	}
-	
+
 	private boolean isInFilter(String cellValue) {
 		for (String filter : filters) {
 			if (cellValue.contains(filter))
@@ -67,12 +67,16 @@ public class ReportVerticalTabBuilder implements ReportTabBuilder {
 		ReportCellKey cellKey = new ReportCellKey();
 		cellKey.setConcat(this.currentConcatLineIndex.getConcat());
 		cellKey.setColumnName(this.currentSKU.isEmpty() ? cellValue : currentSKU);
-		cell.getPocInfos().put(this.currentPoc, Integer.valueOf(cell.getValue()));
+		// TODO: Arrumar um jeito melhor de fazer isso
+		if (this.tableHeaders.get(cell.getColumnIndex()).equalsIgnoreCase("SOVI")) {
+			cell.getPocInfos().put(this.currentPoc, Integer.valueOf(cell.getValue()));
+		}
 		ReportCell result = this.tab.getCells().put(cellKey, cell);
 		if (result != null && cellKey.getColumnName().startsWith("SOVI")) {
 			ReportCell reportCell = this.tab.getCells().get(cellKey);
 			reportCell.getPocInfos().putAll(result.getPocInfos());
-			reportCell.setValue(String.valueOf(Integer.valueOf(reportCell.getValue()) + Integer.valueOf(result.getValue())));
+			reportCell.setValue(
+					String.valueOf(Integer.valueOf(reportCell.getValue()) + Integer.valueOf(result.getValue())));
 			this.tab.getCells().put(cellKey, reportCell);
 		}
 		this.currentSKU = "";
