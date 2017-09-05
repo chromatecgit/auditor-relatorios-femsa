@@ -26,6 +26,7 @@ import model.ReportCellKey;
 import model.ReportDocument;
 import model.ReportSymmetryResult;
 import model.ReportTab;
+import model.SoviConsolidadaCell;
 import utils.ConsolidadosFilter;
 import utils.FileManager;
 import utils.MyLogPrinter;
@@ -140,18 +141,29 @@ public class SoviModule {
 	private boolean compareSoviVerticalToConsolidada(final ReportDocument verticalDocument) {
 		ReportTab consolidadaTab = FileManager.fetchConsolidadaDocument("CONSOLIDADA_SOVI", consolidadaValue,
 				ProcessStageEnum.FULL);
-		this.classifyByConsolidadaRules(verticalDocument);
+		List<String> outkeys = new ArrayList<>();
+		Map<ReportCellKey, SoviConsolidadaCell> verticalTabMapped = this.classifyByConsolidadaRules(verticalDocument);
+		consolidadaTab.getCells().forEach( (k, v) -> {
+			SoviConsolidadaCell result = verticalTabMapped.get(k);
+			if (result != null) {
+				if (!Integer.valueOf(v.getValue()).equals(result.getValue())) {
+					MyLogPrinter.addToBuiltMessage(
+							"[Concat arquivo]=" + k.getConcat() + " valor=" + v.getValue() + "/[Concat convertido]=" + k.getConcat() + " valor=" + result);
+				}
+			} else {
+				outkeys.add("Registro " + k + " nao encontrado");
+			}
+		});
 		MyLogPrinter.printObject(consolidadaTab, "SoviModule_consolidadaTab");
-
+		MyLogPrinter.printCollection(outkeys, "SoviModule_outkeys_consolidada");
+		MyLogPrinter.printBuiltMessage("SoviModule_diff_consolidada");
 		return false;
 
 	}
 
-	private ReportTab classifyByConsolidadaRules(final ReportDocument verticalDocument) {
+	private Map<ReportCellKey, SoviConsolidadaCell> classifyByConsolidadaRules(final ReportDocument verticalDocument) {
 
-		ReportTab parsedTab = new ReportTab();
-
-		Map<ReportCellKey, Integer> filterSkuMap = new TreeMap<>();
+		Map<ReportCellKey, SoviConsolidadaCell> filterSkuMap = new TreeMap<>();
 		
 		for (ConsolidadoSoviFiltersEnum e : ConsolidadoSoviFiltersEnum.values()) {
 			ConsolidadosFilter consolidadosFilter = e.getConsolidadosFilter();
@@ -166,13 +178,13 @@ public class SoviModule {
 //			filterSkuMap.clear();
 		}
 		 MyLogPrinter.printObject(filterSkuMap, "SoviModule_filterSkuMap");
-		return null;
+		return filterSkuMap;
 	}
 
-	private Map<ReportCellKey, Integer> calculateUsingFilter(final List<ReportTab> tabsToCalculate,
+	private Map<ReportCellKey, SoviConsolidadaCell> calculateUsingFilter(final List<ReportTab> tabsToCalculate,
 			final ConsolidadosFilter consolidadosFilter, final ConsolidadoSoviFiltersEnum e) {
 
-		final Map<ReportCellKey, Integer> verticalCellMaps = new TreeMap<>();
+		final Map<ReportCellKey, SoviConsolidadaCell> verticalCellMaps = new TreeMap<>();
 
 		tabsToCalculate.stream().forEach(t -> {
 			t.getCells().forEach((key, cell) -> {
@@ -180,8 +192,9 @@ public class SoviModule {
 					for (String poc : cell.getPocInfos().keySet()) {
 						if (this.belongsToRule(key.getColumnName(), poc, consolidadosFilter)) {
 							ReportCellKey newKey = new ReportCellKey(key.getConcat(), e.name());
-							verticalCellMaps.merge(newKey, Integer.valueOf(cell.getPocInfos().get(poc)), (nv, ov) -> {
-								return nv + ov;
+							SoviConsolidadaCell newCell = new SoviConsolidadaCell(key.getColumnName(), Integer.valueOf(cell.getPocInfos().get(poc)));
+							verticalCellMaps.merge(newKey, newCell, (ov, nv) -> {
+								return new SoviConsolidadaCell(nv.getAddress(),  nv.getValue() + ov.getValue());
 							});
 						}
 					}
@@ -246,21 +259,19 @@ public class SoviModule {
 		}
 
 		if (rule.getConsumoImediato().isCI()) {
-			String[] brokenSku = sku.split(" ");
-			for (String piece : brokenSku) {
-				Matcher m = compiledPattern.matcher(piece);
-				if (m.matches()) {
-					String result = m.group(1);
-					if (result.contains("M")) {
-						double number = Double.valueOf(result.replace("ML", ""));
-						if (number > 600) {
-							return false;
-						}
-					} else {
+			Matcher m = compiledPattern.matcher(sku);
+			if (m.find()) {
+				String result = m.group(0);
+				if (result.contains("M")) {
+					double number = Double.valueOf(result.replace("ML", ""));
+					if (number > 600) {
 						return false;
 					}
-					break;
+				} else {
+					return false;
 				}
+			} else {
+				return false;
 			}
 			
 		}

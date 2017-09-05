@@ -16,6 +16,7 @@ import exceptions.HaltException;
 import exceptions.WarningException;
 import model.PathBuilderMapValue;
 import model.ReportCell;
+import model.SoviConsolidadaCell;
 import model.ReportCellKey;
 import model.ReportSymmetryResult;
 import model.ReportTab;
