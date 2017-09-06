@@ -13,7 +13,7 @@ public class ReportConsolidadaSoviTabBuilder implements ReportTabBuilder {
 	private ReportTab tab;
 	//cell.getColumnIndex(), cell.getValue()
 	private Map<String, String> tableHeaders;
-	private ReportTabBuilderIndexVO currentConcatLineIndex;
+	private ReportTabBuilderIndexVO indexVO;
 	private String currentSKU;
 	
 	public ReportConsolidadaSoviTabBuilder() {
@@ -21,12 +21,12 @@ public class ReportConsolidadaSoviTabBuilder implements ReportTabBuilder {
 		this.tableHeaders = new LinkedHashMap<>();
 		this.tab.setCells(new TreeMap<ReportCellKey, ReportCell>());
 		this.currentSKU = "";
-		this.currentConcatLineIndex = new ReportTabBuilderIndexVO();
+		this.indexVO = new ReportTabBuilderIndexVO();
 	}
 
 	@Override
 	public ReportTab build() {
-		MyLogPrinter.printBuiltMessage("ReportConsolidadaSoviTabBuilder_null_cells");
+		MyLogPrinter.printBuiltMessage("ReportConsolidadaSoviTabBuilder_orphan_cells");
 		return this.tab;
 	}
 
@@ -48,9 +48,9 @@ public class ReportConsolidadaSoviTabBuilder implements ReportTabBuilder {
 			String cellValue = this.tableHeaders.get(cell.getColumnIndex());
 			if (cellValue != null) {
 				if (cellValue.equalsIgnoreCase("CONCAT")) {
-					currentConcatLineIndex.setConcat(cell.getValue());
-					currentConcatLineIndex.setLineIndex(cell.getLineIndex());
-				} else if (cell.getLineIndex() == currentConcatLineIndex.getLineIndex() && !cell.getValue().equals("0")) {
+					indexVO.setConcat(cell.getValue());
+					indexVO.setLineIndex(cell.getLineIndex());
+				} else if (cell.getLineIndex() == indexVO.getLineIndex() && !cell.getValue().equals("0")) {
 					this.addAndReset(cell, cellValue);
 				}
 			} else {
@@ -61,7 +61,7 @@ public class ReportConsolidadaSoviTabBuilder implements ReportTabBuilder {
 
 	@Override
 	public void addAndReset(final ReportCell cell, final String cellValue) {
-		ReportCellKey cellKey = new ReportCellKey(currentConcatLineIndex.getConcat(), this.currentSKU.isEmpty() ? cellValue : currentSKU, "");
+		ReportCellKey cellKey = new ReportCellKey(indexVO.getConcat(), this.currentSKU.isEmpty() ? cellValue : currentSKU, "");
 		this.currentSKU = "";
 		this.tab.getCells().put(cellKey, cell);
 	}

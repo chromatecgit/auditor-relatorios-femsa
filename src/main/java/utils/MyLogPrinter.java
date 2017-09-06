@@ -10,7 +10,6 @@ import java.util.Optional;
 
 import config.ProjectConfiguration;
 import enums.IndentationEnum;
-import interfaces.Indentable;
 
 public class MyLogPrinter {
 	
@@ -86,11 +85,13 @@ public class MyLogPrinter {
 	}
 	
 	public static void printBuiltMessage(String fileName) {
-		PrintWriter pw = MyLogPrinter.getPrintWriter(fileName);
-		pw.write(builtMessage.toString() + "\n");
-		pw.close();
-		builtMessage = new StringBuilder();
-		System.out.println("PRINTED " + fileName + "!");
+		if (builtMessage != null && builtMessage.length() > 0) {
+			PrintWriter pw = MyLogPrinter.getPrintWriter(fileName);
+			pw.write(builtMessage.toString() + "\n");
+			pw.close();
+			builtMessage = new StringBuilder();
+			System.out.println("PRINTED " + fileName + "!");
+		}
 	}
 	
 	public static void printBuiltMessageWithCollectionOf(List<? extends Object> objs, String fileName) {

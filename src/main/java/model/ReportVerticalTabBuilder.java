@@ -15,7 +15,7 @@ public class ReportVerticalTabBuilder implements ReportTabBuilder {
 	private Map<String, String> tableHeaders;
 	private String[] filters;
 	// Concat X Line Index
-	private ReportTabBuilderIndexVO currentConcatLineIndex;
+	private ReportTabBuilderIndexVO indexVO;
 	private String currentSKU;
 	private String currentPoc;
 
@@ -24,14 +24,14 @@ public class ReportVerticalTabBuilder implements ReportTabBuilder {
 		this.tab.setCells(new TreeMap<ReportCellKey, ReportCell>());
 		this.tableHeaders = new LinkedHashMap<>();
 		this.currentSKU = "";
-		this.currentConcatLineIndex = new ReportTabBuilderIndexVO();
+		this.indexVO = new ReportTabBuilderIndexVO();
 		this.filters = filters;
 		this.currentPoc = "";
 	}
 
 	@Override
 	public ReportTab build() {
-		MyLogPrinter.printBuiltMessage("ReportVerticalTabBuilder_null_cells");
+		MyLogPrinter.printBuiltMessage("ReportVerticalTabBuilder_orphan_cells");
 		return this.tab;
 	}
 
@@ -43,13 +43,13 @@ public class ReportVerticalTabBuilder implements ReportTabBuilder {
 			String cellValue = this.tableHeaders.get(cell.getColumnIndex());
 			if (cellValue != null) {
 				if (cellValue.equalsIgnoreCase("CONCAT")) {
-					currentConcatLineIndex.setConcat(cell.getValue());
-					currentConcatLineIndex.setLineIndex(cell.getLineIndex());
+					indexVO.setConcat(cell.getValue());
+					indexVO.setLineIndex(cell.getLineIndex());
 				} else if (cellValue.equals("PRODUTO")) {
 					this.currentSKU = cell.getValue();
 				} else if (cellValue.equals("POC")) {
 					this.currentPoc = cell.getValue();
-				} else if (cell.getLineIndex() == currentConcatLineIndex.getLineIndex()) {
+				} else if (cell.getLineIndex() == indexVO.getLineIndex()) {
 					if (!this.isInFilter(cellValue)) {
 						this.addAndReset(cell, cellValue);
 					}
@@ -71,7 +71,7 @@ public class ReportVerticalTabBuilder implements ReportTabBuilder {
 	@Override
 	public void addAndReset(ReportCell cell, String cellValue) {
 		ReportCellKey cellKey = new ReportCellKey();
-		cellKey.setConcat(this.currentConcatLineIndex.getConcat());
+		cellKey.setConcat(this.indexVO.getConcat());
 		cellKey.setColumnName(this.currentSKU.isEmpty() ? cellValue : currentSKU);
 		// TODO: Arrumar um jeito melhor de fazer isso
 		if (this.tableHeaders.get(cell.getColumnIndex()).equalsIgnoreCase("SOVI")) {
