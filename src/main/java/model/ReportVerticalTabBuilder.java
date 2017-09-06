@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import interfaces.ReportTabBuilder;
+import utils.MyLogPrinter;
 import utils.ReportTabBuilderIndexVO;
 
 public class ReportVerticalTabBuilder implements ReportTabBuilder {
@@ -30,6 +31,7 @@ public class ReportVerticalTabBuilder implements ReportTabBuilder {
 
 	@Override
 	public ReportTab build() {
+		MyLogPrinter.printBuiltMessage("ReportVerticalTabBuilder_null_cells");
 		return this.tab;
 	}
 
@@ -39,16 +41,20 @@ public class ReportVerticalTabBuilder implements ReportTabBuilder {
 			this.tableHeaders.put(cell.getColumnIndex(), cell.getValue());
 		} else {
 			String cellValue = this.tableHeaders.get(cell.getColumnIndex());
-			if (cellValue.equalsIgnoreCase("CONCAT")) {
-				currentConcatLineIndex.setConcat(cell.getValue());
-				currentConcatLineIndex.setLineIndex(cell.getLineIndex());
-			} else if (cellValue.equals("PRODUTO")) {
-				this.currentSKU = cell.getValue();
-			} else if (cellValue.equals("POC")) {
-				this.currentPoc = cell.getValue();
-			} else if (cell.getLineIndex() == currentConcatLineIndex.getLineIndex()) {
-				if (!this.isInFilter(cellValue)) {
-					this.addAndReset(cell, cellValue);
+			if (cellValue != null) {
+				if (cellValue.equalsIgnoreCase("CONCAT")) {
+					currentConcatLineIndex.setConcat(cell.getValue());
+					currentConcatLineIndex.setLineIndex(cell.getLineIndex());
+				} else if (cellValue.equals("PRODUTO")) {
+					this.currentSKU = cell.getValue();
+				} else if (cellValue.equals("POC")) {
+					this.currentPoc = cell.getValue();
+				} else if (cell.getLineIndex() == currentConcatLineIndex.getLineIndex()) {
+					if (!this.isInFilter(cellValue)) {
+						this.addAndReset(cell, cellValue);
+					}
+				} else {
+					MyLogPrinter.addToBuiltMessage("Valor inválido em :" + cell.getAddress());
 				}
 			}
 		}

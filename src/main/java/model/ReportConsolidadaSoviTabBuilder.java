@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import interfaces.ReportTabBuilder;
+import utils.MyLogPrinter;
 import utils.ReportTabBuilderIndexVO;
 
 public class ReportConsolidadaSoviTabBuilder implements ReportTabBuilder {
@@ -25,6 +26,7 @@ public class ReportConsolidadaSoviTabBuilder implements ReportTabBuilder {
 
 	@Override
 	public ReportTab build() {
+		MyLogPrinter.printBuiltMessage("ReportConsolidadaSoviTabBuilder_null_cells");
 		return this.tab;
 	}
 
@@ -44,11 +46,15 @@ public class ReportConsolidadaSoviTabBuilder implements ReportTabBuilder {
 			this.tableHeaders.put(cell.getColumnIndex(), cell.getValue());
 		} else {
 			String cellValue = this.tableHeaders.get(cell.getColumnIndex());
-			if (cellValue.equalsIgnoreCase("CONCAT")) {
-				currentConcatLineIndex.setConcat(cell.getValue());
-				currentConcatLineIndex.setLineIndex(cell.getLineIndex());
-			} else if (cell.getLineIndex() == currentConcatLineIndex.getLineIndex() && !cell.getValue().equals("0")) {
-				this.addAndReset(cell, cellValue);
+			if (cellValue != null) {
+				if (cellValue.equalsIgnoreCase("CONCAT")) {
+					currentConcatLineIndex.setConcat(cell.getValue());
+					currentConcatLineIndex.setLineIndex(cell.getLineIndex());
+				} else if (cell.getLineIndex() == currentConcatLineIndex.getLineIndex() && !cell.getValue().equals("0")) {
+					this.addAndReset(cell, cellValue);
+				}
+			} else {
+				MyLogPrinter.addToBuiltMessage("Valor inválido em :" + cell.getAddress());
 			}
 		}
 	}
