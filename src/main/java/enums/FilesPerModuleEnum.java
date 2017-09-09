@@ -22,6 +22,9 @@ public enum FilesPerModuleEnum {
 	}),
 	PRODUTIVIDADE (new String[] {
 			ExcelFileNameEnum.PRODUTIVIDADE.toString()
+	}),
+	CONSOLIDADA (new String[] {
+			ExcelFileNameEnum.CONSOLIDADA.toString()
 	});
 	
 	private String[] excelFileNames;

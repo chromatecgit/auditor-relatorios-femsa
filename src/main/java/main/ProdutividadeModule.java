@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import config.GlobBuilder;
 import config.PathBuilder;
 import config.ProjectConfiguration;
-import enums.ConsolidadaKeyColumns;
+import enums.ProdutividadeKeyColumns;
 import enums.ProcessStageEnum;
 import exceptions.HaltException;
 import model.PathBuilderMapValue;
@@ -63,12 +63,39 @@ public class ProdutividadeModule {
 
 		this.applySoviZeroRules(
 				produtividadeCells,
-				ConsolidadaKeyColumns.SALESCHANNEL.getColumnName(),
-				ConsolidadaKeyColumns.NUM_DE_IMAGENS_TOMADAS.getColumnName(),
-				ConsolidadaKeyColumns.NUM_DE_IMAGENS_EM_EVIDENCIA.getColumnName(),
-				ConsolidadaKeyColumns.NUM_DE_IMAGENS_EM_OCORRENCIA.getColumnName(),
-				ConsolidadaKeyColumns.SOVI.getColumnName());
+				ProdutividadeKeyColumns.SALESCHANNEL.getColumnName(),
+				ProdutividadeKeyColumns.NUM_DE_IMAGENS_TOMADAS.getColumnName(),
+				ProdutividadeKeyColumns.NUM_DE_IMAGENS_EM_EVIDENCIA.getColumnName(),
+				ProdutividadeKeyColumns.NUM_DE_IMAGENS_EM_OCORRENCIA.getColumnName(),
+				ProdutividadeKeyColumns.SOVI.getColumnName());
+		
+		this.applyPhotoIssuesRules(
+				produtividadeCells,
+				ProdutividadeKeyColumns.NUM_DE_IMAGENS_TOMADAS.getColumnName(),
+				ProdutividadeKeyColumns.NUM_DE_IMAGENS_EM_EVIDENCIA.getColumnName(),
+				ProdutividadeKeyColumns.NUM_DE_IMAGENS_EM_OCORRENCIA.getColumnName(),
+				ProdutividadeKeyColumns.P_FOI_POSSIVEL_REALIZAR_A_VISITA.getColumnName());
 
+	}
+
+	private void applyPhotoIssuesRules(final Map<ReportCellKey, ReportCell> produtividadeCells,
+										final String tomadasColumn, final String evidenciaColumn,
+										final String ocorrenciaColumn, final String realizarPesquisaColumn) {
+		
+		this.ids.stream().forEach( id -> {
+			
+			ReportCell ocorrenciaCell = produtividadeCells.get(new ReportCellKey(id, ocorrenciaColumn));
+			ReportCell tomadasCell = produtividadeCells.get(new ReportCellKey(id, tomadasColumn));
+			ReportCell evidenciaCell = produtividadeCells.get(new ReportCellKey(id, evidenciaColumn));
+			ReportCell realizarPesquisaCell = produtividadeCells.get(new ReportCellKey(id, realizarPesquisaColumn));
+			
+			if (tomadasCell.getValue().equals("0") && evidenciaCell.getValue().equals("0") && ocorrenciaCell.getValue().equals("0")
+					&& realizarPesquisaCell.getValue().equalsIgnoreCase("Sim")) {
+				MyLogPrinter.addToBuiltMessage("Não existem fotos para a matricula/data: " + id +" mesmo com pesquisa Completa");
+			}
+		});
+		
+		MyLogPrinter.printBuiltMessage("ProdutividadeModule_zero_images");
 	}
 
 	private void applySoviZeroRules(final Map<ReportCellKey, ReportCell> produtividadeCells,
@@ -104,7 +131,6 @@ public class ProdutividadeModule {
 				}
 				
 			}
-			
 			
 		});
 		MyLogPrinter.printBuiltMessage("ProdutividadeModule_sovi_zerado");
