@@ -11,12 +11,13 @@ import config.GlobBuilder;
 import config.PathBuilder;
 import config.ProjectConfiguration;
 import enums.FileClassEnum;
+import enums.FilesPerModuleEnum;
 import enums.ProcessStageEnum;
 import exceptions.HaltException;
 import exceptions.WarningException;
+import interfaces.Module;
 import model.PathBuilderMapValue;
 import model.ReportCell;
-import model.SoviConsolidadaCell;
 import model.ReportCellKey;
 import model.ReportSymmetryResult;
 import model.ReportTab;
@@ -24,16 +25,16 @@ import utils.FileManager;
 import utils.MyLogPrinter;
 import utils.ReportDocumentUtils;
 
-public class PrecoModule {
-
-	private String[] fileNames;
+public class PrecoModule implements Module {
+	
+	private final String[] fileNames = FilesPerModuleEnum.PRECO.getExcelFileNames();
 	private String[] filters = {"CATEGORIA", "TAMANHO"};
 	private final Map<ReportCellKey, ReportCell> asymmetricValues = new TreeMap<>();
 	
-	public PrecoModule(final String[] fileNames) {
-		this.fileNames = fileNames;
+	public PrecoModule() {
 	}
-
+	
+	@Override
 	public void execute() {
 		
 		final PathBuilder pathBuilder = new PathBuilder();

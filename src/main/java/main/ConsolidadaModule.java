@@ -12,8 +12,10 @@ import config.GlobBuilder;
 import config.PathBuilder;
 import config.ProjectConfiguration;
 import enums.ConsolidadaKeyColumns;
+import enums.FilesPerModuleEnum;
 import enums.ProcessStageEnum;
 import exceptions.HaltException;
+import interfaces.Module;
 import model.PathBuilderMapValue;
 import model.ReportCell;
 import model.ReportCellKey;
@@ -21,15 +23,15 @@ import model.ReportTab;
 import utils.FileManager;
 import utils.MyLogPrinter;
 
-public class ConsolidadaModule {
-	private String[] fileNames;
+public class ConsolidadaModule implements Module {
+	private final String[] fileNames = FilesPerModuleEnum.CONSOLIDADA.getExcelFileNames();
 	private Set<String> ids;
 
-	public ConsolidadaModule(final String[] fileNames) {
-		this.fileNames = fileNames;
+	public ConsolidadaModule() {
 		this.ids = new TreeSet<>();
 	}
-
+	
+	@Override
 	public void execute() {
 
 		final PathBuilder pathBuilder = new PathBuilder();

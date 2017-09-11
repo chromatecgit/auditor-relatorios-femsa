@@ -1,21 +1,41 @@
 package main;
 
-import enums.FilesPerModuleEnum;
+import java.util.Arrays;
+import java.util.List;
 
 public class Auditor {
 	
 	public static void main(String args[]) {
-//		NumeroLinhasModule.execute(FilesPerModuleEnum.NUMERO_LINHAS.getExcelFileNames());
-		PrecoModule preco = new PrecoModule(FilesPerModuleEnum.PRECO.getExcelFileNames());
-		preco.execute();
-//		SoviModule sovi = new SoviModule(FilesPerModuleEnum.SOVI.getExcelFileNames());
-//		sovi.execute();
-//		ProdutividadeModule produtividade = new ProdutividadeModule(FilesPerModuleEnum.PRODUTIVIDADE.getExcelFileNames());
-//		produtividade.execute();
-//		ConsolidadaModule consolidadaModule = new ConsolidadaModule(FilesPerModuleEnum.CONSOLIDADA.getExcelFileNames());
-//		consolidadaModule.execute();
-//		EntregasModule entregas = new EntregasModule(FilesPerModuleEnum.ENTREGAS.getExcelFileNames());
-//		entregas.execute();
+		
+		List<String> argsList = Arrays.asList(args);
+		
+		if (!argsList.isEmpty()) {
+			argsList.stream().forEach(a -> {
+				if (a.equals("help")) {
+					System.out.println("Preco, Sovi, Produtividade, Consolidada, Entregas");
+				} else {
+					ModuleManager.startModule(a);
+				}
+			});
+		} else {
+			
+			PrecoModule preco = new PrecoModule();
+			preco.execute();
+			
+			SoviModule sovi = new SoviModule();
+			sovi.execute();
+			
+			ProdutividadeModule produtividade = new ProdutividadeModule();
+			produtividade.execute();
+			
+			ConsolidadaModule consolidadaModule = new ConsolidadaModule();
+			consolidadaModule.execute();
+			
+//			EntregasModule entregas = new EntregasModule();
+//			entregas.execute();
+			
+		}
+		
 	}
 	
 }

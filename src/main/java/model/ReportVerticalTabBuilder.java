@@ -61,9 +61,11 @@ public class ReportVerticalTabBuilder implements ReportTabBuilder {
 	}
 
 	private boolean isInFilter(String cellValue) {
-		for (String filter : filters) {
-			if (cellValue.contains(filter))
-				return true;
+		if (filters != null) {
+			for (String filter : filters) {
+				if (cellValue.contains(filter))
+					return true;
+			}
 		}
 		return false;
 	}

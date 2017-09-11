@@ -15,12 +15,13 @@ public class ProjectConfiguration {
 	 * Diretório raiz padrão da aplicação. Daqui ramificam-se os outros.
 	 **/
 	private static final String root =
-			System.getProperty("user.dir")
-					.concat(File.separator)
-					.concat("src")
-					.concat(File.separator)
-					.concat("main")
-					.concat(File.separator);
+//			System.getProperty("user.dir")
+//					.concat(File.separator)
+//					.concat("src")
+//					.concat(File.separator)
+//					.concat("main")
+//					.concat(File.separator);
+			"D:".concat(File.separator);
 	
 	/** 
 	 * Constante contendo o endereco dos arquivos de log.

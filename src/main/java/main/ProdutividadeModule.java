@@ -12,8 +12,10 @@ import config.GlobBuilder;
 import config.PathBuilder;
 import config.ProjectConfiguration;
 import enums.ProdutividadeKeyColumns;
+import enums.FilesPerModuleEnum;
 import enums.ProcessStageEnum;
 import exceptions.HaltException;
+import interfaces.Module;
 import model.PathBuilderMapValue;
 import model.ReportCell;
 import model.ReportCellKey;
@@ -21,15 +23,15 @@ import model.ReportTab;
 import utils.FileManager;
 import utils.MyLogPrinter;
 
-public class ProdutividadeModule {
-	private String[] fileNames;
+public class ProdutividadeModule implements Module {
+	private final String[] fileNames = FilesPerModuleEnum.PRODUTIVIDADE.getExcelFileNames();
 	private Set<String> ids;
 
-	public ProdutividadeModule(final String[] fileNames) {
-		this.fileNames = fileNames;
+	public ProdutividadeModule() {
 		this.ids = new TreeSet<>();
 	}
-
+	
+	@Override
 	public void execute() {
 
 		final PathBuilder pathBuilder = new PathBuilder();

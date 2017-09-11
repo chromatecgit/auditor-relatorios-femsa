@@ -16,10 +16,12 @@ import config.PathBuilder;
 import config.ProjectConfiguration;
 import enums.ConsolidadoSoviFiltersEnum;
 import enums.FileClassEnum;
+import enums.FilesPerModuleEnum;
 import enums.ProcessStageEnum;
 import enums.TabEnum;
 import exceptions.HaltException;
 import exceptions.WarningException;
+import interfaces.Module;
 import model.PathBuilderMapValue;
 import model.ReportCell;
 import model.ReportCellKey;
@@ -32,19 +34,19 @@ import utils.FileManager;
 import utils.MyLogPrinter;
 import utils.ReportDocumentUtils;
 
-public class SoviModule {
-
-	private String[] fileNames;
+public class SoviModule implements Module {
+	
+	private final String[] fileNames = FilesPerModuleEnum.SOVI.getExcelFileNames();
 	private String[] filters = { "CATEGORIA" };
 	private PathBuilderMapValue consolidadaValue = new PathBuilderMapValue();
 	private final String volumeRegexPattern = "\\d+(\\.\\d+)?M?L";
 	private final Pattern compiledPattern = Pattern.compile(volumeRegexPattern);
 	final Map<ReportCellKey, ReportCell> asymmetricValues = new TreeMap<>();
 
-	public SoviModule(final String[] fileNames) {
-		this.fileNames = fileNames;
+	public SoviModule() {
 	}
-
+	
+	@Override
 	public void execute() {
 
 		final PathBuilder pathBuilder = new PathBuilder();
@@ -141,24 +143,29 @@ public class SoviModule {
 	}
 
 	private boolean compareSoviVerticalToConsolidada(final ReportDocument verticalDocument) {
-		ReportTab consolidadaTab = FileManager.fetchConsolidadaDocument("CONSOLIDADA_SOVI", consolidadaValue,
-				ProcessStageEnum.FULL);
-		List<String> outkeys = new ArrayList<>();
-		Map<ReportCellKey, SoviConsolidadaCell> verticalTabMapped = this.classifyByConsolidadaRules(verticalDocument);
-		consolidadaTab.getCells().forEach( (k, v) -> {
-			SoviConsolidadaCell result = verticalTabMapped.get(k);
-			if (result != null) {
-				if (!Integer.valueOf(v.getValue()).equals(result.getValue())) {
-					MyLogPrinter.addToBuiltMessage(
-							"[Concat arquivo]=" + k.getConcat() + " valor=" + v.getValue() + "/[Concat convertido]=" + k.getConcat() + " valor=" + result);
+		try {
+			ReportTab consolidadaTab = FileManager.fetchConsolidadaDocument("CONSOLIDADA_SOVI", consolidadaValue,
+					ProcessStageEnum.FULL);
+			List<String> outkeys = new ArrayList<>();
+			Map<ReportCellKey, SoviConsolidadaCell> verticalTabMapped = this.classifyByConsolidadaRules(verticalDocument);
+			consolidadaTab.getCells().forEach( (k, v) -> {
+				SoviConsolidadaCell result = verticalTabMapped.get(k);
+				if (result != null) {
+					if (!Integer.valueOf(v.getValue()).equals(result.getValue())) {
+						MyLogPrinter.addToBuiltMessage(
+								"[Concat arquivo]=" + k.getConcat() + " valor=" + v.getValue() + "/[Concat convertido]=" + k.getConcat() + " valor=" + result);
+					}
+				} else {
+					outkeys.add("Registro " + k + " nao encontrado");
 				}
-			} else {
-				outkeys.add("Registro " + k + " nao encontrado");
-			}
-		});
-		MyLogPrinter.printObject(consolidadaTab, "SoviModule_consolidadaTab");
-		MyLogPrinter.printCollection(outkeys, "SoviModule_outkeys_consolidada");
-		MyLogPrinter.printBuiltMessage("SoviModule_diff_consolidada");
+			});
+			MyLogPrinter.printObject(consolidadaTab, "SoviModule_consolidadaTab");
+			MyLogPrinter.printCollection(outkeys, "SoviModule_outkeys_consolidada");
+			MyLogPrinter.printBuiltMessage("SoviModule_diff_consolidada");
+		} catch (WarningException we) {
+			we.printStackTrace();
+		}
+		
 		return false;
 
 	}
