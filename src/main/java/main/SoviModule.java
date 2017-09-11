@@ -117,9 +117,11 @@ public class SoviModule {
 		});
 
 		if (!vCells.isEmpty() || !asymmetricValues.isEmpty()) {
-			asymmetricValues.putAll(vCells);
 			MyLogPrinter.printCollection(
-					this.formatAsymmetricValues(asymmetricValues), "SoviModule_asymmetricValues");
+					this.formatAsymmetricValues(asymmetricValues), "SoviModule_horizontal_only");
+			MyLogPrinter.printObject(
+					vCells, "SoviModule_vertical_only");
+			asymmetricValues.putAll(vCells);
 			throw new WarningException(
 					"Existem registros em não conformidade. Favor conferir log do arquivo \"SoviModule_asymmetricValues\"");
 		}
