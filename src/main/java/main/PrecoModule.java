@@ -1,6 +1,5 @@
 package main;
 
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -39,8 +38,7 @@ public class PrecoModule implements Module {
 		
 		final PathBuilder pathBuilder = new PathBuilder();
 
-		pathBuilder.buildFilePaths(GlobBuilder.buildGlobPatternWith(Arrays.asList(fileNames)),
-				new Path[] { ProjectConfiguration.newFilesPath });
+		pathBuilder.buildFilePaths(GlobBuilder.buildGlobPatternWith(Arrays.asList(fileNames)), ProjectConfiguration.newFilesPath );
 		
 		final Map<String, PathBuilderMapValue> pathsMap = pathBuilder.getPathMaps();
 		

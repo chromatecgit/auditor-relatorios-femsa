@@ -6,6 +6,7 @@ import enums.FileClassEnum;
 
 public class PathBuilderMapValue {
 	private FileClassEnum fileClass;
+	private String fileName;
 	private Path path;
 
 	public FileClassEnum getFileClass() {
@@ -22,6 +23,14 @@ public class PathBuilderMapValue {
 
 	public void setPath(Path path) {
 		this.path = path;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 
 }

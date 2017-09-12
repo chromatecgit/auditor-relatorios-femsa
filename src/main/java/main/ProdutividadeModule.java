@@ -1,6 +1,5 @@
 package main;
 
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
@@ -11,9 +10,9 @@ import java.util.stream.Collectors;
 import config.GlobBuilder;
 import config.PathBuilder;
 import config.ProjectConfiguration;
-import enums.ProdutividadeKeyColumns;
 import enums.FilesPerModuleEnum;
 import enums.ProcessStageEnum;
+import enums.ProdutividadeKeyColumns;
 import exceptions.HaltException;
 import interfaces.Module;
 import model.PathBuilderMapValue;
@@ -36,8 +35,7 @@ public class ProdutividadeModule implements Module {
 
 		final PathBuilder pathBuilder = new PathBuilder();
 
-		pathBuilder.buildFilePaths(GlobBuilder.buildGlobPatternWith(Arrays.asList(fileNames)),
-				new Path[] { ProjectConfiguration.newFilesPath });
+		pathBuilder.buildFilePaths(GlobBuilder.buildGlobPatternWith(Arrays.asList(fileNames)), ProjectConfiguration.newFilesPath );
 
 		final Map<String, PathBuilderMapValue> pathsMap = pathBuilder.getPathMaps();
 

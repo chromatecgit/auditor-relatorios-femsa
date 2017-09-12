@@ -13,6 +13,7 @@ import extractors.ExcelExtractor;
 import extractors.WorkbookExtractor;
 import model.PathBuilderMapValue;
 import model.ReportConsolidadaSoviTabBuilder;
+import model.ReportConsolidadaTabBuilder;
 import model.ReportDocument;
 import model.ReportHorizontalTabBuilder;
 import model.ReportProdutividadeTabBuilder;
@@ -22,81 +23,95 @@ import model.TabNamesMap;
 
 public class FileManager {
 	
-	public static ReportTab fetchHorizontalDocument(String fileName, PathBuilderMapValue pathMap, ProcessStageEnum processStage, boolean skipOutros) {
-		
+	public static ReportTab fetchHorizontalDocument(final String fileName, final PathBuilderMapValue pathMap, final ProcessStageEnum processStage, final boolean skipOutros) {
 		ReportTab processedTab = new ReportTab();
-		
 		try {
-			
-			OPCPackage pkg = OPCPackage.open(pathMap.getPath().toFile());
-			XSSFReader reader= new XSSFReader(pkg);
-			WorkbookExtractor workbookExtractor = new WorkbookExtractor();
-			List<TabNamesMap> tabNamesMapList =  workbookExtractor.extractSheetNamesFrom(reader.getWorkbookData());
+			final OPCPackage pkg = OPCPackage.open(pathMap.getPath().toFile());
+			final XSSFReader reader= new XSSFReader(pkg);
+			final WorkbookExtractor workbookExtractor = new WorkbookExtractor();
+			final List<TabNamesMap> tabNamesMapList =  workbookExtractor.extractSheetNamesFrom(reader.getWorkbookData());
 			
 			if (skipOutros) {
 				tabNamesMapList.removeIf( t -> t.getName().contains("OUTROS"));
 			}
 			
 			processedTab = tabNamesMapList.stream().map( tabMap ->  {
-				ReportHorizontalTabBuilder reportHorizontalTabBuilder = new ReportHorizontalTabBuilder();
+				final ReportHorizontalTabBuilder reportHorizontalTabBuilder = new ReportHorizontalTabBuilder();
 				reportHorizontalTabBuilder.addDocumentName(fileName);
-				ExcelExtractor e = new ExcelExtractor(fileName, reportHorizontalTabBuilder);
+				final ExcelExtractor e = new ExcelExtractor(fileName, reportHorizontalTabBuilder);
 				e.process(reader, tabMap, processStage);
 				return e.getProcessedTab();
 				//MyLogPrinter.printObject(e.getProcessedTab(), "Processed Horizontal Tab");
 			}).findFirst().orElse(null);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 		return processedTab;
 	}
 	
-	public static ReportTab fetchProdutividadeDocument(String fileName, PathBuilderMapValue pathMap, ProcessStageEnum processStage) {
-		
+	public static ReportTab fetchProdutividadeDocument(final String fileName, final PathBuilderMapValue pathMap, final ProcessStageEnum processStage) {
 		ReportTab processedTab = new ReportTab();
-		
 		try {
-			
-			OPCPackage pkg = OPCPackage.open(pathMap.getPath().toFile());
-			XSSFReader reader= new XSSFReader(pkg);
-			WorkbookExtractor workbookExtractor = new WorkbookExtractor();
-			List<TabNamesMap> tabNamesMapList = workbookExtractor.extractSheetNamesFrom(reader.getWorkbookData());
+			final OPCPackage pkg = OPCPackage.open(pathMap.getPath().toFile());
+			final XSSFReader reader= new XSSFReader(pkg);
+			final WorkbookExtractor workbookExtractor = new WorkbookExtractor();
+			final List<TabNamesMap> tabNamesMapList = workbookExtractor.extractSheetNamesFrom(reader.getWorkbookData());
 
 			processedTab = tabNamesMapList.stream().map( tabMap ->  {
-				ReportProdutividadeTabBuilder reportProdutividadeTabBuilder = new ReportProdutividadeTabBuilder();
+				final ReportProdutividadeTabBuilder reportProdutividadeTabBuilder = new ReportProdutividadeTabBuilder();
 				reportProdutividadeTabBuilder.addDocumentName(fileName);
-				ExcelExtractor e = new ExcelExtractor(fileName, reportProdutividadeTabBuilder);
+				final ExcelExtractor e = new ExcelExtractor(fileName, reportProdutividadeTabBuilder);
 				e.process(reader, tabMap, processStage);
 				return e.getProcessedTab();
 				//MyLogPrinter.printObject(e.getProcessedTab(), "Processed Horizontal Tab");
 			}).findFirst().orElse(null);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 		return processedTab;
 	}
 	
-	public static ReportDocument fetchVerticalDocument(String fileName, PathBuilderMapValue pathMap, ProcessStageEnum processStage, String[] filters) {
-		
+	public static ReportTab fetchConsolidadaDocument(final String fileName, final PathBuilderMapValue pathMap, final ProcessStageEnum processStage) {
+		ReportTab processedTab = new ReportTab();
+		try {
+			final OPCPackage pkg = OPCPackage.open(pathMap.getPath().toFile());
+			final XSSFReader reader= new XSSFReader(pkg);
+			final WorkbookExtractor workbookExtractor = new WorkbookExtractor();
+			final List<TabNamesMap> tabNamesMapList = workbookExtractor.extractSheetNamesFrom(reader.getWorkbookData());
+
+			processedTab = tabNamesMapList.stream().map( tabMap ->  {
+				final ReportConsolidadaTabBuilder reportConsolidadaTabBuilder = new ReportConsolidadaTabBuilder();
+				reportConsolidadaTabBuilder.addDocumentName(fileName);
+				final ExcelExtractor e = new ExcelExtractor(fileName, reportConsolidadaTabBuilder);
+				e.process(reader, tabMap, processStage);
+				return e.getProcessedTab();
+				//MyLogPrinter.printObject(e.getProcessedTab(), "Processed Horizontal Tab");
+			}).findFirst().orElse(null);
+		} catch (final Exception e) {
+			e.printStackTrace();
+		}
+		return processedTab;
+	}
+	
+	public static ReportDocument fetchVerticalDocument(final String fileName, final PathBuilderMapValue pathMap, final ProcessStageEnum processStage, final String[] filters) {
 		final ReportDocument document = new ReportDocument();
 		final Map<String, ReportTab> processedTabs = new HashMap<>();
-		
 		try {
-			OPCPackage pkg = OPCPackage.open(pathMap.getPath().toFile());
-			XSSFReader reader = new XSSFReader(pkg);
-			WorkbookExtractor workbookExtractor = new WorkbookExtractor();
-			List<TabNamesMap> tabNamesMapList = workbookExtractor.extractSheetNamesFrom(reader.getWorkbookData());
+			final OPCPackage pkg = OPCPackage.open(pathMap.getPath().toFile());
+			final XSSFReader reader = new XSSFReader(pkg);
+			final WorkbookExtractor workbookExtractor = new WorkbookExtractor();
+			final List<TabNamesMap> tabNamesMapList = workbookExtractor.extractSheetNamesFrom(reader.getWorkbookData());
 			
 			tabNamesMapList.stream().forEach( tabMap ->  {
-				ReportVerticalTabBuilder reportVerticalTabBuilder = new ReportVerticalTabBuilder(filters);
+				final ReportVerticalTabBuilder reportVerticalTabBuilder = new ReportVerticalTabBuilder(filters);
 				reportVerticalTabBuilder.addDocumentName(fileName);
-				ExcelExtractor e = new ExcelExtractor(fileName, reportVerticalTabBuilder);
+				final ExcelExtractor e = new ExcelExtractor(fileName, reportVerticalTabBuilder);
 				e.process(reader, tabMap, processStage);
 				processedTabs.put(tabMap.getName(), e.getProcessedTab());
 			});
 			//MyLogPrinter.printCollection(verticalProcessedTabs, "Processed Vertical Tab");
 			
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 		document.setTabs(processedTabs);
@@ -106,24 +121,24 @@ public class FileManager {
 
 	}
 	
-	public static ReportTab fetchConsolidadaDocument(String fileName, PathBuilderMapValue pathMap, ProcessStageEnum processStage) throws WarningException {
+	public static ReportTab fetchConsolidadaSoviDocument(final String fileName, final PathBuilderMapValue pathMap, final ProcessStageEnum processStage) throws WarningException {
 		if (pathMap != null && pathMap.getPath() != null) {
 			ReportTab processedTab = new ReportTab();
 			try {
-				OPCPackage pkg = OPCPackage.open(pathMap.getPath().toFile());
-				XSSFReader reader= new XSSFReader(pkg);
-				WorkbookExtractor workbookExtractor = new WorkbookExtractor();
-				List<TabNamesMap> tabNamesMapList = workbookExtractor.extractSheetNamesFrom(reader.getWorkbookData());
+				final OPCPackage pkg = OPCPackage.open(pathMap.getPath().toFile());
+				final XSSFReader reader= new XSSFReader(pkg);
+				final WorkbookExtractor workbookExtractor = new WorkbookExtractor();
+				final List<TabNamesMap> tabNamesMapList = workbookExtractor.extractSheetNamesFrom(reader.getWorkbookData());
 				
 				processedTab = tabNamesMapList.stream().map( tabMap ->  {
-					ReportConsolidadaSoviTabBuilder reportConsolidadaSoviTabBuilder = new ReportConsolidadaSoviTabBuilder();
+					final ReportConsolidadaSoviTabBuilder reportConsolidadaSoviTabBuilder = new ReportConsolidadaSoviTabBuilder();
 					reportConsolidadaSoviTabBuilder.addDocumentName(fileName);
-					ExcelExtractor e = new ExcelExtractor(fileName, reportConsolidadaSoviTabBuilder);
+					final ExcelExtractor e = new ExcelExtractor(fileName, reportConsolidadaSoviTabBuilder);
 					e.process(reader, tabMap, processStage);
 					return e.getProcessedTab();
 					//MyLogPrinter.printObject(e.getProcessedTab(), "Processed Horizontal Tab");
 				}).findFirst().orElse(null);
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				e.printStackTrace();
 			}
 			return processedTab;
@@ -132,8 +147,31 @@ public class FileManager {
 		}
 	}
 	
+	public static ReportDocument fetchDocument(final String fileKey, final PathBuilderMapValue pathMap, final ProcessStageEnum processStage, final String[] filters ) throws WarningException {
+		if (pathMap != null && pathMap.getPath() != null) {
+			ReportDocument document = new ReportDocument();
+			
+			switch (pathMap.getFileClass().getCode()) {
+				case 1:
+					document.getTabs().put(fileKey, FileManager.fetchHorizontalDocument(pathMap.getFileName(), pathMap, processStage, true));
+					break;
+				case 2:
+					document = FileManager.fetchVerticalDocument(pathMap.getFileName(), pathMap, processStage, filters);
+					break;
+				case 3:
+					document.getTabs().put(fileKey, FileManager.fetchConsolidadaSoviDocument(pathMap.getFileName(), pathMap, processStage));
+					break;
+				case 4:
+					document.getTabs().put(fileKey, FileManager.fetchConsolidadaDocument(pathMap.getFileName(), pathMap, processStage));
+					break;
+				default:
+					document.getTabs().put(fileKey, FileManager.fetchProdutividadeDocument(pathMap.getFileName(), pathMap, processStage));
+			}
+			
+			return document;
+		} else {
+			throw new WarningException("Arquivo "+ pathMap.getFileName() +" nao foi encontrado");
+		}
+	}
 	
-	//TODO: fazer um metodo para processar aba por aba - fetchSheetBySheet
-	//TODO: fazer um metodo para processar aba por aba - fetchSheetBySheet
-	//TODO: fazer um metodo para processar apenas um arquivo
 }

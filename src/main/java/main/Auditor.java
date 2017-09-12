@@ -31,8 +31,8 @@ public class Auditor {
 			ConsolidadaModule consolidadaModule = new ConsolidadaModule();
 			consolidadaModule.execute();
 			
-//			EntregasModule entregas = new EntregasModule();
-//			entregas.execute();
+			EntregasModule entregas = new EntregasModule();
+			entregas.execute();
 			
 		}
 		

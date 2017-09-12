@@ -10,30 +10,41 @@ import utils.MyFileVisitor;
 
 public class PathBuilder {
 
-	private Map<String, PathBuilderMapValue> paths = new TreeMap<>();
+	private Map<String, PathBuilderMapValue> paths;
 
-	public void buildFilePaths(String glob, Path... filePaths) {
-		for (Path filePath : filePaths) {
-			MyFileVisitor mfv = new MyFileVisitor(filePath, glob);
-			for (Path path : mfv.getPaths()) {
-				String fileName = this.createFileName(path.getName(path.getNameCount() - 1).toString());
-				PathBuilderMapValue value = new PathBuilderMapValue();
-				value.setPath(path);
-				FileClassEnum e;
-				if (fileName.contains("_VERT")) {
-					e = FileClassEnum.VERTICAL;
-				} else if (fileName.contains("CONSOLIDADA_SOVI")) {
-					e = FileClassEnum.CONSOLIDADA;
-				} else {
-					e = FileClassEnum.HORIZONTAL;
-				}
-				value.setFileClass(e);
-				this.paths.put(fileName, value);
+	public void buildFilePaths(String glob, Path filePath) {
+		this.paths = new TreeMap<>();
+		MyFileVisitor mfv = new MyFileVisitor(filePath, glob);
+		for (Path path : mfv.getPaths()) {
+			String fileName = this.createFileName(
+					path.getName(path.getNameCount() - 1).toString());
+			String fileKey = this.createFileKey(
+					fileName);
+			PathBuilderMapValue value = new PathBuilderMapValue();
+			value.setPath(path);
+			value.setFileName(fileName);
+			FileClassEnum e;
+			if (fileName.contains("_VERT")) {
+				e = FileClassEnum.VERTICAL;
+			} else if (fileName.equalsIgnoreCase(FileClassEnum.CONSOLIDADA_SOVI.name())) {
+				e = FileClassEnum.CONSOLIDADA_SOVI;
+			} else if (fileName.equalsIgnoreCase(FileClassEnum.PRODUTIVIDADE.name())) {
+				e = FileClassEnum.PRODUTIVIDADE;
+			} else if (fileName.equalsIgnoreCase(FileClassEnum.CONSOLIDADA.name())) {
+				e = FileClassEnum.CONSOLIDADA;
+			} else {
+				e = FileClassEnum.HORIZONTAL;
 			}
-			mfv = null;
+			value.setFileClass(e);
+			this.paths.put(fileKey, value);
 		}
+		mfv = null;
 	}
 	
+	private String createFileKey(final String fileName) {
+		return fileName.replaceAll("_\\d+\\.xlsx", "");
+	}
+
 	private String createFileName(final String fileName) {
 		String date = fileName.substring(fileName.lastIndexOf("_") + 1, fileName.lastIndexOf("."));
 		String invertedDate = new StringBuilder(date).reverse().toString();

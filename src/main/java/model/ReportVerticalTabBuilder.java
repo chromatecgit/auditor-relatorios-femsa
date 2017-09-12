@@ -4,6 +4,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 import interfaces.ReportTabBuilder;
 import utils.MyLogPrinter;
 import utils.ReportTabBuilderIndexVO;
@@ -75,18 +77,25 @@ public class ReportVerticalTabBuilder implements ReportTabBuilder {
 		ReportCellKey cellKey = new ReportCellKey();
 		cellKey.setConcat(this.indexVO.getConcat());
 		cellKey.setColumnName(this.currentSKU.isEmpty() ? cellValue : currentSKU);
-		// TODO: Arrumar um jeito melhor de fazer isso
-		if (this.tableHeaders.get(cell.getColumnIndex()).equalsIgnoreCase("SOVI")) {
-			cell.getPocInfos().put(this.currentPoc, Integer.valueOf(cell.getValue()));
+		
+
+		String tableHeader = this.tableHeaders.get(cell.getColumnIndex());
+		if (tableHeader.equalsIgnoreCase("SOVI")) {
+			cell.getPocInfos().put(this.currentPoc, Integer.parseInt(cell.getValue()));
 		}
-		ReportCell result = this.tab.getCells().put(cellKey, cell);
-		if (result != null && cellKey.getColumnName().startsWith("SOVI")) {
-			ReportCell reportCell = this.tab.getCells().get(cellKey);
-			reportCell.getPocInfos().putAll(result.getPocInfos());
-			reportCell.setValue(
-					String.valueOf(Integer.valueOf(reportCell.getValue()) + Integer.valueOf(result.getValue())));
-			this.tab.getCells().put(cellKey, reportCell);
-		}
+		
+		this.tab.getCells().merge(cellKey, cell, (oc, nc) -> {
+			if (cellKey.getColumnName().startsWith("SOVI")) {
+				nc.getPocInfos().putAll(oc.getPocInfos());
+				if (NumberUtils.isCreatable(nc.getValue())) {
+					Integer sum = NumberUtils.toInt(oc.getValue()) + (NumberUtils.toInt(nc.getValue()));
+					nc.setValue(sum.toString());
+				} else {
+					nc.setValue(oc.getValue());
+				}
+			}
+			return nc;
+		});
 		this.currentSKU = "";
 		this.currentPoc = "";
 	}

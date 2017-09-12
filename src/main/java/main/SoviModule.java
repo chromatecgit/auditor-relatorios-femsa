@@ -1,6 +1,5 @@
 package main;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -51,8 +50,7 @@ public class SoviModule implements Module {
 
 		final PathBuilder pathBuilder = new PathBuilder();
 
-		pathBuilder.buildFilePaths(GlobBuilder.buildGlobPatternWith(Arrays.asList(fileNames)),
-				new Path[] { ProjectConfiguration.newFilesPath });
+		pathBuilder.buildFilePaths(GlobBuilder.buildGlobPatternWith(Arrays.asList(fileNames)), ProjectConfiguration.newFilesPath );
 
 		final Map<String, PathBuilderMapValue> pathsMap = pathBuilder.getPathMaps();
 
@@ -68,7 +66,7 @@ public class SoviModule implements Module {
 				horizontalTab = FileManager.fetchHorizontalDocument(fileName, pathsMap.get(fileName),
 						ProcessStageEnum.FULL, true);
 				MyLogPrinter.printObject(horizontalTab, "SoviModule_horizontalTab");
-			} else if (pathsMap.get(fileName).getFileClass().getCode() == FileClassEnum.CONSOLIDADA.getCode()) {
+			} else if (pathsMap.get(fileName).getFileClass().getCode() == FileClassEnum.CONSOLIDADA_SOVI.getCode()) {
 				this.consolidadaValue = pathsMap.get(fileName);
 			}
 		}
@@ -144,7 +142,7 @@ public class SoviModule implements Module {
 
 	private boolean compareSoviVerticalToConsolidada(final ReportDocument verticalDocument) {
 		try {
-			ReportTab consolidadaTab = FileManager.fetchConsolidadaDocument("CONSOLIDADA_SOVI", consolidadaValue,
+			ReportTab consolidadaTab = FileManager.fetchConsolidadaSoviDocument("CONSOLIDADA_SOVI", consolidadaValue,
 					ProcessStageEnum.FULL);
 			List<String> outkeys = new ArrayList<>();
 			Map<ReportCellKey, SoviConsolidadaCell> verticalTabMapped = this.classifyByConsolidadaRules(verticalDocument);

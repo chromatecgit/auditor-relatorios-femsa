@@ -1,6 +1,5 @@
 package main;
 
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
@@ -36,15 +35,14 @@ public class ConsolidadaModule implements Module {
 
 		final PathBuilder pathBuilder = new PathBuilder();
 
-		pathBuilder.buildFilePaths(GlobBuilder.buildGlobPatternWith(Arrays.asList(fileNames)),
-				new Path[] { ProjectConfiguration.newFilesPath });
+		pathBuilder.buildFilePaths(GlobBuilder.buildGlobPatternWith(Arrays.asList(fileNames)), ProjectConfiguration.newFilesPath );
 
 		final Map<String, PathBuilderMapValue> pathsMap = pathBuilder.getPathMaps();
 
 		ReportTab consolidadaTab = new ReportTab();
 
 		for (String fileName : pathsMap.keySet()) {
-			consolidadaTab = FileManager.fetchProdutividadeDocument(fileName, pathsMap.get(fileName),
+			consolidadaTab = FileManager.fetchConsolidadaDocument(fileName, pathsMap.get(fileName),
 					ProcessStageEnum.FULL);
 			MyLogPrinter.printObject(consolidadaTab, "ConsolidadaModule_consolidadaTab");
 		}

@@ -2,6 +2,7 @@ package utils;
 
 import java.util.TreeMap;
 
+import model.ReportCellKey;
 import model.ReportDocument;
 import model.ReportTab;
 
