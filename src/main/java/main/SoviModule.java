@@ -40,7 +40,7 @@ public class SoviModule implements Module {
 	private PathBuilderMapValue consolidadaValue = new PathBuilderMapValue();
 	private final String volumeRegexPattern = "\\d+(\\.\\d+)?M?L";
 	private final Pattern compiledPattern = Pattern.compile(volumeRegexPattern);
-	final Map<ReportCellKey, ReportCell> asymmetricValues = new TreeMap<>();
+	private final Map<ReportCellKey, ReportCell> asymmetricValues = new TreeMap<>();
 
 	public SoviModule() {
 	}

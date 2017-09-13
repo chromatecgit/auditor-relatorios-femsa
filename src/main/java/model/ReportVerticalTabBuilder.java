@@ -73,19 +73,18 @@ public class ReportVerticalTabBuilder implements ReportTabBuilder {
 	}
 
 	@Override
-	public void addAndReset(ReportCell cell, String cellValue) {
+	public void addAndReset(ReportCell cell, String correspondingHeader) {
 		ReportCellKey cellKey = new ReportCellKey();
 		cellKey.setConcat(this.indexVO.getConcat());
-		cellKey.setColumnName(this.currentSKU.isEmpty() ? cellValue : currentSKU);
+		cellKey.setColumnName(this.currentSKU.isEmpty() ? correspondingHeader : currentSKU);
 		
-
-		String tableHeader = this.tableHeaders.get(cell.getColumnIndex());
-		if (tableHeader.equalsIgnoreCase("SOVI")) {
+		if (correspondingHeader.equalsIgnoreCase("SOVI")) {
 			cell.getPocInfos().put(this.currentPoc, Integer.parseInt(cell.getValue()));
 		}
 		
 		this.tab.getCells().merge(cellKey, cell, (oc, nc) -> {
 			if (cellKey.getColumnName().startsWith("SOVI")) {
+				//Somente realizar essa operacao com base na coluna de produtos, que comecam com SOVI
 				nc.getPocInfos().putAll(oc.getPocInfos());
 				if (NumberUtils.isCreatable(nc.getValue())) {
 					Integer sum = NumberUtils.toInt(oc.getValue()) + (NumberUtils.toInt(nc.getValue()));

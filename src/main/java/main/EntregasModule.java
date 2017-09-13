@@ -39,8 +39,8 @@ public class EntregasModule implements Module {
 		
 		oldPathMaps.forEach( (ok, ov) -> {
 			
-			final ReportDocument oldDocument = FileManager.fetchDocument( ok, oldPathMaps.get(ok), ProcessStageEnum.FULL, null );
-			final ReportDocument newDocument = FileManager.fetchDocument( ok, newPathMaps.get(ok), ProcessStageEnum.FULL, null );
+			final ReportDocument oldDocument = FileManager.fetchDocument( ok, oldPathMaps.get(ok), ProcessStageEnum.FULL, new String[] {"CATEGORIA", "TAMANHO"} );
+			final ReportDocument newDocument = FileManager.fetchDocument( ok, newPathMaps.get(ok), ProcessStageEnum.FULL, new String[] {"CATEGORIA", "TAMANHO"}  );
 			
 			try {
 				this.applyBusinessRule(oldDocument, newDocument);
@@ -54,18 +54,22 @@ public class EntregasModule implements Module {
 	private void applyBusinessRule(final ReportDocument oldDocument , final ReportDocument newDocument) throws HaltException {
 		final List<String> outkeys = new ArrayList<>();
 		oldDocument.getTabs().forEach( (ok, ot) -> {
-			ReportTab nt = newDocument.getTabs().get(ok);
+			final ReportTab nt = newDocument.getTabs().get(ok);
 			ot.getCells().forEach( (ock, oc) -> {
-				ReportCell nc = nt.getCells().get(ock);
+				final ReportCell nc = nt.getCells().get(ock);
 				if (nc != null) {
-					if (!oc.getPocInfos().isEmpty()) {
+					if (oc.getPocInfos().isEmpty() && !oc.getValue().equals(nc.getValue())) {
+						MyLogPrinter.addToBuiltMessage(ock + " em " + ot.getTabName() + " -> [OLD]=" + oc.getValue() + "/[NEW]=" + nc.getValue());
+					} else if (!oc.getPocInfos().isEmpty()) {
+						oc.getPocInfos().forEach( (opk, opv) -> {
+							Integer npv = nc.getPocInfos().get(opk);
+							if (!opv.equals(npv)) {
+								MyLogPrinter.addToBuiltMessage(ock + " em " + ot.getTabName() + " -> [OLD]=" + oc.getValue() + "/[NEW]=" + nc.getValue());
+								MyLogPrinter.addToBuiltMessage("\t[OLD_POC]" + opk + "=" + opv);
+								MyLogPrinter.addToBuiltMessage("\t[NEW_POC]" + opk + "=" + npv);
+							}
+						});
 						
-					} else {
-						if (!oc.getValue().equals(nc.getValue())) {
-							MyLogPrinter.addToBuiltMessage(ock + " em " + ot.getTabName() + " -> [OLD]=" + oc.getValue() + "/[NEW]=" + nc.getValue());
-								MyLogPrinter.addToBuiltMessage("\t[OLD_POC]" + oc.getPocInfos());
-								MyLogPrinter.addToBuiltMessage("\t[NEW_POC]" + nc.getPocInfos());
-						}
 					}
 				} else {
 					outkeys.add(ock + " nao encontrado");

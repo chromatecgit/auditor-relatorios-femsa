@@ -34,13 +34,13 @@ public class ReportHorizontalTabBuilder implements ReportTabBuilder {
 		if (cell.getLineIndex() == 1) { //&& cell.getValue().contains(tag)) {
 			this.tableHeaders.put(cell.getColumnIndex(), cell.getValue());
 		} else {
-			String cellValue = this.tableHeaders.get(cell.getColumnIndex());
-			if (cellValue != null) {
-				if (cellValue.equalsIgnoreCase("CONCAT")) {
+			String correspondingHeader = this.tableHeaders.get(cell.getColumnIndex());
+			if (correspondingHeader != null) {
+				if (correspondingHeader.equalsIgnoreCase("CONCAT")) {
 					indexVO.setConcat(cell.getValue());
 					indexVO.setLineIndex(cell.getLineIndex());
 				} else if (cell.getLineIndex() == indexVO.getLineIndex() && !cell.getValue().equals("0")) {
-					this.addAndReset(cell, cellValue);
+					this.addAndReset(cell, correspondingHeader);
 				}
 			} else {
 				MyLogPrinter.addToBuiltMessage("Valor inválido em :" + cell.getAddress());
@@ -49,10 +49,10 @@ public class ReportHorizontalTabBuilder implements ReportTabBuilder {
 	}
 
 	@Override
-	public void addAndReset(ReportCell cell, String cellValue) {
+	public void addAndReset(ReportCell cell, String correspondingHeader) {
 		ReportCellKey cellKey = new ReportCellKey();
 		cellKey.setConcat(indexVO.getConcat());
-		cellKey.setColumnName(cellValue);
+		cellKey.setColumnName(correspondingHeader);
 		this.tab.getCells().put(cellKey, cell);
 	}
 

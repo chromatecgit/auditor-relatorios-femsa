@@ -147,7 +147,7 @@ public class FileManager {
 		}
 	}
 	
-	public static ReportDocument fetchDocument(final String fileKey, final PathBuilderMapValue pathMap, final ProcessStageEnum processStage, final String[] filters ) throws WarningException {
+	public static ReportDocument fetchDocument(final String fileKey, final PathBuilderMapValue pathMap, final ProcessStageEnum processStage, final String[] filters) throws WarningException {
 		if (pathMap != null && pathMap.getPath() != null) {
 			ReportDocument document = new ReportDocument();
 			

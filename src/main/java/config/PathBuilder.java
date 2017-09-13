@@ -24,13 +24,13 @@ public class PathBuilder {
 			value.setPath(path);
 			value.setFileName(fileName);
 			FileClassEnum e;
-			if (fileName.contains("_VERT")) {
+			if (fileKey.contains("_VERT")) {
 				e = FileClassEnum.VERTICAL;
-			} else if (fileName.equalsIgnoreCase(FileClassEnum.CONSOLIDADA_SOVI.name())) {
+			} else if (fileKey.equalsIgnoreCase(FileClassEnum.CONSOLIDADA_SOVI.name())) {
 				e = FileClassEnum.CONSOLIDADA_SOVI;
-			} else if (fileName.equalsIgnoreCase(FileClassEnum.PRODUTIVIDADE.name())) {
+			} else if (fileKey.equalsIgnoreCase(FileClassEnum.PRODUTIVIDADE.name())) {
 				e = FileClassEnum.PRODUTIVIDADE;
-			} else if (fileName.equalsIgnoreCase(FileClassEnum.CONSOLIDADA.name())) {
+			} else if (fileKey.equalsIgnoreCase(FileClassEnum.CONSOLIDADA.name())) {
 				e = FileClassEnum.CONSOLIDADA;
 			} else {
 				e = FileClassEnum.HORIZONTAL;
