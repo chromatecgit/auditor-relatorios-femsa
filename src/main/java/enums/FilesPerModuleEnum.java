@@ -25,6 +25,9 @@ public enum FilesPerModuleEnum {
 	}),
 	CONSOLIDADA (new String[] {
 			ExcelFileNameEnum.CONSOLIDADA.toString()
+	}),
+	SOURCE(new String[] {
+			ExcelFileNameEnum.SOVI.toString()
 	});
 	
 	private String[] excelFileNames;

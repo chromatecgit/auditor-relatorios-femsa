@@ -47,6 +47,7 @@ public class ReportVerticalTabBuilder implements ReportTabBuilder {
 				if (cellValue.equalsIgnoreCase("CONCAT")) {
 					indexVO.setConcat(cell.getValue());
 					indexVO.setLineIndex(cell.getLineIndex());
+					this.currentSKU = "";
 				} else if (cellValue.equals("PRODUTO")) {
 					this.currentSKU = cell.getValue();
 				} else if (cellValue.equals("POC")) {
@@ -76,16 +77,27 @@ public class ReportVerticalTabBuilder implements ReportTabBuilder {
 	public void addAndReset(ReportCell cell, String correspondingHeader) {
 		ReportCellKey cellKey = new ReportCellKey();
 		cellKey.setConcat(this.indexVO.getConcat());
-		cellKey.setColumnName(this.currentSKU.isEmpty() ? correspondingHeader : currentSKU);
+		if (correspondingHeader.equals("SOVI") || correspondingHeader.equals("PRECO")) {
+			cellKey.setColumnName(this.currentSKU);
+		} else {
+			cellKey.setColumnName(correspondingHeader);
+		}
 		
 		if (correspondingHeader.equalsIgnoreCase("SOVI")) {
-			cell.getPocInfos().put(this.currentPoc, Integer.parseInt(cell.getValue()));
+			cell.getPocInfos().merge(this.currentPoc, Integer.parseInt(cell.getValue()), (ov, nv) -> {
+				return nv + ov;
+			});
+			this.currentPoc = "";
 		}
 		
 		this.tab.getCells().merge(cellKey, cell, (oc, nc) -> {
 			if (cellKey.getColumnName().startsWith("SOVI")) {
 				//Somente realizar essa operacao com base na coluna de produtos, que comecam com SOVI
-				nc.getPocInfos().putAll(oc.getPocInfos());
+				oc.getPocInfos().forEach((k,v) -> {
+					nc.getPocInfos().merge(k, v , (x, y) -> {
+						return x +y;
+					});
+				});
 				if (NumberUtils.isCreatable(nc.getValue())) {
 					Integer sum = NumberUtils.toInt(oc.getValue()) + (NumberUtils.toInt(nc.getValue()));
 					nc.setValue(sum.toString());
@@ -95,8 +107,7 @@ public class ReportVerticalTabBuilder implements ReportTabBuilder {
 			}
 			return nc;
 		});
-		this.currentSKU = "";
-		this.currentPoc = "";
+		
 	}
 
 	@Override

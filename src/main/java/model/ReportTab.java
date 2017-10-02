@@ -7,6 +7,8 @@ import enums.IndentationEnum;
 import interfaces.Indentable;
 
 public class ReportTab implements Indentable {
+
+	private Map<String, String> tableHeaders;
 	private String fileName;
 	private String tabName;
 	private int numberOfRows;
@@ -89,6 +91,14 @@ public class ReportTab implements Indentable {
 	public String toString() {
 		return this.getHierarchy().getIndentationEntity() + "ReportTab [fileName=" + fileName + ", tabName=" + tabName
 				+ ", numberOfRows=" + numberOfRows + ", numberOfColumns=" + numberOfColumns + ", cells=" + cells + "]";
+	}
+
+	public Map<String, String> getTableHeaders() {
+		return tableHeaders;
+	}
+
+	public void setTableHeaders(Map<String, String> tableHeaders) {
+		this.tableHeaders = tableHeaders;
 	}
 
 }

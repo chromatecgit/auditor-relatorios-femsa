@@ -39,8 +39,8 @@ public class EntregasModule implements Module {
 		
 		oldPathMaps.forEach( (ok, ov) -> {
 			
-			final ReportDocument oldDocument = FileManager.fetchDocument( ok, oldPathMaps.get(ok), ProcessStageEnum.FULL, new String[] {"CATEGORIA", "TAMANHO"} );
-			final ReportDocument newDocument = FileManager.fetchDocument( ok, newPathMaps.get(ok), ProcessStageEnum.FULL, new String[] {"CATEGORIA", "TAMANHO"}  );
+			final ReportDocument oldDocument = FileManager.fetchDocument( ok, oldPathMaps.get(ok), ProcessStageEnum.FULL, null );
+			final ReportDocument newDocument = FileManager.fetchDocument( ok, newPathMaps.get(ok), ProcessStageEnum.FULL, null );
 			
 			try {
 				this.applyBusinessRule(oldDocument, newDocument);

@@ -50,7 +50,9 @@ public class SoviModule implements Module {
 
 		final PathBuilder pathBuilder = new PathBuilder();
 
-		pathBuilder.buildFilePaths(GlobBuilder.buildGlobPatternWith(Arrays.asList(fileNames)), ProjectConfiguration.newFilesPath );
+		pathBuilder.buildFilePaths(
+				GlobBuilder.buildGlobPatternWith(
+				Arrays.asList(fileNames)), ProjectConfiguration.newFilesPath );
 
 		final Map<String, PathBuilderMapValue> pathsMap = pathBuilder.getPathMaps();
 
@@ -93,7 +95,7 @@ public class SoviModule implements Module {
 				ReportCell vCell = mergedVerticalCells.get(key);
 				if (!hCell.getValue().equals(vCell.getValue())) {
 					MyLogPrinter.addToBuiltMessage(
-							"[Horizontal]=" + key + " valores=" + hCell + "/[Vertical]=" + key + " valores=" + vCell);
+							"[Horizontal]=" + key + " valores=" + hCell + "\n\t[Vertical]=" + key + " valores=" + vCell);
 				}
 			});
 			MyLogPrinter.printBuiltMessage("SoviModule_diff");
@@ -151,12 +153,13 @@ public class SoviModule implements Module {
 				if (result != null) {
 					if (!Integer.valueOf(v.getValue()).equals(result.getValue())) {
 						MyLogPrinter.addToBuiltMessage(
-								"[Concat arquivo]=" + k.getConcat() + " valor=" + v.getValue() + "/[Concat convertido]=" + k.getConcat() + " valor=" + result);
+								"REGRA:" + result.getAddress() + " [Concat CONSOLIDADA SOVI]=" + k.getConcat() + " valor=" + v.getValue() + "/\n\t\t[Concat SOVI VERTICAL]=" + k.getConcat() + " valor=" + result.getValue());
 					}
 				} else {
 					outkeys.add("Registro " + k + " nao encontrado");
 				}
 			});
+			MyLogPrinter.printObject(verticalTabMapped, "SoviModule_verticalToConsolidadaTab");
 			MyLogPrinter.printObject(consolidadaTab, "SoviModule_consolidadaTab");
 			MyLogPrinter.printCollection(outkeys, "SoviModule_outkeys_consolidada");
 			MyLogPrinter.printBuiltMessage("SoviModule_diff_consolidada");
@@ -184,7 +187,6 @@ public class SoviModule implements Module {
 //			MyLogPrinter.printObject(filterSkuMap, "SoviModule_filterSkuMap_" + e.name());
 //			filterSkuMap.clear();
 		}
-		 MyLogPrinter.printObject(filterSkuMap, "SoviModule_filterSkuMap");
 		return filterSkuMap;
 	}
 
@@ -200,8 +202,16 @@ public class SoviModule implements Module {
 						if (this.belongsToRule(key.getColumnName(), poc, consolidadosFilter)) {
 							ReportCellKey newKey = new ReportCellKey(key.getConcat(), e.name());
 							SoviConsolidadaCell newCell = new SoviConsolidadaCell(key.getColumnName(), Integer.valueOf(cell.getPocInfos().get(poc)));
+							newCell.getAppendix().getPocs().add(poc);
+							newCell.getAppendix().getSkus().add(key.getColumnName());
 							verticalCellMaps.merge(newKey, newCell, (ov, nv) -> {
-								return new SoviConsolidadaCell(nv.getAddress(),  nv.getValue() + ov.getValue());
+								SoviConsolidadaCell s = new SoviConsolidadaCell(e.name(),  nv.getValue() + ov.getValue());
+								s.getAppendix().getPocs().addAll(nv.getAppendix().getPocs());
+								s.getAppendix().getPocs().addAll(ov.getAppendix().getPocs());
+								
+								s.getAppendix().getSkus().addAll(nv.getAppendix().getSkus());
+								s.getAppendix().getSkus().addAll(ov.getAppendix().getSkus());
+								return s;
 							});
 						}
 					}

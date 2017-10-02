@@ -6,13 +6,16 @@ import interfaces.Indentable;
 public class SoviConsolidadaCell implements Indentable {
 	private String address;
 	private Integer value;
+	private SoviConsolidadaCellAppendix appendix;
 
 	public SoviConsolidadaCell() {
 		super();
+		this.appendix = new SoviConsolidadaCellAppendix();
 	}
 
 	public SoviConsolidadaCell(String address, Integer value) {
 		super();
+		this.appendix = new SoviConsolidadaCellAppendix();
 		this.address = address;
 		this.value = value;
 	}
@@ -33,10 +36,18 @@ public class SoviConsolidadaCell implements Indentable {
 		this.value = value;
 	}
 
+	public SoviConsolidadaCellAppendix getAppendix() {
+		return appendix;
+	}
+
+	public void setAppendix(SoviConsolidadaCellAppendix appendix) {
+		this.appendix = appendix;
+	}
+
 	@Override
 	public String toString() {
-		return "SoviConsolidadaCell [address=" + address + ", value="
-				+ value + "]";
+		return this.getHierarchy().getIndentationEntity() + "SoviConsolidadaCell [address=" + address + ", value="
+				+ value + ", appendix=" + appendix + "]";
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import interfaces.ReportTabBuilder;
+import utils.FileManager;
 import utils.MyLogPrinter;
 import utils.ReportTabBuilderIndexVO;
 
@@ -26,6 +27,7 @@ public class ReportHorizontalTabBuilder implements ReportTabBuilder {
 	@Override
 	public ReportTab build() {
 		MyLogPrinter.printBuiltMessage("ReportHorizontalTabBuilder_orphan_cells");
+		this.tab.setTableHeaders(tableHeaders);
 		return this.tab;
 	}
 

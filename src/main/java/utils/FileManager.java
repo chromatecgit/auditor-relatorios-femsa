@@ -23,6 +23,7 @@ import model.TabNamesMap;
 
 public class FileManager {
 	
+	
 	public static ReportTab fetchHorizontalDocument(final String fileName, final PathBuilderMapValue pathMap, final ProcessStageEnum processStage, final boolean skipOutros) {
 		ReportTab processedTab = new ReportTab();
 		try {
@@ -173,5 +174,5 @@ public class FileManager {
 			throw new WarningException("Arquivo "+ pathMap.getFileName() +" nao foi encontrado");
 		}
 	}
-	
+
 }

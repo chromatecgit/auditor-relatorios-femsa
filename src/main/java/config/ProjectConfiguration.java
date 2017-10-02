@@ -29,11 +29,18 @@ public class ProjectConfiguration {
 	 */
 	public static final String logFolder = root.concat("logs").concat(File.separator);
 	
+	public static final String logFolderName = "logs_auditor";
+	
+	public static String newLogFolder = "";
+	
 	public static final Path oldFilesPath = Paths.get(
 			root.concat("spreadsheets").concat(File.separator).concat("old").concat(File.separator));
 	
 	public static final Path newFilesPath = Paths.get(
 			root.concat("spreadsheets").concat(File.separator).concat("new").concat(File.separator));
+	
+	public static final Path sourcePath = Paths.get(
+			root.concat("spreadsheets").concat(File.separator).concat("source").concat(File.separator));
 	
 	public static final String glob = "**.{xlsx}";
 	
