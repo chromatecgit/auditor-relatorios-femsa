@@ -40,14 +40,14 @@ public class SheetHandler extends DefaultHandler {
 
 	@Override
 	public void startDocument() throws SAXException {
-		System.out.println("Inicio do parse");
+		System.out.println("\t[Inicio do parse]");
 	}
 
 	@Override
 	public void endDocument() throws SAXException {
 		this.listener.onArrivalOf(this.builder);
 		this.builder = null;
-		System.out.println("Fim do parse");
+		System.out.println("\t[Fim do parse]");
 	}
 
 	public void startElement(String uri, String localName, String name, Attributes attributes) throws SAXException {

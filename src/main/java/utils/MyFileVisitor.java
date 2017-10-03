@@ -29,12 +29,13 @@ public class MyFileVisitor extends SimpleFileVisitor<Path> {
 	public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
 		Objects.requireNonNull(file);
 		Objects.requireNonNull(attrs);
+		Path fileName = file.getFileName();
 		if (matcher.matches(file)) {
 			filesList.add(file);
 			fileCounter++;
-			System.out.println("\t" + file.getFileName() + " adicionado.");
+			System.out.println(fileName + " adicionado.");
 		} else {
-			System.out.println("\t" + file.getFileName() + " recusado.");
+			System.out.println(fileName + " recusado.");
 		}
 
 		return FileVisitResult.CONTINUE;
@@ -45,13 +46,14 @@ public class MyFileVisitor extends SimpleFileVisitor<Path> {
 		Objects.requireNonNull(dir);
 		if (exc != null)
 			throw exc;
-
+		fileCounter = 0;
 		return FileVisitResult.CONTINUE;
 	}
 
 	@Override
 	public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
 		System.out.println("O arquivo " + file.getFileName() + " nao pode ser lido.");
+		fileCounter = 0;
 		return FileVisitResult.CONTINUE;
 	}
 
@@ -60,6 +62,7 @@ public class MyFileVisitor extends SimpleFileVisitor<Path> {
 		try {
 			Files.walkFileTree(pathTarget, this);
 			System.out.println("\tArquivos encontrados: " + fileCounter);
+			fileCounter = 0;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

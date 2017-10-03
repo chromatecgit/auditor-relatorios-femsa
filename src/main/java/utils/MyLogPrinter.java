@@ -4,9 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +17,7 @@ public class MyLogPrinter {
 	
 	private synchronized static PrintWriter getPrintWriter(String fileName) {
 		try {
-			File file = new File(ProjectConfiguration.newLogFolder.concat(fileName +"[" + MyLogPrinter.buildDateTime() +"]" + ".txt"));
+			File file = new File(ProjectConfiguration.newLogFolder.concat(fileName +"[" + ProjectConfiguration.buildDateTime() +"]" + ".txt"));
 			return new PrintWriter((new FileOutputStream(file)));
 		} catch (FileNotFoundException e) {
 			System.out.println("Arquivo: " + fileName + " não foi encontrado");
@@ -124,10 +121,4 @@ public class MyLogPrinter {
 		System.out.println("PRINTED " + fileName + "!");
 	}
 	
-	private static String buildDateTime() {
-		LocalDateTime localDateTime = LocalDateTime.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss");
-		return localDateTime.format(formatter);
-	}
-
 }

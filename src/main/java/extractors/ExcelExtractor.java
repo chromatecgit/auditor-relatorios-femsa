@@ -41,7 +41,7 @@ public class ExcelExtractor implements ReportTabReadyListener {
 			this.builder.addTabName(tabMap.getName());
 			
 			System.out.println("FILE_NAME: " + fileName);
-			System.out.println("TAB_NAME: " + tabMap.getName());
+			System.out.println("\tTAB_NAME: " + tabMap.getName());
 			parser.parse(sheetSource);
 			sheet.close();
 			

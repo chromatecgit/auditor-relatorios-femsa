@@ -1,8 +1,12 @@
 package config;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Classe base de configuraçao para aplicacoes
@@ -14,33 +18,29 @@ public class ProjectConfiguration {
 	/**
 	 * Diretório raiz padrão da aplicação. Daqui ramificam-se os outros.
 	 **/
-	private static final String root =
-//			System.getProperty("user.dir")
-//					.concat(File.separator)
-//					.concat("src")
-//					.concat(File.separator)
-//					.concat("main")
-//					.concat(File.separator);
-			"D:".concat(File.separator);
+	private static final String ROOT =
+			System.getProperty("user.dir").concat(File.separator);
 	
-	/** 
-	 * Constante contendo o endereco dos arquivos de log.
-	 *	OBS.: É feita uma concatenação a mais em cada Modulo do Auditor para separar os arquivos em pastas
-	 */
-	public static final String logFolder = root.concat("logs").concat(File.separator);
+	private static final Path ROOT_PATH = Paths.get(ROOT);
 	
-	public static final String logFolderName = "logs_auditor";
+	private static final Path ROOT_PARENT = Paths.get(ROOT).getParent();
+	
+	private static final String LOG_FOLDER_NAME = "logs_auditor";
+	
+	private static final String SPREADSHEETS_ROOT_FOLDER = "spreadsheets";
+	
+	private static final String OLD_FILES_FOLDER = SPREADSHEETS_ROOT_FOLDER.concat(File.separator).concat("old").concat(File.separator);
+	
+	private static final String NEW_FILES_FOLDER = SPREADSHEETS_ROOT_FOLDER.concat(File.separator).concat("new").concat(File.separator);
 	
 	public static String newLogFolder = "";
 	
-	public static final Path oldFilesPath = Paths.get(
-			root.concat("spreadsheets").concat(File.separator).concat("old").concat(File.separator));
+	public static Path oldFilesPath;
 	
-	public static final Path newFilesPath = Paths.get(
-			root.concat("spreadsheets").concat(File.separator).concat("new").concat(File.separator));
+	public static Path newFilesPath;
 	
 	public static final Path sourcePath = Paths.get(
-			root.concat("spreadsheets").concat(File.separator).concat("source").concat(File.separator));
+			ROOT.concat("spreadsheets").concat(File.separator).concat("source").concat(File.separator));
 	
 	public static final String glob = "**.{xlsx}";
 	
@@ -68,5 +68,35 @@ public class ProjectConfiguration {
 	public static final String[] fileTypes = {
 			"xlsx"
 	};
+	
+	public static void prepareEnvironment() {
+		
+		try {
+			// Creates log directories
+			// Para a execucao pelo Eclipse, usar a ROOT_PARENT
+			Path logsRootFolder = ROOT_PATH.resolve(LOG_FOLDER_NAME);
+			if (!Files.exists(logsRootFolder)) {
+				Files.createDirectory(logsRootFolder).toString().concat(File.separator);
+			}
+			Path finalPath = Files.createDirectory(logsRootFolder.resolve(ProjectConfiguration.buildDateTime()));
+			ProjectConfiguration.newLogFolder = finalPath.toString().concat(File.separator);
+			
+			// Locates spreadsheet folders
+			ProjectConfiguration.newFilesPath = ROOT_PATH.resolve(ProjectConfiguration.NEW_FILES_FOLDER);
+			ProjectConfiguration.oldFilesPath = ROOT_PATH.resolve(ProjectConfiguration.OLD_FILES_FOLDER);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+	}
+	
+	public static String buildDateTime() {
+		LocalDateTime localDateTime = LocalDateTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss");
+		return localDateTime.format(formatter);
+	}
 	
 }
