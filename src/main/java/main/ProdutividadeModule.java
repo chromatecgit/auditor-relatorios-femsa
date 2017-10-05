@@ -69,6 +69,8 @@ public class ProdutividadeModule implements Module {
 				ProdutividadeKeyColumns.NUM_DE_IMAGENS_EM_OCORRENCIA.getColumnName(),
 				ProdutividadeKeyColumns.SOVI.getColumnName());
 		
+		//applyNadaExpostoRules - verficar se existe Sovi > 0 mesmo com flag NadaExposto
+		
 		this.applyPhotoIssuesRules(
 				produtividadeCells,
 				ProdutividadeKeyColumns.NUM_DE_IMAGENS_TOMADAS.getColumnName(),
@@ -93,6 +95,8 @@ public class ProdutividadeModule implements Module {
 					&& realizarPesquisaCell.getValue().equalsIgnoreCase("Sim")) {
 				MyLogPrinter.addToBuiltMessage("Não existem fotos para a matricula/data: " + id +" mesmo com pesquisa Completa");
 			}
+			
+			
 		});
 		
 		MyLogPrinter.printBuiltMessage("ProdutividadeModule_zero_images");

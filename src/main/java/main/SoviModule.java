@@ -200,10 +200,12 @@ public class SoviModule implements Module {
 				if (key.getColumnName().startsWith(consolidadosFilter.getConsolidadoType().name())) {
 					for (String poc : cell.getPocInfos().keySet()) {
 						if (this.belongsToRule(key.getColumnName(), poc, consolidadosFilter)) {
+							
 							ReportCellKey newKey = new ReportCellKey(key.getConcat(), e.name());
-							SoviConsolidadaCell newCell = new SoviConsolidadaCell(key.getColumnName(), Integer.valueOf(cell.getPocInfos().get(poc)));
+							SoviConsolidadaCell newCell = new SoviConsolidadaCell(e.name(), Integer.valueOf(cell.getPocInfos().get(poc)));
 							newCell.getAppendix().getPocs().add(poc);
 							newCell.getAppendix().getSkus().add(key.getColumnName());
+							
 							verticalCellMaps.merge(newKey, newCell, (ov, nv) -> {
 								SoviConsolidadaCell s = new SoviConsolidadaCell(e.name(),  nv.getValue() + ov.getValue());
 								s.getAppendix().getPocs().addAll(nv.getAppendix().getPocs());
