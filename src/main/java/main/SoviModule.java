@@ -289,7 +289,7 @@ public class SoviModule implements Module {
 				} else {
 					return false;
 				}
-			} else {
+			} else if (!sku.contains("KS")) {
 				return false;
 			}
 			
