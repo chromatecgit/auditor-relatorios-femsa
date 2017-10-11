@@ -18,8 +18,7 @@ public class PathBuilder {
 		for (Path path : mfv.getPaths()) {
 			String fileName = this.createFileName(
 					path.getName(path.getNameCount() - 1).toString());
-			String fileKey = this.createFileKey(
-					fileName);
+			String fileKey = this.createFileKey(fileName);
 			PathBuilderMapValue value = new PathBuilderMapValue();
 			value.setPath(path);
 			value.setFileName(fileName);

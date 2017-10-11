@@ -26,6 +26,10 @@ public enum FilesPerModuleEnum {
 	CONSOLIDADA (new String[] {
 			ExcelFileNameEnum.CONSOLIDADA.toString()
 	}),
+	SOVI_PRECO(new String[] {
+			ExcelFileNameEnum.SOVI_VERT.toString(),
+			ExcelFileNameEnum.PRECO_VERT.toString(),
+	}),
 	SOURCE(new String[] {
 			ExcelFileNameEnum.SOVI.toString()
 	});

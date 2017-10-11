@@ -15,7 +15,7 @@ public class Auditor {
 		if (!argsList.isEmpty()) {
 			argsList.stream().forEach(a -> {
 				if (a.equals("help")) {
-					System.out.println("Preco, Sovi, Produtividade, Consolidada, Entregas");
+					System.out.println("Preco, Sovi, Produtividade, Consolidada, Entregas, SoviPreco");
 				} else {
 					ModuleManager.startModule(a);
 				}
@@ -36,6 +36,9 @@ public class Auditor {
 			
 			EntregasModule entregas = new EntregasModule();
 			entregas.execute();
+			
+			SoviPrecoModule soviPrecoModule = new SoviPrecoModule();
+			soviPrecoModule.execute();
 			
 		}
 		
