@@ -1,4 +1,4 @@
-package model;
+package builders;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -7,9 +7,19 @@ import java.util.TreeMap;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import interfaces.ReportTabBuilder;
+import model.ReportCell;
+import model.ReportCellKey;
+import model.ReportTab;
 import utils.MyLogPrinter;
 import utils.ReportTabBuilderIndexVO;
 
+// FIXME: REFACTOR
+// Transformar os metodos de addCell e addAndReset em leitores de linhas inteira
+// usando os tableHeaders como parametros. Fazer o filtro das colunas desejadas ANTES
+// e usar o endereco de cada uma para gravar somente os valores desejados tambem.
+// Procurar NAO usar nome de coluna SOVI ou PRECO para qualquer verificacao
+// pois pode quebrar facilmente em algum modulo futuro.
+// OBS.: A metodo de merge das abas esta colocando Soja junto de Sucos!
 public class ReportVerticalTabBuilder implements ReportTabBuilder {
 
 	private ReportTab tab;
@@ -77,6 +87,7 @@ public class ReportVerticalTabBuilder implements ReportTabBuilder {
 	public void addAndReset(ReportCell cell, String correspondingHeader) {
 		ReportCellKey cellKey = new ReportCellKey();
 		cellKey.setConcat(this.indexVO.getConcat());
+		//TODO: Melhorar isso aqui
 		if (correspondingHeader.equals("SOVI") || correspondingHeader.equals("PRECO")) {
 			cellKey.setColumnName(this.currentSKU);
 		} else {

@@ -1,10 +1,13 @@
-package model;
+package builders;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
 import interfaces.ReportTabBuilder;
+import model.ReportCell;
+import model.ReportCellKey;
+import model.ReportTab;
 import utils.MyLogPrinter;
 import utils.ReportTabBuilderProdIndexVO;
 

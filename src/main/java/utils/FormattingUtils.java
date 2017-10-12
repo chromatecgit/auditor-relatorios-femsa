@@ -10,4 +10,11 @@ public class FormattingUtils {
 		String cleanName = matcher.replaceAll("");
 		return cleanName;
 	}
+	
+	public static String isolateSkuName(String value) {
+		String noSovi = value.replace("SOVI ", "");
+		String noPreco = noSovi.replace("PRECO ", "");
+		
+		return noPreco;
+	}
 }

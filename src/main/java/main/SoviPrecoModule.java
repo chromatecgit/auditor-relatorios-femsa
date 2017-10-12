@@ -17,14 +17,15 @@ import model.ReportCellKey;
 import model.ReportDocument;
 import model.ReportTab;
 import utils.FileManager;
+import utils.FormattingUtils;
 import utils.MyLogPrinter;
 import utils.ReportDocumentUtils;
 
 public class SoviPrecoModule implements Module {
 	
 	private final String[] fileNames = FilesPerModuleEnum.SOVI_PRECO.getExcelFileNames();
-	private String[] soviFilters = { "CATEGORIA" };
-	private String[] precoFilters = { "CATEGORIA", "TAMANHO" };
+	private String[] soviFilters = { "CATEGORIA"};
+	private String[] precoFilters = { "CATEGORIA", "TAMANHO"};
 
 	@Override
 	public void execute() {
@@ -66,21 +67,34 @@ public class SoviPrecoModule implements Module {
 		ReportTab mPrecoVertical = ReportDocumentUtils.merge(precoVerticalDocument);
 		
 		List<String> notFoundInSovi = new ArrayList<>();
-		List<String> remainInPreco = new ArrayList<>();
+		List<String> remainInSovi = new ArrayList<>();
+		//FIXME: Metodo paliativo
+		ReportTab newSoviVertical = this.cleanSoviPrecoPrefix(mSoviVertical);
+		ReportTab newPrecoVertical = this.cleanSoviPrecoPrefix(mPrecoVertical);
 		
-		mPrecoVertical.getCells().forEach( (pk, pv) -> {
-			if (mSoviVertical.getCells().remove(pk) == null) {
-				notFoundInSovi.add(mPrecoVertical.getTabName() + ":" + pk);
+		MyLogPrinter.printObject(newSoviVertical, "SoviPrecoModule_newSoviTab");
+		MyLogPrinter.printObject(newPrecoVertical, "SoviPrecoModule_newPrecoTab");
+		
+		newPrecoVertical.getCells().forEach( (pk, pv) -> {
+			if (newSoviVertical.getCells().remove(pk) == null) {
+				notFoundInSovi.add(pk.toString());
 			}
 		});
 		
-		MyLogPrinter.printBuiltMessage("SoviPrecoModule_diff_notFoundInSovi");
+		MyLogPrinter.printCollection(notFoundInSovi, "SoviPrecoModule_diff_notFoundInSovi");
 		
-		for (ReportCellKey key : mPrecoVertical.getCells().keySet()) {
-			remainInPreco.add(key.toString());
+		for (ReportCellKey key : newSoviVertical.getCells().keySet()) {
+			remainInSovi.add(key.toString());
 		}
 		
-		MyLogPrinter.printBuiltMessage("SoviPrecoModule_diff_remainInPreco");
+		MyLogPrinter.printCollection(remainInSovi, "SoviPrecoModule_diff_remainInSovi");
 
+	}
+
+	private ReportTab cleanSoviPrecoPrefix(final ReportTab tab) {
+		tab.getCells().forEach((k,v) -> {
+			k.setColumnName(FormattingUtils.isolateSkuName(k.getColumnName()));
+		});
+		return tab;
 	}
 }

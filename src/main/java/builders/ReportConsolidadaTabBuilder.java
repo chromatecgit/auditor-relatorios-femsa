@@ -1,23 +1,25 @@
-package model;
+package builders;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
 import interfaces.ReportTabBuilder;
-import utils.FileManager;
+import model.ReportCell;
+import model.ReportCellKey;
+import model.ReportTab;
 import utils.MyLogPrinter;
 import utils.ReportTabBuilderIndexVO;
 
-public class ReportHorizontalTabBuilder implements ReportTabBuilder {
-	
+public class ReportConsolidadaTabBuilder implements ReportTabBuilder {
+
 	private ReportTab tab;
 	// Column Letter Index X Column Name
 	private Map<String, String> tableHeaders;
 	// Concat X Line Index
 	private ReportTabBuilderIndexVO indexVO;
-	
-	public ReportHorizontalTabBuilder() {
+
+	public ReportConsolidadaTabBuilder() {
 		this.tab = new ReportTab();
 		this.tab.setCells(new TreeMap<ReportCellKey, ReportCell>());
 		this.tableHeaders = new LinkedHashMap<>();
@@ -26,23 +28,22 @@ public class ReportHorizontalTabBuilder implements ReportTabBuilder {
 
 	@Override
 	public ReportTab build() {
-		MyLogPrinter.printBuiltMessage("ReportHorizontalTabBuilder_orphan_cells");
-		this.tab.setTableHeaders(tableHeaders);
+		MyLogPrinter.printBuiltMessage("ReportConsolidadaTabBuilder_orphan_cells");
 		return this.tab;
 	}
 
 	@Override
 	public void addCell(ReportCell cell) {
-		if (cell.getLineIndex() == 1) { //&& cell.getValue().contains(tag)) {
+		if (cell.getLineIndex() == 1) { // && cell.getValue().contains(tag)) {
 			this.tableHeaders.put(cell.getColumnIndex(), cell.getValue());
 		} else {
-			String correspondingHeader = this.tableHeaders.get(cell.getColumnIndex());
-			if (correspondingHeader != null) {
-				if (correspondingHeader.equalsIgnoreCase("CONCAT")) {
-					indexVO.setConcat(cell.getValue());
-					indexVO.setLineIndex(cell.getLineIndex());
-				} else if (cell.getLineIndex() == indexVO.getLineIndex() && !cell.getValue().equals("0")) {
-					this.addAndReset(cell, correspondingHeader);
+			String cellValue = this.tableHeaders.get(cell.getColumnIndex());
+			if (cellValue != null) {
+				if (cellValue.equalsIgnoreCase("CONCAT")) {
+					this.indexVO.setConcat(cell.getValue());
+					this.indexVO.setLineIndex(cell.getLineIndex());
+				} else if (cell.getLineIndex() == indexVO.getLineIndex()) {// Voltar essa condicao caso necessario && !cell.getValue().equals("0")) {
+					this.addAndReset(cell, cellValue);
 				}
 			} else {
 				MyLogPrinter.addToBuiltMessage("Valor inválido em :" + cell.getAddress());
@@ -51,10 +52,10 @@ public class ReportHorizontalTabBuilder implements ReportTabBuilder {
 	}
 
 	@Override
-	public void addAndReset(ReportCell cell, String correspondingHeader) {
+	public void addAndReset(ReportCell cell, String cellValue) {
 		ReportCellKey cellKey = new ReportCellKey();
 		cellKey.setConcat(indexVO.getConcat());
-		cellKey.setColumnName(correspondingHeader);
+		cellKey.setColumnName(cellValue);
 		this.tab.getCells().put(cellKey, cell);
 	}
 
@@ -77,5 +78,5 @@ public class ReportHorizontalTabBuilder implements ReportTabBuilder {
 	public void addTabName(String tabName) {
 		this.tab.setTabName(tabName);
 	}
-	
+
 }
