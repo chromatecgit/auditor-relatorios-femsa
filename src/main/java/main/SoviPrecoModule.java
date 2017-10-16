@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import config.GlobBuilder;
 import config.PathBuilder;
@@ -12,6 +14,7 @@ import enums.FilesPerModuleEnum;
 import enums.ProcessStageEnum;
 import exceptions.HaltException;
 import interfaces.Module;
+import model.LogHelper;
 import model.PathBuilderMapValue;
 import model.ReportCellKey;
 import model.ReportDocument;
@@ -66,8 +69,9 @@ public class SoviPrecoModule implements Module {
 		ReportTab mSoviVertical = ReportDocumentUtils.merge(soviVerticalDocument);
 		ReportTab mPrecoVertical = ReportDocumentUtils.merge(precoVerticalDocument);
 		
-		List<String> notFoundInSovi = new ArrayList<>();
-		List<String> remainInSovi = new ArrayList<>();
+		List<ReportCellKey> notFoundInSovi = new ArrayList<>();
+		List<ReportCellKey> remainInSovi = new ArrayList<>();
+		
 		//FIXME: Metodo paliativo
 		ReportTab newSoviVertical = this.cleanSoviPrecoPrefix(mSoviVertical);
 		ReportTab newPrecoVertical = this.cleanSoviPrecoPrefix(mPrecoVertical);
@@ -77,17 +81,32 @@ public class SoviPrecoModule implements Module {
 		
 		newPrecoVertical.getCells().forEach( (pk, pv) -> {
 			if (newSoviVertical.getCells().remove(pk) == null) {
-				notFoundInSovi.add(pk.toString());
+				if (!pk.getColumnName().contains("GDM") && 
+						!pk.getColumnName().contains("_PERGUNTA") &&
+						!pk.getColumnName().equals("SALESCHANNEL") &&
+						!pk.getColumnName().equals("DATA") &&
+						!pk.getColumnName().equals("MATRICULA")) {
+					notFoundInSovi.add(pk);
+				}
 			}
 		});
 		
-		MyLogPrinter.printCollection(notFoundInSovi, "SoviPrecoModule_diff_notFoundInSovi");
+		MyLogPrinter.printObject(notFoundInSovi, "SoviPrecoModule_diff_notFoundInSovi");
+		
+		Set<String> collect2 = notFoundInSovi.stream().parallel().map(i -> {
+			return i.getColumnName();
+		}).collect(Collectors.toSet());
+		MyLogPrinter.printObject(collect2, "SoviPrecoModule_diff_notFoundInSovi_skuOnly");
 		
 		for (ReportCellKey key : newSoviVertical.getCells().keySet()) {
-			remainInSovi.add(key.toString());
+			remainInSovi.add(key);
 		}
 		
-		MyLogPrinter.printCollection(remainInSovi, "SoviPrecoModule_diff_remainInSovi");
+		Set<String> collect3 = remainInSovi.stream().parallel().map(i -> {
+			return i.getColumnName();
+		}).collect(Collectors.toSet());
+		
+		MyLogPrinter.printCollection(collect3, "SoviPrecoModule_diff_remainInSovi");
 
 	}
 
