@@ -1,7 +1,9 @@
 package utils;
 
+import java.util.Map;
 import java.util.TreeMap;
 
+import model.ReportCell;
 import model.ReportCellKey;
 import model.ReportDocument;
 import model.ReportTab;
@@ -17,8 +19,10 @@ public class ReportDocumentUtils {
 			sbTabName.append(t.getTabName());
 			newTab.setNumberOfColumns(newTab.getNumberOfColumns() + t.getNumberOfColumns());
 			newTab.setNumberOfRows(newTab.getNumberOfRows() + t.getNumberOfRows());
-			
-			newTab.getCells().putAll(t.getCells()); 
+			//TODO: Achar jeito melhor de fazer isso
+			Map<ReportCellKey, ReportCell> newMap = ReportDocumentUtils.concatTabName(t.getCells(), t.getTabName());
+			//newTab.getCells().putAll(t.getCells());
+			newTab.getCells().putAll(newMap);
 		});
 		newTab.setFileName(document.getFileName());
 		newTab.setTabName(sbTabName.toString());
@@ -43,5 +47,13 @@ public class ReportDocumentUtils {
 		newTab.setTabName(sbTabName.toString());
 		
 		return newTab;
+	}
+	
+	private static Map<ReportCellKey, ReportCell> concatTabName(Map<ReportCellKey, ReportCell> cells, final String tabName) {
+		cells.forEach( (k, v) -> {
+			v.setAddress(v.getAddress() + "_" + tabName);
+		});
+		
+		return cells;
 	}
 }

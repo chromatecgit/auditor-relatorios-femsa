@@ -90,6 +90,7 @@ public class SoviModule implements Module {
 		} finally {
 			ReportTab newHorizontalTab = this.makeSymmetrical(horizontalTab, asymmetricValues);
 			Map<ReportCellKey, ReportCell> mergedVerticalCells = mergedVerticalTab.getCells();
+			MyLogPrinter.printObject(mergedVerticalCells, "MERGED_VERTICAL_CELLS");
 			System.out.println("mergedVerticalCells: " + mergedVerticalCells.size());
 			newHorizontalTab.getCells().forEach((key, hCell) -> {
 				ReportCell vCell = mergedVerticalCells.get(key);

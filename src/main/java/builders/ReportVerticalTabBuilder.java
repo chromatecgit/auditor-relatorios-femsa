@@ -49,7 +49,7 @@ public class ReportVerticalTabBuilder implements ReportTabBuilder {
 
 	@Override
 	public void addCell(ReportCell cell) {
-		if (cell.getLineIndex() == 1) {
+		if (cell.getLineIndex() == 1) { // && cell.getValue().contains(tag)) {
 			this.tableHeaders.put(cell.getColumnIndex(), cell.getValue());
 		} else {
 			String cellValue = this.tableHeaders.get(cell.getColumnIndex());
