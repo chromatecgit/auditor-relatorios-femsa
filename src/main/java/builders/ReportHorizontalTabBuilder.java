@@ -8,8 +8,6 @@ import interfaces.ReportTabBuilder;
 import model.ReportCell;
 import model.ReportCellKey;
 import model.ReportTab;
-import utils.FileManager;
-import utils.FormattingUtils;
 import utils.MyLogPrinter;
 import utils.ReportTabBuilderIndexVO;
 

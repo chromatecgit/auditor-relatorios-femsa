@@ -10,7 +10,6 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
-import enums.ProcessStageEnum;
 import interfaces.ReportTabBuilder;
 import listener.ReportTabReadyListener;
 import model.ReportTab;
@@ -29,11 +28,11 @@ public class ExcelExtractor implements ReportTabReadyListener {
 		this.fileName = fileName;
 	}
 
-	public void process(XSSFReader reader, TabNamesMap tabMap, ProcessStageEnum processStageEnum) {
+	public void process(XSSFReader reader, TabNamesMap tabMap) {
 		try {
 			
 			SharedStringsTable sst = reader.getSharedStringsTable();
-			XMLReader parser = this.fetchSheetParser(sst, processStageEnum);
+			XMLReader parser = this.fetchSheetParser(sst);
 							
 			InputStream sheet = reader.getSheet(tabMap.getId());
 			InputSource sheetSource = new InputSource(sheet);
@@ -49,11 +48,10 @@ public class ExcelExtractor implements ReportTabReadyListener {
 			e.printStackTrace();
 		}
 	}
-	
 
-	private XMLReader fetchSheetParser(final SharedStringsTable sst, final ProcessStageEnum processStageEnum) throws SAXException {
+	private XMLReader fetchSheetParser(final SharedStringsTable sst) throws SAXException {
 		XMLReader parser = XMLReaderFactory.createXMLReader("org.apache.xerces.parsers.SAXParser");
-		ContentHandler handler = new SheetHandler(sst, this, processStageEnum, this.builder);
+		ContentHandler handler = new SheetHandler(sst, this, this.builder);
 		parser.setContentHandler(handler);
 		return parser;
 	}

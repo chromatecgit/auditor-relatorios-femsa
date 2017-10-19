@@ -9,7 +9,6 @@ import config.GlobBuilder;
 import config.PathBuilder;
 import config.ProjectConfiguration;
 import enums.FilesPerModuleEnum;
-import enums.ProcessStageEnum;
 import exceptions.HaltException;
 import interfaces.Module;
 import model.PathBuilderMapValue;
@@ -39,8 +38,8 @@ public class EntregasModule implements Module {
 		
 		oldPathMaps.forEach( (ok, ov) -> {
 			
-			final ReportDocument oldDocument = FileManager.fetchDocument( ok, oldPathMaps.get(ok), ProcessStageEnum.FULL, null );
-			final ReportDocument newDocument = FileManager.fetchDocument( ok, newPathMaps.get(ok), ProcessStageEnum.FULL, null );
+			final ReportDocument oldDocument = FileManager.fetchDocument( ok, oldPathMaps.get(ok), null );
+			final ReportDocument newDocument = FileManager.fetchDocument( ok, newPathMaps.get(ok), null );
 			
 			try {
 				this.applyBusinessRule(oldDocument, newDocument);

@@ -4,54 +4,45 @@ import enums.IndentationEnum;
 
 public class ReportCellKey implements Comparable<ReportCellKey> {
 
-	private String concat;
-	private String columnName;
+	protected String firstKey;
+	protected String secondKey;
 
 	public ReportCellKey() {
 		super();
 	}
 
-	public ReportCellKey(String concat, String columnName) {
-		this.concat = concat;
-		this.columnName = columnName;
-	}
-
-	public ReportCellKey(String concat, String columnName, String poc) {
+	public ReportCellKey(String firstKey, String secondKey) {
 		super();
-		this.concat = concat;
-		this.columnName = columnName;
+		this.firstKey = firstKey;
+		this.secondKey = secondKey;
 	}
 
-	public String getConcat() {
-		return concat;
+	public String getFirstKey() {
+		return firstKey;
 	}
 
-	public void setConcat(String concat) {
-		this.concat = concat;
+	public void setFirstKey(String firstKey) {
+		this.firstKey = firstKey;
 	}
 
-	public String getColumnName() {
-		return columnName;
+	public String getSecondKey() {
+		return secondKey;
 	}
 
-	public void setColumnName(String columnName) {
-		this.columnName = columnName;
+	public void setSecondKey(String secondKey) {
+		this.secondKey = secondKey;
 	}
 
 	public IndentationEnum getHierarchy() {
 		return IndentationEnum.LEVEL_2;
 	}
 
-	public ReportCellKey getKeyWithEmptyPoc() {
-		return new ReportCellKey(this.concat, this.columnName, "");
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((columnName == null) ? 0 : columnName.hashCode());
-		result = prime * result + ((concat == null) ? 0 : concat.hashCode());
+		result = prime * result + ((firstKey == null) ? 0 : firstKey.hashCode());
+		result = prime * result + ((secondKey == null) ? 0 : secondKey.hashCode());
 		return result;
 	}
 
@@ -64,28 +55,28 @@ public class ReportCellKey implements Comparable<ReportCellKey> {
 		if (getClass() != obj.getClass())
 			return false;
 		ReportCellKey other = (ReportCellKey) obj;
-		if (columnName == null) {
-			if (other.columnName != null)
+		if (firstKey == null) {
+			if (other.firstKey != null)
 				return false;
-		} else if (!columnName.equals(other.columnName))
+		} else if (!firstKey.equals(other.firstKey))
 			return false;
-		if (concat == null) {
-			if (other.concat != null)
+		if (secondKey == null) {
+			if (other.secondKey != null)
 				return false;
-		} else if (!concat.equals(other.concat))
+		} else if (!secondKey.equals(other.secondKey))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return this.getHierarchy().getIndentationEntity() + "ReportCellKey [concat=" + concat + ", columnName=" + columnName + "]";
+		return this.getHierarchy().getIndentationEntity() + "KEY [" + firstKey + ", " + secondKey + "]";
 	}
 
 	@Override
-	public int compareTo(ReportCellKey otherKey) {
-		String result1 = this.getConcat() + this.getColumnName();
-		String result2 = otherKey.getConcat() + otherKey.getColumnName();
+	public int compareTo(final ReportCellKey otherKey) {
+		String result1 = this.getFirstKey() + this.getSecondKey();
+		String result2 = otherKey.getFirstKey() + otherKey.getSecondKey();
 
 		return result1.compareTo(result2);
 	}

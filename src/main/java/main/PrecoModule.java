@@ -11,7 +11,6 @@ import config.PathBuilder;
 import config.ProjectConfiguration;
 import enums.FileClassEnum;
 import enums.FilesPerModuleEnum;
-import enums.ProcessStageEnum;
 import exceptions.HaltException;
 import exceptions.WarningException;
 import interfaces.Module;
@@ -48,10 +47,10 @@ public class PrecoModule implements Module {
 		for (String fileName : pathsMap.keySet()) {
 			if (pathsMap.get(fileName).getFileClass().getCode() == FileClassEnum.VERTICAL.getCode()) {
 				verticalTab = ReportDocumentUtils.merge(
-						FileManager.fetchVerticalDocument(fileName, pathsMap.get(fileName), ProcessStageEnum.FULL, filters));
+						FileManager.fetchVerticalDocument(fileName, pathsMap.get(fileName), filters));
 				MyLogPrinter.printObject(verticalTab, "PrecoModule_verticalTab");
 			} else if (pathsMap.get(fileName).getFileClass().getCode() == FileClassEnum.HORIZONTAL.getCode()) {
-				horizontalTab = FileManager.fetchHorizontalDocument(fileName, pathsMap.get(fileName), ProcessStageEnum.FULL, true);
+				horizontalTab = FileManager.fetchHorizontalDocument(fileName, pathsMap.get(fileName), true);
 				MyLogPrinter.printObject(horizontalTab, "PrecoModule_horizontalTab");
 			}
 		}

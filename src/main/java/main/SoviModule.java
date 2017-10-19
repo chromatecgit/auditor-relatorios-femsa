@@ -16,7 +16,6 @@ import config.ProjectConfiguration;
 import enums.ConsolidadoSoviFiltersEnum;
 import enums.FileClassEnum;
 import enums.FilesPerModuleEnum;
-import enums.ProcessStageEnum;
 import enums.TabEnum;
 import exceptions.HaltException;
 import exceptions.WarningException;
@@ -61,12 +60,10 @@ public class SoviModule implements Module {
 
 		for (String fileName : pathsMap.keySet()) {
 			if (pathsMap.get(fileName).getFileClass().getCode() == FileClassEnum.VERTICAL.getCode()) {
-				verticalDocument = FileManager.fetchVerticalDocument(fileName, pathsMap.get(fileName),
-						ProcessStageEnum.FULL, filters);
+				verticalDocument = FileManager.fetchVerticalDocument(fileName, pathsMap.get(fileName), filters);
 				MyLogPrinter.printObject(verticalDocument, "SoviModule_verticalTab");
 			} else if (pathsMap.get(fileName).getFileClass().getCode() == FileClassEnum.HORIZONTAL.getCode()) {
-				horizontalTab = FileManager.fetchHorizontalDocument(fileName, pathsMap.get(fileName),
-						ProcessStageEnum.FULL, true);
+				horizontalTab = FileManager.fetchHorizontalDocument(fileName, pathsMap.get(fileName), true);
 				MyLogPrinter.printObject(horizontalTab, "SoviModule_horizontalTab");
 			} else if (pathsMap.get(fileName).getFileClass().getCode() == FileClassEnum.CONSOLIDADA_SOVI.getCode()) {
 				this.consolidadaValue = pathsMap.get(fileName);
@@ -144,8 +141,7 @@ public class SoviModule implements Module {
 
 	private boolean compareSoviVerticalToConsolidada(final ReportDocument verticalDocument) {
 		try {
-			ReportTab consolidadaTab = FileManager.fetchConsolidadaSoviDocument("CONSOLIDADA_SOVI", consolidadaValue,
-					ProcessStageEnum.FULL);
+			ReportTab consolidadaTab = FileManager.fetchConsolidadaSoviDocument("CONSOLIDADA_SOVI", consolidadaValue);
 			List<String> outkeys = new ArrayList<>();
 			Map<ReportCellKey, SoviConsolidadaCell> verticalTabMapped = this.classifyByConsolidadaRules(verticalDocument);
 			consolidadaTab.getCells().forEach( (k, v) -> {

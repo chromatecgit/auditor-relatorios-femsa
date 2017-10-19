@@ -12,7 +12,6 @@ import config.PathBuilder;
 import config.ProjectConfiguration;
 import enums.ConsolidadaKeyColumns;
 import enums.FilesPerModuleEnum;
-import enums.ProcessStageEnum;
 import exceptions.HaltException;
 import interfaces.Module;
 import model.PathBuilderMapValue;
@@ -42,8 +41,7 @@ public class ConsolidadaModule implements Module {
 		ReportTab consolidadaTab = new ReportTab();
 
 		for (String fileName : pathsMap.keySet()) {
-			consolidadaTab = FileManager.fetchConsolidadaDocument(fileName, pathsMap.get(fileName),
-					ProcessStageEnum.FULL);
+			consolidadaTab = FileManager.fetchConsolidadaDocument(fileName, pathsMap.get(fileName));
 			MyLogPrinter.printObject(consolidadaTab, "ConsolidadaModule_consolidadaTab");
 		}
 

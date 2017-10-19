@@ -9,14 +9,12 @@ import model.ReportCell;
 import model.ReportCellKey;
 import model.ReportTab;
 import utils.MyLogPrinter;
-import utils.ReportTabBuilderIndexVO;
 
 public class ReportConsolidadaSoviTabBuilder implements ReportTabBuilder {
 	
 	private ReportTab tab;
 	//cell.getColumnIndex(), cell.getValue()
 	private Map<String, String> tableHeaders;
-	private ReportTabBuilderIndexVO indexVO;
 	private String currentSKU;
 	
 	public ReportConsolidadaSoviTabBuilder() {
@@ -24,23 +22,6 @@ public class ReportConsolidadaSoviTabBuilder implements ReportTabBuilder {
 		this.tableHeaders = new LinkedHashMap<>();
 		this.tab.setCells(new TreeMap<ReportCellKey, ReportCell>());
 		this.currentSKU = "";
-		this.indexVO = new ReportTabBuilderIndexVO();
-	}
-
-	@Override
-	public ReportTab build() {
-		MyLogPrinter.printBuiltMessage("ReportConsolidadaSoviTabBuilder_orphan_cells");
-		return this.tab;
-	}
-
-	@Override
-	public void addDocumentName(String fileName) {
-		this.tab.setFileName(fileName);
-	}
-
-	@Override
-	public void addTabName(String tabName) {
-		this.tab.setTabName(tabName);
 	}
 
 	@Override
@@ -51,8 +32,6 @@ public class ReportConsolidadaSoviTabBuilder implements ReportTabBuilder {
 			String cellValue = this.tableHeaders.get(cell.getColumnIndex());
 			if (cellValue != null) {
 				if (cellValue.equalsIgnoreCase("CONCAT")) {
-					indexVO.setConcat(cell.getValue());
-					indexVO.setLineIndex(cell.getLineIndex());
 				} else if (cell.getLineIndex() == indexVO.getLineIndex() && !cell.getValue().equals("0")) {
 					this.addAndReset(cell, cellValue);
 				}
@@ -67,6 +46,22 @@ public class ReportConsolidadaSoviTabBuilder implements ReportTabBuilder {
 		ReportCellKey cellKey = new ReportCellKey(indexVO.getConcat(), this.currentSKU.isEmpty() ? cellValue : currentSKU, "");
 		this.currentSKU = "";
 		this.tab.getCells().put(cellKey, cell);
+	}
+	
+	@Override
+	public ReportTab build() {
+		MyLogPrinter.printBuiltMessage("ReportConsolidadaSoviTabBuilder_orphan_cells");
+		return this.tab;
+	}
+
+	@Override
+	public void addDocumentName(String fileName) {
+		this.tab.setFileName(fileName);
+	}
+
+	@Override
+	public void addTabName(String tabName) {
+		this.tab.setTabName(tabName);
 	}
 
 	@Override

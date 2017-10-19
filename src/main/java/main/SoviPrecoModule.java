@@ -11,10 +11,8 @@ import config.GlobBuilder;
 import config.PathBuilder;
 import config.ProjectConfiguration;
 import enums.FilesPerModuleEnum;
-import enums.ProcessStageEnum;
 import exceptions.HaltException;
 import interfaces.Module;
-import model.LogHelper;
 import model.PathBuilderMapValue;
 import model.ReportCellKey;
 import model.ReportDocument;
@@ -27,7 +25,7 @@ import utils.ReportDocumentUtils;
 public class SoviPrecoModule implements Module {
 	
 	private final String[] fileNames = FilesPerModuleEnum.SOVI_PRECO.getExcelFileNames();
-	private String[] soviFilters = { "CATEGORIA"};
+	private String[] soviFilters = { "CATEGORIA" };
 	private String[] precoFilters = { "CATEGORIA", "TAMANHO"};
 
 	@Override
@@ -46,12 +44,10 @@ public class SoviPrecoModule implements Module {
 
 		for (String fileName : pathsMap.keySet()) {
 			if (pathsMap.get(fileName).getFileName().contains("SOVI")) {
-				soviVerticalDocument = FileManager.fetchVerticalDocument(fileName, pathsMap.get(fileName),
-						ProcessStageEnum.FULL, soviFilters);
+				soviVerticalDocument = FileManager.fetchVerticalDocument(fileName, pathsMap.get(fileName), soviFilters);
 				MyLogPrinter.printObject(soviVerticalDocument, "SoviPrecoModule_soviTab");
 			} else {
-				precoVerticalDocument = FileManager.fetchVerticalDocument(fileName, pathsMap.get(fileName),
-						ProcessStageEnum.FULL, precoFilters);
+				precoVerticalDocument = FileManager.fetchVerticalDocument(fileName, pathsMap.get(fileName), precoFilters);
 				MyLogPrinter.printObject(precoVerticalDocument, "SoviPrecoModule_precoTab");
 			}
 		}

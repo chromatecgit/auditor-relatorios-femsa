@@ -4,14 +4,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.apache.commons.lang3.math.NumberUtils;
-
 import interfaces.ReportTabBuilder;
 import model.ReportCell;
 import model.ReportCellKey;
 import model.ReportTab;
 import utils.MyLogPrinter;
-import utils.ReportTabBuilderIndexVO;
 
 // FIXME: REFACTOR
 // Transformar os metodos de addCell e addAndReset em leitores de linhas inteira
@@ -23,102 +20,59 @@ import utils.ReportTabBuilderIndexVO;
 public class ReportVerticalTabBuilder implements ReportTabBuilder {
 
 	private ReportTab tab;
-	// Column Letter Index X Column Name
 	private Map<String, String> tableHeaders;
-	private String[] filters;
-	// Concat X Line Index
-	private ReportTabBuilderIndexVO indexVO;
-	private String currentSKU;
-	private String currentPoc;
+	private Map<String, ReportCell> cells;
+	private String[] excludeThese;
+	private String[] columnsToBeIndexed;
+	private int lastLine;
 
-	public ReportVerticalTabBuilder(final String[] filters) {
+	public ReportVerticalTabBuilder(final String[] excludeThese, final String[] columnsToBeIndexed) {
 		this.tab = new ReportTab();
 		this.tab.setCells(new TreeMap<ReportCellKey, ReportCell>());
 		this.tableHeaders = new LinkedHashMap<>();
-		this.currentSKU = "";
-		this.indexVO = new ReportTabBuilderIndexVO();
-		this.filters = filters;
-		this.currentPoc = "";
+		this.excludeThese = excludeThese;
+		this.columnsToBeIndexed = columnsToBeIndexed;
 	}
 
+	@Override
+	public void addCell(final ReportCell cell) {
+		if (cell.getLineIndex() == 1) {
+			this.tableHeaders.put(cell.getValue(), cell.getColumnIndex());
+			this.lastLine = 1;
+		} else if (this.lastLine == cell.getLineIndex()) {
+			this.cells.put(cell.getColumnIndex(), cell);
+		} else if (this.lastLine != cell.getLineIndex()) {
+			this.lastLine = cell.getLineIndex();
+			this.addAndReset(cell);
+		} else {
+			MyLogPrinter.addToBuiltMessage("Valor invalido em :" + cell.getAddress());
+		}
+	}
+
+	@Override
+	public void addAndReset(final ReportCell cell) {
+		if (this.cells.isEmpty()) {
+			this.cells.put(cell.getColumnIndex(), cell);
+		} else {
+			ReportCellKey cellKey = this.buildLineKey();
+		}
+	}
+	//Colocar na interface;
+	@Override
+	public ReportCellKey buildLineKey() {
+		ReportCellKey cellKey = new ReportCellKey();
+		for (String columnName :  this.columnsToBeIndexed) {
+			String columnIndex = this.tableHeaders.get(columnName);
+			
+		}
+		
+		return null;
+	}
+	
 	@Override
 	public ReportTab build() {
 		MyLogPrinter.printBuiltMessage("ReportVerticalTabBuilder_orphan_cells");
 		return this.tab;
-	}
-
-	@Override
-	public void addCell(ReportCell cell) {
-		if (cell.getLineIndex() == 1) {
-			this.tableHeaders.put(cell.getColumnIndex(), cell.getValue());
-		} else {
-			String cellValue = this.tableHeaders.get(cell.getColumnIndex());
-			if (cellValue != null) {
-				if (cellValue.equalsIgnoreCase("CONCAT")) {
-					indexVO.setConcat(cell.getValue());
-					indexVO.setLineIndex(cell.getLineIndex());
-					this.currentSKU = "";
-				} else if (cellValue.equals("PRODUTO")) {
-					this.currentSKU = cell.getValue();
-				} else if (cellValue.equals("POC")) {
-					this.currentPoc = cell.getValue();
-				} else if (cell.getLineIndex() == indexVO.getLineIndex()) {
-					if (!this.isInFilter(cellValue)) {
-						this.addAndReset(cell, cellValue);
-					}
-				} else {
-					MyLogPrinter.addToBuiltMessage("Valor inválido em :" + cell.getAddress());
-				}
-			}
-		}
-	}
-
-	private boolean isInFilter(String cellValue) {
-		if (filters != null) {
-			for (String filter : filters) {
-				if (cellValue.contains(filter))
-					return true;
-			}
-		}
-		return false;
-	}
-
-	@Override
-	public void addAndReset(ReportCell cell, String correspondingHeader) {
-		ReportCellKey cellKey = new ReportCellKey();
-		cellKey.setConcat(this.indexVO.getConcat());
-		//TODO: Melhorar isso aqui
-		if (correspondingHeader.equals("SOVI") || correspondingHeader.equals("PRECO")) {
-			cellKey.setColumnName(this.currentSKU);
-		} else {
-			cellKey.setColumnName(correspondingHeader);
-		}
-		
-		if (correspondingHeader.equalsIgnoreCase("SOVI")) {
-			cell.getPocInfos().merge(this.currentPoc, Integer.parseInt(cell.getValue()), (ov, nv) -> {
-				return nv + ov;
-			});
-			this.currentPoc = "";
-		}
-		
-		this.tab.getCells().merge(cellKey, cell, (oc, nc) -> {
-			if (cellKey.getColumnName().startsWith("SOVI")) {
-				//Somente realizar essa operacao com base na coluna de produtos, que comecam com SOVI
-				oc.getPocInfos().forEach((k,v) -> {
-					nc.getPocInfos().merge(k, v , (x, y) -> {
-						return x +y;
-					});
-				});
-				if (NumberUtils.isCreatable(nc.getValue())) {
-					Integer sum = NumberUtils.toInt(oc.getValue()) + (NumberUtils.toInt(nc.getValue()));
-					nc.setValue(sum.toString());
-				} else {
-					nc.setValue(oc.getValue());
-				}
-			}
-			return nc;
-		});
-		
 	}
 
 	@Override

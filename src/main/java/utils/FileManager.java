@@ -12,7 +12,6 @@ import builders.ReportConsolidadaTabBuilder;
 import builders.ReportHorizontalTabBuilder;
 import builders.ReportProdutividadeTabBuilder;
 import builders.ReportVerticalTabBuilder;
-import enums.ProcessStageEnum;
 import exceptions.WarningException;
 import extractors.ExcelExtractor;
 import extractors.WorkbookExtractor;
@@ -24,7 +23,7 @@ import model.TabNamesMap;
 public class FileManager {
 	
 	
-	public static ReportTab fetchHorizontalDocument(final String fileName, final PathBuilderMapValue pathMap, final ProcessStageEnum processStage, final boolean skipOutros) {
+	public static ReportTab fetchHorizontalDocument(final String fileName, final PathBuilderMapValue pathMap, final boolean skipOutros) {
 		ReportTab processedTab = new ReportTab();
 		try {
 			final OPCPackage pkg = OPCPackage.open(pathMap.getPath().toFile());
@@ -40,7 +39,7 @@ public class FileManager {
 				final ReportHorizontalTabBuilder reportHorizontalTabBuilder = new ReportHorizontalTabBuilder();
 				reportHorizontalTabBuilder.addDocumentName(fileName);
 				final ExcelExtractor e = new ExcelExtractor(fileName, reportHorizontalTabBuilder);
-				e.process(reader, tabMap, processStage);
+				e.process(reader, tabMap);
 				return e.getProcessedTab();
 				//MyLogPrinter.printObject(e.getProcessedTab(), "Processed Horizontal Tab");
 			}).findFirst().orElse(null);
@@ -50,7 +49,7 @@ public class FileManager {
 		return processedTab;
 	}
 	
-	public static ReportTab fetchProdutividadeDocument(final String fileName, final PathBuilderMapValue pathMap, final ProcessStageEnum processStage) {
+	public static ReportTab fetchProdutividadeDocument(final String fileName, final PathBuilderMapValue pathMap) {
 		ReportTab processedTab = new ReportTab();
 		try {
 			final OPCPackage pkg = OPCPackage.open(pathMap.getPath().toFile());
@@ -62,7 +61,7 @@ public class FileManager {
 				final ReportProdutividadeTabBuilder reportProdutividadeTabBuilder = new ReportProdutividadeTabBuilder();
 				reportProdutividadeTabBuilder.addDocumentName(fileName);
 				final ExcelExtractor e = new ExcelExtractor(fileName, reportProdutividadeTabBuilder);
-				e.process(reader, tabMap, processStage);
+				e.process(reader, tabMap);
 				return e.getProcessedTab();
 				//MyLogPrinter.printObject(e.getProcessedTab(), "Processed Horizontal Tab");
 			}).findFirst().orElse(null);
@@ -72,7 +71,7 @@ public class FileManager {
 		return processedTab;
 	}
 	
-	public static ReportTab fetchConsolidadaDocument(final String fileName, final PathBuilderMapValue pathMap, final ProcessStageEnum processStage) {
+	public static ReportTab fetchConsolidadaDocument(final String fileName, final PathBuilderMapValue pathMap) {
 		ReportTab processedTab = new ReportTab();
 		try {
 			final OPCPackage pkg = OPCPackage.open(pathMap.getPath().toFile());
@@ -84,7 +83,7 @@ public class FileManager {
 				final ReportConsolidadaTabBuilder reportConsolidadaTabBuilder = new ReportConsolidadaTabBuilder();
 				reportConsolidadaTabBuilder.addDocumentName(fileName);
 				final ExcelExtractor e = new ExcelExtractor(fileName, reportConsolidadaTabBuilder);
-				e.process(reader, tabMap, processStage);
+				e.process(reader, tabMap);
 				return e.getProcessedTab();
 				//MyLogPrinter.printObject(e.getProcessedTab(), "Processed Horizontal Tab");
 			}).findFirst().orElse(null);
@@ -94,7 +93,7 @@ public class FileManager {
 		return processedTab;
 	}
 	
-	public static ReportDocument fetchVerticalDocument(final String fileName, final PathBuilderMapValue pathMap, final ProcessStageEnum processStage, final String[] filters) {
+	public static ReportDocument fetchVerticalDocument(final String fileName, final PathBuilderMapValue pathMap, final String[] filters) {
 		final ReportDocument document = new ReportDocument();
 		final Map<String, ReportTab> processedTabs = new HashMap<>();
 		try {
@@ -107,7 +106,7 @@ public class FileManager {
 				final ReportVerticalTabBuilder reportVerticalTabBuilder = new ReportVerticalTabBuilder(filters);
 				reportVerticalTabBuilder.addDocumentName(fileName);
 				final ExcelExtractor e = new ExcelExtractor(fileName, reportVerticalTabBuilder);
-				e.process(reader, tabMap, processStage);
+				e.process(reader, tabMap);
 				processedTabs.put(tabMap.getName(), e.getProcessedTab());
 			});
 			//MyLogPrinter.printCollection(verticalProcessedTabs, "Processed Vertical Tab");
@@ -122,7 +121,7 @@ public class FileManager {
 
 	}
 	
-	public static ReportTab fetchConsolidadaSoviDocument(final String fileName, final PathBuilderMapValue pathMap, final ProcessStageEnum processStage) throws WarningException {
+	public static ReportTab fetchConsolidadaSoviDocument(final String fileName, final PathBuilderMapValue pathMap) throws WarningException {
 		if (pathMap != null && pathMap.getPath() != null) {
 			ReportTab processedTab = new ReportTab();
 			try {
@@ -135,7 +134,7 @@ public class FileManager {
 					final ReportConsolidadaSoviTabBuilder reportConsolidadaSoviTabBuilder = new ReportConsolidadaSoviTabBuilder();
 					reportConsolidadaSoviTabBuilder.addDocumentName(fileName);
 					final ExcelExtractor e = new ExcelExtractor(fileName, reportConsolidadaSoviTabBuilder);
-					e.process(reader, tabMap, processStage);
+					e.process(reader, tabMap);
 					return e.getProcessedTab();
 					//MyLogPrinter.printObject(e.getProcessedTab(), "Processed Horizontal Tab");
 				}).findFirst().orElse(null);
@@ -148,25 +147,25 @@ public class FileManager {
 		}
 	}
 	
-	public static ReportDocument fetchDocument(final String fileKey, final PathBuilderMapValue pathMap, final ProcessStageEnum processStage, final String[] filters) throws WarningException {
+	public static ReportDocument fetchDocument(final String fileKey, final PathBuilderMapValue pathMap, final String[] filters) throws WarningException {
 		if (pathMap != null && pathMap.getPath() != null) {
 			ReportDocument document = new ReportDocument();
 			
 			switch (pathMap.getFileClass().getCode()) {
 				case 1:
-					document.getTabs().put(fileKey, FileManager.fetchHorizontalDocument(pathMap.getFileName(), pathMap, processStage, true));
+					document.getTabs().put(fileKey, FileManager.fetchHorizontalDocument(pathMap.getFileName(), pathMap, true));
 					break;
 				case 2:
-					document = FileManager.fetchVerticalDocument(pathMap.getFileName(), pathMap, processStage, filters);
+					document = FileManager.fetchVerticalDocument(pathMap.getFileName(), pathMap, filters);
 					break;
 				case 3:
-					document.getTabs().put(fileKey, FileManager.fetchConsolidadaSoviDocument(pathMap.getFileName(), pathMap, processStage));
+					document.getTabs().put(fileKey, FileManager.fetchConsolidadaSoviDocument(pathMap.getFileName(), pathMap));
 					break;
 				case 4:
-					document.getTabs().put(fileKey, FileManager.fetchConsolidadaDocument(pathMap.getFileName(), pathMap, processStage));
+					document.getTabs().put(fileKey, FileManager.fetchConsolidadaDocument(pathMap.getFileName(), pathMap));
 					break;
 				default:
-					document.getTabs().put(fileKey, FileManager.fetchProdutividadeDocument(pathMap.getFileName(), pathMap, processStage));
+					document.getTabs().put(fileKey, FileManager.fetchProdutividadeDocument(pathMap.getFileName(), pathMap));
 			}
 			
 			return document;

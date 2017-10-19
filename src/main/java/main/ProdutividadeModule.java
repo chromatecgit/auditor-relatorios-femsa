@@ -11,7 +11,6 @@ import config.GlobBuilder;
 import config.PathBuilder;
 import config.ProjectConfiguration;
 import enums.FilesPerModuleEnum;
-import enums.ProcessStageEnum;
 import enums.ProdutividadeKeyColumns;
 import exceptions.HaltException;
 import interfaces.Module;
@@ -42,8 +41,7 @@ public class ProdutividadeModule implements Module {
 		ReportTab produtividadeTab = new ReportTab();
 
 		for (String fileName : pathsMap.keySet()) {
-			produtividadeTab = FileManager.fetchProdutividadeDocument(fileName, pathsMap.get(fileName),
-					ProcessStageEnum.FULL);
+			produtividadeTab = FileManager.fetchProdutividadeDocument(fileName, pathsMap.get(fileName));
 			MyLogPrinter.printObject(produtividadeTab, "ProdutividadeModule_produtividadeTab");
 		}
 

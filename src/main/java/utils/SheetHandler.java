@@ -9,7 +9,6 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import enums.ProcessStageEnum;
 import interfaces.ReportTabBuilder;
 import listener.ReportTabReadyListener;
 import model.ReportCell;
@@ -25,16 +24,13 @@ public class SheetHandler extends DefaultHandler {
 	private ReportTabBuilder builder;
 	private ReportTabReadyListener listener;
 	private ReportCell cell;
-	private ProcessStageEnum processStageEnum;
 
 	public SheetHandler(final SharedStringsTable sst,
 						final ReportTabReadyListener listener,
-						final ProcessStageEnum processStageEnum,
 						final ReportTabBuilder builder) {
 		this.sst = sst;
 		this.listener = listener;
 		this.cell = new ReportCell();
-		this.processStageEnum = processStageEnum;
 		this.builder = builder;
 	}
 
@@ -51,38 +47,20 @@ public class SheetHandler extends DefaultHandler {
 	}
 
 	public void startElement(String uri, String localName, String name, Attributes attributes) throws SAXException {
-		switch (processStageEnum) {
-			case DIMENSIONS :
-				this.getDimensions(name, attributes);
-				break;
-			default :
-				this.getDimensions(name, attributes);
-				this.getCellAddress(name, attributes);
-				break;
-		}
-	
-		lastContents = "";
-	}
-	
-	private void getDimensions(String name, Attributes attributes) {
 		if (name.equals("col")) {
 			if (attributes.getValue("min").equals(attributes.getValue("max"))) {
 				builder.addNumberOfColumns(Integer.parseInt(attributes.getValue("min")));
 			}
-		}
-		if (name.equals("row")) {
+		} else if (name.equals("row")) {
 			builder.addNumberOfRows(Integer.parseInt(attributes.getValue("r")));
-		}
-	}
-	
-	private void getCellAddress(String name, Attributes attributes) {
-		if (name.equals("c")) {
+		} else if (name.equals("c")) {
 			this.cell.setAddress(attributes.getValue("r"));
 			String cellType = attributes.getValue("t");
 			if (cellType != null && cellType.equals("s")) {
 				nextIsString = true;
 			}
 		}
+		lastContents = "";
 	}
 	
 	public void endElement(String uri, String localName, String name) throws SAXException {
