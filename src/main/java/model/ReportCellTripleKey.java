@@ -1,6 +1,6 @@
 package model;
 
-public class ReportCellMultipleKey extends ReportCellKey {
+public class ReportCellTripleKey extends ReportCellKey {
 	private String thirdKey;
 
 	public String getThirdKey() {
@@ -25,9 +25,9 @@ public class ReportCellMultipleKey extends ReportCellKey {
 			return true;
 		if (!super.equals(obj))
 			return false;
-		if (!(obj instanceof ReportCellMultipleKey))
+		if (!(obj instanceof ReportCellTripleKey))
 			return false;
-		ReportCellMultipleKey other = (ReportCellMultipleKey) obj;
+		ReportCellTripleKey other = (ReportCellTripleKey) obj;
 		if (thirdKey == null) {
 			if (other.thirdKey != null)
 				return false;
@@ -38,10 +38,18 @@ public class ReportCellMultipleKey extends ReportCellKey {
 
 	@Override
 	public int compareTo(final ReportCellKey otherKey) {
-		ReportCellMultipleKey multipleKey = (ReportCellMultipleKey) otherKey;
+		ReportCellTripleKey multipleKey = (ReportCellTripleKey) otherKey;
 		String result1 = this.getFirstKey() + this.getSecondKey() + this.thirdKey;
 		String result2 = multipleKey.getFirstKey() + multipleKey.getSecondKey() + multipleKey.getThirdKey();
 
 		return result1.compareTo(result2);
 	}
+
+	@Override
+	public String toString() {
+		return "KEY [" + firstKey + ", " + secondKey + ", " + thirdKey
+				+ "]";
+	}
+	
+	
 }

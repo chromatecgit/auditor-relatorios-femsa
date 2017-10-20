@@ -1,6 +1,7 @@
 package interfaces;
 
 import model.ReportCell;
+import model.ReportCellKey;
 import model.ReportTab;
 
 public interface ReportTabBuilder {
@@ -13,10 +14,12 @@ public interface ReportTabBuilder {
 
 	public void addCell(final ReportCell cell);
 
-	public void addAndReset(final ReportCell cell, final String cellValue);
+	public void addAndReset(final ReportCell cell);
 
 	public void addNumberOfRows(final int rows);
 
 	public void addNumberOfColumns(final int columns);
+
+	public <K extends ReportCellKey> K buildLineKey(final K k);
 	
 }

@@ -7,6 +7,7 @@ import java.util.TreeMap;
 import interfaces.ReportTabBuilder;
 import model.ReportCell;
 import model.ReportCellKey;
+import model.ReportCellTripleKey;
 import model.ReportTab;
 import utils.MyLogPrinter;
 
@@ -54,21 +55,37 @@ public class ReportVerticalTabBuilder implements ReportTabBuilder {
 		if (this.cells.isEmpty()) {
 			this.cells.put(cell.getColumnIndex(), cell);
 		} else {
-			ReportCellKey cellKey = this.buildLineKey();
+			if (columnsToBeIndexed.length <= 2) {
+				ReportCellKey cellKey = this.buildLineKey(new ReportCellKey());
+			} else {
+				ReportCellTripleKey multipleKey = this.buildLineKey(new ReportCellTripleKey());
+			}
 		}
 	}
-	//Colocar na interface;
+
+	// Colocar na interface;
 	@Override
-	public ReportCellKey buildLineKey() {
-		ReportCellKey cellKey = new ReportCellKey();
-		for (String columnName :  this.columnsToBeIndexed) {
-			String columnIndex = this.tableHeaders.get(columnName);
-			
-		}
-		
-		return null;
-	}
+	public <K extends ReportCellKey> K buildLineKey(final K k) {
+		if (k instanceof ReportCellKey) {
+			ReportCellKey key = (ReportCellKey) k;
+			for (String columnName : this.columnsToBeIndexed) {
+				String columnIndex = this.tableHeaders.get(columnName);
+				ReportCell reportCell = this.cells.get(columnIndex);
+				key.
+			}
 	
+			return null;
+		} else {
+			ReportCellTripleKey key = (ReportCellTripleKey) k;
+			for (String columnName : this.columnsToBeIndexed) {
+				String columnIndex = this.tableHeaders.get(columnName);
+				
+			}
+	
+			return null;
+		}
+	}
+
 	@Override
 	public ReportTab build() {
 		MyLogPrinter.printBuiltMessage("ReportVerticalTabBuilder_orphan_cells");
